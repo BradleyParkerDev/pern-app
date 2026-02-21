@@ -1,6 +1,6 @@
-# Express Server (PERN)
+# PERN App
 
-This is a TypeScript-based Express server that renders React on the server, with shared modules used by both the client and server. It includes API routing, SSR entry points, linting, testing, and error handling.
+This is a full-stack TypeScript application with an Express backend, a Vite + React frontend, and shared modules across client and server. It includes API routes, SSR entry points, linting, testing, and structured error handling.
 
 ## Overview
 
@@ -19,7 +19,7 @@ This project combines a TypeScript + Express backend with a Vite-powered React f
 ## Project Structure
 
 ```
-express-server/
+pern-app/
 ├── app/
 │   ├── client/             # Vite React app + SSR entry points
 │   │   ├── dist/
@@ -71,8 +71,8 @@ express-server/
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/BradleyParkerDev/express-server.git
-    cd express-server
+    git clone https://github.com/BradleyParkerDev/pern-app.git
+    cd pern-app
     ```
 
 2. **Install dependencies:**
@@ -88,7 +88,7 @@ express-server/
     ```
 
     ```env
-    APP_NAME="express-server"
+    APP_NAME="pern-app"
     APP_ENV="production"
     PORT=3001
     STREAM_HTML=true

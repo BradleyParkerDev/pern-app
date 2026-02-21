@@ -1,0 +1,36 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"jsx": "react-jsx",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"allowImportingTsExtensions": true,
+		"baseUrl": "..",
+		"paths": {
+			"@/*": ["./*"],
+			"@shared/*": ["shared/*"],
+			"@server/*": ["server/src/*"],
+			"@client/*": ["client/src/*"]
+		}
+	},
+	"include": [
+		"src",
+		"entry-client.tsx",
+		"entry-server.tsx",
+		"vite-env.d.ts",
+		"../shared/reactRouter",
+		"../shared/redux/services/client",
+		"../shared/axios",
+		"../shared/axios"
+	],
+	"exclude": ["../../app/server", "../../node_modules"]
+}

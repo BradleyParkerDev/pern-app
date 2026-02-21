@@ -1,0 +1,48 @@
+import * as React from 'react';
+import * as AvatarPrimitive from '@radix-ui/react-avatar';
+
+import { cn } from 'client/src/lib/utils.js';
+
+const NavUserAvatar = React.forwardRef<
+	React.ElementRef<typeof AvatarPrimitive.Root>,
+	React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
+>(({ className, ...props }, ref) => (
+	<AvatarPrimitive.Root
+		ref={ref}
+		className={cn(
+			'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
+			className,
+		)}
+		{...props}
+	/>
+));
+NavUserAvatar.displayName = AvatarPrimitive.Root.displayName;
+
+const NavUserAvatarImage = React.forwardRef<
+	React.ElementRef<typeof AvatarPrimitive.Image>,
+	React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
+>(({ className, ...props }, ref) => (
+	<AvatarPrimitive.Image
+		ref={ref}
+		className={cn('aspect-square h-full w-full', className)}
+		{...props}
+	/>
+));
+NavUserAvatarImage.displayName = AvatarPrimitive.Image.displayName;
+
+const NavUserAvatarFallback = React.forwardRef<
+	React.ElementRef<typeof AvatarPrimitive.Fallback>,
+	React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
+>(({ className, ...props }, ref) => (
+	<AvatarPrimitive.Fallback
+		ref={ref}
+		className={cn(
+			'bg-muted flex h-full w-full items-center justify-center rounded-full',
+			className,
+		)}
+		{...props}
+	/>
+));
+NavUserAvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
+
+export { NavUserAvatar, NavUserAvatarImage, NavUserAvatarFallback };

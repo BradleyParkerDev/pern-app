@@ -1,0 +1,254 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "Express Server",
+		"version": "1.0.0",
+		"description": "API docs for an Express server."
+	},
+	"tags": [
+		{ "name": "Auth", "description": "Authentication endpoints" },
+		{ "name": "User", "description": "User CRUD endpoints" },
+		{ "name": "Image", "description": "Image upload endpoints" }
+	],
+	"servers": [{ "url": "http://localhost:3001" }],
+	"paths": {
+		"/api/auth/login-user": {
+			"post": {
+				"tags": ["Auth"],
+				"summary": "Login user",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "User logged in",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MessageResponse"
+								}
+							}
+						}
+					},
+					"401": { "description": "Invalid credentials" }
+				}
+			}
+		},
+		"/api/auth/logout-user": {
+			"delete": {
+				"tags": ["Auth"],
+				"summary": "Logout user",
+				"responses": {
+					"200": {
+						"description": "User logged out",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MessageResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/user/register-user": {
+			"post": {
+				"tags": ["User"],
+				"summary": "Register user",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserRegistration"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "User registered",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MessageResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/user/get-user": {
+			"get": {
+				"tags": ["User"],
+				"summary": "Get user",
+				"responses": {
+					"200": {
+						"description": "User retrieved",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MessageResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/user/update-user": {
+			"put": {
+				"tags": ["User"],
+				"summary": "Update user",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UserUpdate"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "User updated",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MessageResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/user/delete-user": {
+			"delete": {
+				"tags": ["User"],
+				"summary": "Delete user",
+				"responses": {
+					"200": {
+						"description": "User deleted",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MessageResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/image/upload-image": {
+			"post": {
+				"tags": ["Image"],
+				"summary": "Upload an image to S3",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": ["file"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "File uploaded",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": { "type": "string" },
+										"response": { "type": "object" }
+									},
+									"required": ["message"]
+								}
+							}
+						}
+					},
+					"400": { "description": "No file uploaded" }
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"User": {
+				"type": "object",
+				"properties": {
+					"id": { "type": "string" },
+					"firstName": { "type": "string" },
+					"lastName": { "type": "string" },
+					"emailAddress": { "type": "string", "format": "email" },
+					"userName": { "type": "string" }
+				},
+				"required": ["id", "emailAddress", "userName"]
+			},
+			"UserRegistration": {
+				"type": "object",
+				"properties": {
+					"firstName": { "type": "string" },
+					"lastName": { "type": "string" },
+					"emailAddress": { "type": "string", "format": "email" },
+					"userName": { "type": "string" },
+					"password": { "type": "string", "format": "password" }
+				},
+				"required": [
+					"firstName",
+					"lastName",
+					"emailAddress",
+					"userName",
+					"password"
+				]
+			},
+			"UserUpdate": {
+				"type": "object",
+				"properties": {
+					"firstName": { "type": "string" },
+					"lastName": { "type": "string" },
+					"emailAddress": { "type": "string", "format": "email" },
+					"userName": { "type": "string" },
+					"password": { "type": "string", "format": "password" }
+				}
+			},
+			"LoginRequest": {
+				"type": "object",
+				"properties": {
+					"email": { "type": "string", "format": "email" },
+					"password": { "type": "string" }
+				},
+				"required": ["email", "password"]
+			},
+			"MessageResponse": {
+				"type": "object",
+				"properties": {
+					"success": { "type": "boolean" },
+					"message": { "type": "string" }
+				},
+				"required": ["message"]
+			}
+		}
+	}
+}

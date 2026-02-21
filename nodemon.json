@@ -1,0 +1,20 @@
+{
+	"_comment": "Nodemon watches the built server output and restarts with a short delay.",
+	"watch": ["app/server/dist", "openapi.json"],
+	"ext": "js,json",
+	"ignore": ["app/client", "node_modules", "tests", "docs"],
+	"delay": "300",
+
+	"_comment_logging": "Keep the CLI output minimal; verbose can be toggled on if needed.",
+	"quiet": false,
+	"verbose": true,
+
+	"_comment_exec": "Run the compiled server entrypoint directly.",
+	"exec": "node",
+	"args": ["app/server/dist/bin/www.js"],
+
+	"_comment_events": "Echo simple status messages with timestamps on restart/crash.",
+	"events": {
+		"crash": "echo \"💥  Server crashed at $(date '+%I:%M:%S %p')\""
+	}
+}

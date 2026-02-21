@@ -1,0 +1,48 @@
+{
+	"compilerOptions": {
+		/* ---------- Output settings ---------- */
+		"rootDir": "./", // cover both client + server
+		"outDir": "./server/dist", // single build directory
+		"noEmit": false,
+
+		/* ---------- Module system ---------- */
+		"target": "ES2022",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"jsx": "react-jsx",
+		"types": ["node"],
+
+		/* ---------- Language & import options ---------- */
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"strict": true,
+		"skipLibCheck": true,
+
+		/* ---------- Path aliases ---------- */
+		// 👇 Use an absolute baseUrl anchored at /app, not relative from /server/dist.
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./*"],
+			"@shared/*": ["shared/*"],
+			"@server/*": ["server/src/*"],
+			"@client/*": ["client/src/*"]
+		},
+		"typeRoots": ["shared/types", "../node_modules/@types"]
+	},
+
+	/* ---------- Included files ---------- */
+	"include": [
+		"server/src/**/*.ts",
+		"client/**/*.ts",
+		"client/**/*.tsx",
+		"client/entry-client.tsx",
+		"client/entry-server.tsx",
+		"shared/**/*.ts"
+	],
+	"exclude": [
+		"server/dist",
+		"client/dist",
+		"../../node_modules"
+	]
+}

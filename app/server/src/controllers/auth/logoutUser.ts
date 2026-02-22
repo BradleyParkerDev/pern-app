@@ -7,11 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const logoutUser = async (req: Request, res: Response): Promise<void> => {
-	console.log(`Hello`);
-	console.log(`userId: ${req.body.userId} the middleware works`);
-	console.log(`sessionId: ${req.body.sessionId} the middleware works`);
-
-	const auth = createAuthService();
+	const auth = createAuthService(req, res);
 
 	const sessionId = req.body.sessionId;
 	console.log(req.body);
@@ -29,14 +25,14 @@ const logoutUser = async (req: Request, res: Response): Promise<void> => {
 		loggerFactory.auth.info(
 			`DELETE - /api/auth/logout-user - userId: ${userId}`,
 		);
+
+		return;
 	}
 
 	res.status(200).json({
 		success: false,
 		message: 'User is not logged out.',
 	});
-
-	return;
 };
 
 export default logoutUser;

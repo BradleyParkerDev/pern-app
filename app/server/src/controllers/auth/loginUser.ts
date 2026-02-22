@@ -40,11 +40,12 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
 		return;
 	}
 
-	await auth.createUserSession(foundUserData.userId);
+	const userData = await auth.createUserSession(foundUserData.userId);
 
 	res.status(200).json({
 		success: true,
 		message: 'User has successfully logged in!',
+		userData,
 	});
 	loggerFactory.auth.info(
 		`POST - /api/auth/login-user - userId: ${foundUserData.userId}`,

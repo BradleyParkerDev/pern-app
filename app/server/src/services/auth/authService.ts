@@ -103,9 +103,14 @@ export const createAuthService = (req?: Request, res?: Response) => {
 				const accessToken = await this.util.generateToken(payload);
 
 				this.setSessionCookie(accessToken, tokenTtlMs);
+
 				loggerFactory.authService.info(
 					`[New Session] - sessionType: Authenticated - userId: ${userId}`,
 				);
+
+				const userData = await this.user.getUserData({
+					userId: userId,
+				});
 			} else {
 				// Create guest session
 				const [session] = await db

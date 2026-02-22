@@ -39,7 +39,11 @@ export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
 						<li
 							key={label}
 							onClick={() => {
-								ui.navigateTo(path);
+								if (label == 'logout') {
+									user.logout();
+								} else {
+									ui.navigateTo(path);
+								}
 							}}
 							className={`text-foreground hover:bg-foreground/5 flex w-full items-center justify-start gap-3 rounded-[12px] px-4 py-2 text-left text-[14px] dark:hover:bg-[#171717]`}
 						>
@@ -101,7 +105,7 @@ export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
 					{auth.isAuth ? (
 						userAvatarAndUserName
 					) : (
-						<NavUserButton ui={ui} auth={auth} />
+						<NavUserButton ui={ui} auth={auth} user={user} />
 					)}
 				</div>
 			</div>

@@ -126,7 +126,7 @@ export const NavDrawer = ({ ui, auth, user }: NavDrawerProps) => {
 					<UIThemeSwitch onClick={ui.toggleUserTheme} />
 				</div>
 				<div className="flex w-full justify-center sm:hidden">
-					<NavUserButton ui={ui} auth={auth} />
+					<NavUserButton ui={ui} auth={auth} user={user} />
 				</div>
 			</div>
 		);

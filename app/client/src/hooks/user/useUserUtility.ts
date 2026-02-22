@@ -24,7 +24,10 @@ export const useUserUtility = () => {
 		console.log(response);
 	};
 
-	const logout = async () => {};
+	const logout = async () => {
+		const response = await clientApiServices.auth.logoutUser();
+		console.log(response);
+	};
 
 	const update = async () => {};
 
@@ -39,5 +42,6 @@ export const useUserUtility = () => {
 		userName,
 		signUp,
 		login,
+		logout,
 	};
 };

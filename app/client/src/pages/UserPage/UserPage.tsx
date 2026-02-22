@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserUtility, useUIUtility } from '@client/hooks/index.js';
 import {
@@ -10,6 +11,10 @@ import { Settings } from 'lucide-react';
 const UserPage = () => {
 	const user = useUserUtility();
 	const ui = useUIUtility();
+	useEffect(() => {
+		document.title = `User | ${ui.appName}`;
+	}, []);
+
 	const { userName } = useParams<{ userName?: string }>();
 	return (
 		<div id="user-page" className={`flex h-full w-full justify-center`}>

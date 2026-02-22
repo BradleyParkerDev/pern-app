@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react';
 import { useUIUtility } from '@client/hooks/index.js';
 
 const AuthPage = () => {
+	const ui = useUIUtility();
 	useEffect(() => {
-		document.title = 'Auth | Express Server';
+		document.title = `Auth | ${ui.appName}`;
 	}, []);
 
 	const [formDisplayed, setFormDisplayed] = useState('Welcome back!');
-	const ui = useUIUtility();
 
 	// Toggle login and registration forms
 	const toggleUserForms = () => {

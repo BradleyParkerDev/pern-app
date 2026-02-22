@@ -3,12 +3,13 @@ import { Button } from '@client/components/shadcn/button.js';
 import { useUIUtility } from '@client/hooks/index.js';
 
 const HomePage = () => {
-	useEffect(() => {
-		document.title = 'Home | Express Server';
-	}, []);
-
 	const ui = useUIUtility();
 	const [count, setCount] = useState(0);
+
+	useEffect(() => {
+		document.title = `Home | ${ui.appName}`;
+	}, []);
+
 	const handleCount = (action: string) => {
 		if (count >= 0 && action === 'increase') {
 			setCount(count + 1);

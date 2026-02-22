@@ -12,7 +12,7 @@
 		"clean:server": "rimraf app/server/dist logs docs",
 		"build:server": "npm run  clean:server && tsc -p ./app/tsconfig.json && tsc-alias -p ./app/tsconfig.json",
 		"start:server": "node app/server/dist/server/src/bin/www.js",
-		"dev:server": "npm run  build:server && concurrently --raw --kill-others-on-fail --handle-input --restart-tries 1 --names \"TSC,ALIAS,NODEMON\" -c \"blue,magenta,green\" \"tsc -w -p ./app/tsconfig.json\" \"tsc-alias -w -p ./app/tsconfig.json\" \"NODE_ENV=development nodemon app/server/dist/server/src/bin/www.js\"",
+		"dev:server": "npm run  build:server && concurrently --raw --kill-others-on-fail --handle-input --restart-tries 1 --names \"TSC,NODEMON\" -c \"blue,green\" \"tsc -w -p ./app/tsconfig.json\" \"NODE_ENV=development nodemon --watch app/server/dist --ext js,json --delay 400ms --exec 'npx tsc-alias -p ./app/tsconfig.json && node app/server/dist/server/src/bin/www.js'\"",
 		"// ───── FULLSTACK ─────": "",
 		"clean": "npm run  clean:client && npm run  clean:server",
 		"build": "npm run  build:client && npm run  build:server",

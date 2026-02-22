@@ -52,10 +52,14 @@ export const useUIUtility = () => {
 			}),
 		);
 	};
-	const navigateTo = (url: string) => {
-		setNavDrawerIsOpen(false);
-		closeAvatarPopoverWithRedux();
-		navigate(url);
+	const navigateTo = (url: string, refresh?: boolean) => {
+		if (refresh) {
+			window.location.assign(url);
+		} else {
+			setNavDrawerIsOpen(false);
+			closeAvatarPopoverWithRedux();
+			navigate(url);
+		}
 	};
 
 	// User Forms

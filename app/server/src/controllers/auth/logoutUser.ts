@@ -14,8 +14,9 @@ const logoutUser = async (req: Request, res: Response): Promise<void> => {
 	const userId = req.body.userId;
 	if (sessionId) {
 		await auth.deleteUserSession(sessionId);
-		await auth.removeSessionCookie();
-		await auth.clearReqBody();
+		auth.removeSessionCookie();
+		auth.clearReqBody();
+		await auth.createUserSession();
 
 		res.status(200).json({
 			success: true,

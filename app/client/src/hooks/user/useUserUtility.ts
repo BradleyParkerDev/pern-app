@@ -6,7 +6,9 @@ import {
 } from '@shared/types/server/zod/index.js';
 
 import { setUser, resetUser } from '@shared/redux/slices/user/userSlice.js';
+import { useUIUtility } from '@client/hooks/ui/useUIUtility.js';
 export const useUserUtility = () => {
+	const ui = useUIUtility();
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.user);
 	const { firstName, lastName, emailAddress, userName } = user;
@@ -20,13 +22,15 @@ export const useUserUtility = () => {
 	const login = async (loginCredentials: LoginCredentials) => {
 		const response =
 			await clientApiServices.auth.loginUser(loginCredentials);
-
+		ui.navigateTo('/', true);
 		console.log(response);
 	};
 
 	const logout = async () => {
 		const response = await clientApiServices.auth.logoutUser();
 		console.log(response);
+		ui.navigateTo('/', true);
+		dispatch(resetUser());
 	};
 
 	const update = async () => {};

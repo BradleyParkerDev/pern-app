@@ -1,10 +1,21 @@
 import { useAppDispatch, useAppSelector } from '@shared/redux/hooks.js';
 import { clientApiServices } from '@client/services/client/index.js';
-import { LoginCredentials } from '@shared/types/server/zod/index.js';
+import {
+	LoginCredentials,
+	UserRegistrationInput,
+} from '@shared/types/server/zod/index.js';
+
+import { setUser, resetUser } from '@shared/redux/slices/user/userSlice.js';
 export const useUserUtility = () => {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.user);
 	const { firstName, lastName, emailAddress, userName } = user;
+
+	const signUp = async (userRegistrationData: UserRegistrationInput) => {
+		const response =
+			await clientApiServices.user.registerNewUser(userRegistrationData);
+		console.log(response);
+	};
 
 	const login = async (loginCredentials: LoginCredentials) => {
 		const response =
@@ -15,7 +26,7 @@ export const useUserUtility = () => {
 
 	const logout = async () => {};
 
-	const signUp = async () => {};
+	const update = async () => {};
 
 	const fetchUserData = async () => {};
 
@@ -26,6 +37,7 @@ export const useUserUtility = () => {
 		lastName,
 		emailAddress,
 		userName,
+		signUp,
 		login,
 	};
 };

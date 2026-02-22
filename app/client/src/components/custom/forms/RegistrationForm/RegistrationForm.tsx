@@ -13,6 +13,7 @@ import { type Resolver, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import { useUserUtility } from '@/client/src/hooks/index.js';
 
 type RegistrationFormProps = React.ComponentProps<typeof Card> & {
 	toggleUserForms?: () => void;
@@ -42,6 +43,8 @@ export function RegistrationForm({
 		},
 	});
 
+	const user = useUserUtility();
+
 	const [passwordVisiblity, setPasswordVisiblity] = useState('password');
 	const [confirmPasswordVisiblity, setConfirmPasswordVisiblity] =
 		useState('password');
@@ -61,10 +64,11 @@ export function RegistrationForm({
 			}
 		}
 	};
-	const onSubmit = (values: RegistrationFormValues) => {
+	const onSubmit = (userRegistrationData: RegistrationFormValues) => {
 		// Do something with the form values.
 		// ✅ This will be type-safe and validated.
-		console.log(values);
+		user.signUp(userRegistrationData);
+		console.log(userRegistrationData);
 	};
 	return (
 		<Card className="w-full max-w-xl" {...props}>

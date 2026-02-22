@@ -9,7 +9,7 @@ import {
 	loadCurrentPageState,
 	toggleCurrentIsLoading,
 } from '@shared/redux/slices/ui/uiSlice.js';
-import { clientServices } from '@client/services/client/index.js';
+import { clientApiServices } from '@client/services/client/index.js';
 import { PageUnderContstruction } from './helpers/PageUnderContstruction.js';
 import confetti from 'canvas-confetti';
 
@@ -117,7 +117,7 @@ export const useUIUtility = () => {
 		const getPageData = async () => {
 			try {
 				const response =
-					await clientServices.ui.fetchCurrentpageState(url);
+					await clientApiServices.ui.fetchCurrentpageState(url);
 
 				console.log(response);
 				if (!isMounted) return;

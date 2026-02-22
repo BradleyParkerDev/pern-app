@@ -22,7 +22,7 @@ export const user = {
 
 export const ui = { fetchCurrentpageState };
 
-export const clientServices = {
+export const clientApiServices = {
 	auth,
 	user,
 	ui,

@@ -9,7 +9,8 @@ export const generateUiService = (req: Request, res: Response) => {
 		react: reactHelper,
 
 		async handlePageRendering() {
-			const userId = 1234;
+			const userId = req.body.userId;
+
 			// Use originalUrl so the matched route (e.g., /user) is preserved inside the router
 			const url = `${this.req.protocol}://${this.req.get('host')}${this.req.originalUrl}`;
 

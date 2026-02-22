@@ -9,6 +9,8 @@ import { type Resolver, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import { useUserUtility } from '@/client/src/hooks/index.js';
+
 type LoginFormProps = React.ComponentPropsWithoutRef<'div'> & {
 	toggleUserForms?: () => void;
 };
@@ -18,7 +20,7 @@ export function LoginForm({
 	...props
 }: LoginFormProps) {
 	type LoginFormValues = z.infer<typeof LoginSchema>;
-
+	const user = useUserUtility();
 	const {
 		handleSubmit,
 		register,
@@ -42,10 +44,12 @@ export function LoginForm({
 			setPasswordVisiblity('text');
 		}
 	};
-	const onSubmit = (values: LoginFormValues) => {
+	const onSubmit = (loginCredentials: LoginFormValues) => {
 		// Do something with the form values.
 		// ✅ This will be type-safe and validated.
-		console.log(values);
+
+		user.login(loginCredentials);
+		console.log(loginCredentials);
 	};
 
 	const identifierValue = watch('emailAddress') ?? watch('userName') ?? '';

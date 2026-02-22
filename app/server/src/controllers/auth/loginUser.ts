@@ -42,13 +42,13 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
 
 	await auth.createUserSession(foundUserData.userId);
 
-	const userId = 1234;
-
 	res.status(200).json({
 		success: true,
 		message: 'User has successfully logged in!',
 	});
-	loggerFactory.auth.info(`POST - /api/auth/login-user - userId: ${userId}`);
+	loggerFactory.auth.info(
+		`POST - /api/auth/login-user - userId: ${foundUserData.userId}`,
+	);
 
 	return;
 };

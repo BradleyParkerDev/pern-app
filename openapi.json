@@ -1,9 +1,9 @@
 {
 	"openapi": "3.0.3",
 	"info": {
-		"title": "Express Server",
+		"title": "PERN App",
 		"version": "1.0.0",
-		"description": "API docs for an Express server."
+		"description": "API docs for an PERN App."
 	},
 	"tags": [
 		{ "name": "Auth", "description": "Authentication endpoints" },

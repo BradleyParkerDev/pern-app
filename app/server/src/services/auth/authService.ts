@@ -176,7 +176,12 @@ export const createAuthService = (req?: Request, res?: Response) => {
 		 */
 		removeSessionCookie() {
 			// Remove access token cookie
-			this.res?.clearCookie('sessionCookie');
+			this.res?.clearCookie('sessionCookie', {
+				httpOnly: true,
+				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'lax',
+				path: '/', // 👈 important
+			});
 		},
 		clearReqBody() {
 			if (this.req) {

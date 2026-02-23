@@ -11,6 +11,8 @@ export const useUserUtility = () => {
 	const ui = useUIUtility();
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.user);
+	const auth = useAppSelector((state) => state.auth);
+
 	const { firstName, lastName, emailAddress, userName } = user;
 
 	const signUp = async (userRegistrationData: UserRegistrationInput) => {
@@ -22,14 +24,14 @@ export const useUserUtility = () => {
 	const login = async (loginCredentials: LoginCredentials) => {
 		const response =
 			await clientApiServices.auth.loginUser(loginCredentials);
-		ui.navigateTo('/', true);
+		// ui.navigateTo('/', true);
 		console.log(response);
 	};
 
 	const logout = async () => {
 		const response = await clientApiServices.auth.logoutUser();
 		console.log(response);
-		ui.navigateTo('/', true);
+		// ui.navigateTo('/', true);
 		dispatch(resetUser());
 	};
 
@@ -40,6 +42,7 @@ export const useUserUtility = () => {
 	const deleteUserAccount = async () => {};
 
 	return {
+		auth,
 		firstName,
 		lastName,
 		emailAddress,

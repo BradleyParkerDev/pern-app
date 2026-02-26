@@ -69,10 +69,15 @@ export const userHelper = {
 		// Implementation for updating user data goes here
 	},
 	async deleteUserData(
-		userId: string,
+		userId?: string,
 		requestToPermanentlyDeleteUserAccount?: string,
 	) {
 		// Implementation for deleting user data goes here
+		if (!userId) return null;
+
+		// Delete dependent sessions first to satisfy FK constraints.
+		await db.delete(Session).where(eq(Session.userId, userId));
+
 		return await db.delete(User).where(eq(User.userId, userId)).returning();
 	},
 };

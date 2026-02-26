@@ -75,7 +75,40 @@ export const useUserUtility = () => {
 
 	const update = async () => {};
 
-	const deleteUserAccount = async () => {};
+	const deleteUserAccount = async () => {
+		try {
+			const response = await clientApiServices.user.deleteUserData();
+
+			if (response.data?.success === true) {
+				dispatch(resetUser());
+				dispatch(resetAuth());
+				ui.navigateTo('/');
+			}
+
+			return {
+				success: Boolean(response.data?.success),
+				message: String(
+					response.data?.message ??
+						'User account deletion request completed.',
+				),
+			};
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				return {
+					success: false as const,
+					message:
+						(typeof error.response?.data?.message === 'string' &&
+							error.response.data.message) ||
+						'Failed to delete user account.',
+				};
+			}
+
+			return {
+				success: false as const,
+				message: 'Failed to delete user account.',
+			};
+		}
+	};
 
 	return {
 		auth,

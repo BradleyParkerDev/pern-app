@@ -1,6 +1,6 @@
 import { LoginForm, RegistrationForm } from '@client/components/index.js';
 import { useState, useEffect } from 'react';
-import { useUIUtility } from '@client/hooks/index.js';
+import { useUIUtility, useUserUtility } from '@client/hooks/index.js';
 
 const AuthPage = () => {
 	const ui = useUIUtility();

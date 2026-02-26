@@ -10,7 +10,7 @@ import {
 	toggleCurrentIsLoading,
 } from '@shared/redux/slices/ui/uiSlice.js';
 import { clientApiServices } from '@client/services/client/index.js';
-import { PageUnderContstruction } from './helpers/PageUnderContstruction.js';
+import { PageUnderContstruction } from './helpers/pages/PageUnderContstruction.js';
 import confetti from 'canvas-confetti';
 
 export const useUIUtility = () => {
@@ -61,6 +61,9 @@ export const useUIUtility = () => {
 			navigate(url);
 		}
 	};
+
+	//Modals
+	const toggleDeleteUserAccountModal = () => {};
 
 	// User Forms
 	const toggleUserFormsWithNavUserButton = () => {
@@ -174,6 +177,8 @@ export const useUIUtility = () => {
 		toggleNavAvatarPopover,
 		closeAvatarPopoverWithRedux,
 		navigateTo,
+
+		//Modals
 
 		// User Forms - '/user'
 		userForm: ui.userForm,

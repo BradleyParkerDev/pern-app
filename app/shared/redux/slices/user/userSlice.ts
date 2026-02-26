@@ -13,13 +13,17 @@ export const usersSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
-		setUser: (state, action: PayloadAction<{ userData: UserState }>) => {
+		setUser: (
+			state,
+			action: PayloadAction<{ userData: Partial<UserState> }>,
+		) => {
+			console.log(action.payload.userData);
 			const { firstName, lastName, emailAddress, userName } =
 				action.payload.userData;
-			state.firstName = firstName;
-			state.lastName = lastName;
-			state.emailAddress = emailAddress;
-			state.userName = userName;
+			if (firstName !== undefined) state.firstName = firstName;
+			if (lastName !== undefined) state.lastName = lastName;
+			if (emailAddress !== undefined) state.emailAddress = emailAddress;
+			if (userName !== undefined) state.userName = userName;
 		},
 		resetUser: () => initialState,
 	},

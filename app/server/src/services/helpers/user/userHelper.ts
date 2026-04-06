@@ -10,6 +10,7 @@ import { eq } from 'drizzle-orm';
 import {
 	FoundUserType,
 	GetUserDataType,
+	UpdateUserDataType,
 	AccessTokenType,
 } from '@shared/types/server/auth/index.js';
 
@@ -65,8 +66,44 @@ export const userHelper = {
 
 		return null;
 	},
-	async updateUserData() {
+	async updateUserData(userUpdates: UpdateUserDataType) {
 		// Implementation for updating user data goes here
+
+
+
+
+
+
+    console.log(userUpdates)
+    // try {
+        const response = await db.update(User)
+            .set(userUpdates)
+            .where(eq(User.userId, userUpdates.userId))
+            .returning({ updatedUser: {...User} });
+
+        console.log(response)
+
+		return response;
+
+    //     if (response.length === 0) {
+    //         return res.status(404).json({ success: false, message: "User not found" });
+    //     }
+
+
+    //     return res.status(200).json({ success: true, message: 'User updated successfully.', response });
+    // } catch (error) {
+    //     console.error("Error updating user:", error);
+    //     return res.status(500).json({ success: false, message: "Error updating user", error });
+    // }
+
+
+
+
+
+
+
+
+
 	},
 	async deleteUserData(
 		userId?: string,

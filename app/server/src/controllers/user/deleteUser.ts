@@ -10,9 +10,9 @@ dotenv.config();
 const deleteUser = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const auth = createAuthService(req, res);
-		const userId = req.body?.userId;
+		const userDeletionData = req.body;
 
-		if (!userId) {
+		if (!userDeletionData.userId) {
 			res.status(401).json({
 				success: false,
 				message: 'Not authenticated.',
@@ -20,7 +20,7 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
 			return;
 		}
 
-		const deletedUser = await auth.user.deleteUserData(userId);
+		const deletedUser = await auth.user.deleteUserData(userDeletionData);
 
 		if (!deletedUser || deletedUser.length === 0) {
 			res.status(404).json({
@@ -37,7 +37,7 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
 			message: 'User has been successfully deleted!',
 		});
 		loggerFactory.user.info(
-			`DELETE - /api/user/delete-user - userId: ${userId}`,
+			`DELETE - /api/user/delete-user - userId: ${userDeletionData.userId}`,
 		);
 
 		return;

@@ -2,10 +2,8 @@
 	"files": [],
 	"references": [{ "path": "./app/" }, { "path": "./app/client" }],
 	"compilerOptions": {
-		// Provide a shared alias so tools like shadcn-ui can detect it.
-		"baseUrl": "./app",
 		"paths": {
-			"@/*": ["./*"]
+			"@/*": ["./app/*"]
 		}
 	}
 }

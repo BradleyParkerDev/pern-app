@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import { createAuthService } from '@server/services/auth/authService.js';
 import dotenv from 'dotenv';
-import { LoginCredentials } from '@shared/types/server/zod/LoginCredentials.js';
+import { LoginCredentials } from '@/shared/types/server/auth/LoginCredentialsDataType.js';
 
 // Load environment variables
 dotenv.config();

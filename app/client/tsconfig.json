@@ -14,12 +14,11 @@
 		"forceConsistentCasingInFileNames": true,
 		"noEmit": true,
 		"allowImportingTsExtensions": true,
-		"baseUrl": "..",
 		"paths": {
-			"@/*": ["./*"],
-			"@shared/*": ["shared/*"],
-			"@server/*": ["server/src/*"],
-			"@client/*": ["client/src/*"]
+			"@/*": ["../*"],
+			"@shared/*": ["../shared/*"],
+			"@server/*": ["../server/src/*"],
+			"@client/*": ["../client/src/*"]
 		}
 	},
 	"include": [

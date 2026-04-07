@@ -1,22 +1,18 @@
 import {
-	LoginCredentials,
-	UserRegistrationInput,
-	User as UserDataType,
-} from '@shared/types/server/zod/index.js';
+	UserRegistrationDataType,
+	FoundUserResult,
+	GetUserDataType,
+	UpdateUserDataType,
+	DeleteUserDataType,
+} from '@shared/types/server/user/index.js';
 import authServerUtil from '@server/lib/auth/authServerUtil.js';
 import { db } from '@server/database/db.js';
 import { User, Session } from '@server/database/schemas/index.js';
 import { eq } from 'drizzle-orm';
-import {
-	FoundUserType,
-	GetUserDataType,
-	UpdateUserDataType,
-	AccessTokenType,
-} from '@shared/types/server/auth/index.js';
 
 export const userHelper = {
 	async createUser(
-		newUserData: Omit<UserRegistrationInput, 'confirmPassword'>,
+		newUserData: Omit<UserRegistrationDataType, 'confirmPassword'>,
 	) {
 		// Implementation for creating a user goes here
 
@@ -35,7 +31,7 @@ export const userHelper = {
 	},
 	async getUserData(
 		userData: GetUserDataType,
-	): Promise<FoundUserType | null> {
+	): Promise<FoundUserResult | null> {
 		// Implementation for getting user data goes here
 		if (userData.userName) {
 			const [foundUser] = await db
@@ -91,16 +87,21 @@ export const userHelper = {
 		//     return res.status(500).json({ success: false, message: "Error updating user", error });
 		// }
 	},
-	async deleteUserData(
-		userId?: string,
-		requestToPermanentlyDeleteUserAccount?: string,
-	) {
+	async deleteUserData(userDeletionData: DeleteUserDataType) {
 		// Implementation for deleting user data goes here
-		if (!userId) return null;
+		if (!userDeletionData.userId) return null;
 
+		if (userDeletionData.requestToDeleteUserData !== 'permanently delete') {
+			return;
+		}
 		// Delete dependent sessions first to satisfy FK constraints.
-		await db.delete(Session).where(eq(Session.userId, userId));
+		await db
+			.delete(Session)
+			.where(eq(Session.userId, userDeletionData.userId));
 
-		return await db.delete(User).where(eq(User.userId, userId)).returning();
+		return await db
+			.delete(User)
+			.where(eq(User.userId, userDeletionData.userId))
+			.returning();
 	},
 };

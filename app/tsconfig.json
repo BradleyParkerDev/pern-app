@@ -21,12 +21,16 @@
 
 		/* ---------- Path aliases ---------- */
 		// 👇 Use an absolute baseUrl anchored at /app, not relative from /server/dist.
-		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./*"],
-			"@shared/*": ["shared/*"],
-			"@server/*": ["server/src/*"],
-			"@client/*": ["client/src/*"]
+			"@shared/*": ["./shared/*"],
+			"@server/*": ["./server/src/*"],
+			"@client/*": ["./client/src/*"],
+
+			"client/*": ["./client/*"],
+			"client/src/*": ["./client/src/*"],
+			"server/src/*": ["./server/src/*"],
+			"shared/*": ["./shared/*"]
 		},
 		"typeRoots": ["shared/types", "../node_modules/@types"]
 	},
@@ -40,9 +44,5 @@
 		"client/entry-server.tsx",
 		"shared/**/*.ts"
 	],
-	"exclude": [
-		"server/dist",
-		"client/dist",
-		"../../node_modules"
-	]
+	"exclude": ["server/dist", "client/dist", "../../node_modules"]
 }

@@ -6,7 +6,7 @@ const initialState: UIState = {
 	theme: 'light',
 	userForm: '',
 	closeAvatarPopover: false,
-	currentPage: { url: '', content: {}, isLoading: false },
+	currentPage: { path: '', content: {}, isLoading: false },
 };
 
 const uiSlice = createSlice({

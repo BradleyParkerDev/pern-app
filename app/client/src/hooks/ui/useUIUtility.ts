@@ -111,7 +111,7 @@ export const useUIUtility = () => {
 	useEffect(() => {
 		// Skip client refetch on initial SSR hydration when state already matches.
 		if (
-			currentPage.url === location.pathname &&
+			currentPage.path === location.pathname &&
 			currentPage.isLoading === false
 		) {
 			return;
@@ -119,19 +119,19 @@ export const useUIUtility = () => {
 
 		let isMounted = true;
 		dispatch(toggleCurrentIsLoading({ currentPage: { isLoading: true } }));
-		const url = location.pathname;
+		const path = location.pathname;
 
 		const getPageData = async () => {
 			try {
 				const response =
-					await clientApiServices.ui.fetchCurrentpageState(url);
+					await clientApiServices.ui.fetchCurrentpageState(path);
 
 				console.log(response);
 				if (!isMounted) return;
 				dispatch(
 					loadCurrentPageState({
 						currentPage: {
-							url: url,
+							path: path,
 							content: response.content ?? {},
 							isLoading: response.isLoading ?? false,
 						},
@@ -142,7 +142,7 @@ export const useUIUtility = () => {
 				dispatch(
 					loadCurrentPageState({
 						currentPage: {
-							url: url,
+							path: path,
 							content: {},
 							isLoading: false,
 						},

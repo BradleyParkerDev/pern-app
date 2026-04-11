@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { generateUiService } from '@/server/src/services/ui/uiService.js';
+import { createUiService } from '@/server/src/services/ui/uiService.js';
 
 const web = async (req: Request, res: Response) => {
-	const ui = generateUiService(req, res);
+	const ui = createUiService(req, res);
 
 	try {
 		await ui.handlePageRendering();

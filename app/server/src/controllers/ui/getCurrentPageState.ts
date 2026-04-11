@@ -1,17 +1,18 @@
 import { Request, Response } from 'express';
-
+import { createUiService } from '@server/services/ui/uiService.js';
+import { resolve } from 'path';
 const getCurrentPageState = async (req: Request, res: Response) => {
+	const ui = createUiService(req, res);
 	const path = req.query.path;
+
+	const currentPage = await ui.page.getPageContent();
 
 	const message = `User wants data from this path: ${path}`;
 	try {
-		await new Promise((resolve) => setTimeout(resolve, 5000));
 		res.send({
 			success: 'true',
-			pageState: {
-				message: message,
-			},
-			pageLoading: false,
+			message,
+			currentPage,
 		});
 	} catch (err) {
 		console.error(err);

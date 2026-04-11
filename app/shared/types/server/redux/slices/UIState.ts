@@ -1,5 +1,5 @@
 interface currentPage {
-	url?: string;
+	path?: string;
 	content?: object;
 	isLoading?: boolean;
 }

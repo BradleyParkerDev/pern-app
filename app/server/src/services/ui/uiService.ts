@@ -1,31 +1,27 @@
 import { Request, Response } from 'express';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import reactHelper from '@server/services/helpers/react/reactHelper.js';
+import { createPageContextHelper } from '../helpers/pageContext/pageContextHelper.js';
 
-export const generateUiService = (req: Request, res: Response) => {
+export const createUiService = (req: Request, res: Response) => {
+	const page = createPageContextHelper(req, res);
+
 	const uiService = {
 		req,
 		res,
+		page,
 		react: reactHelper,
 
 		async handlePageRendering() {
-			const userId = req.body.userId;
+			await this.page.loadAppDataIntoRedux();
 
-			// Use originalUrl so the matched route (e.g., /user) is preserved inside the router
-			const url = `${this.req.protocol}://${this.req.get('host')}${this.req.originalUrl}`;
-
-			if (this.react.streamHtml === 'true') {
-				await this.react.renderAppToPipeableStream(url, this.req, res);
+			if (this.react.streamHtml) {
+				await this.react.renderAppToPipeableStream(this.page);
 			} else {
-				const html = await this.react.renderAppToString(
-					url,
-					this.req,
-					res,
-				);
-				res.status(200).send(html);
+				const html = await this.react.renderAppToString(this.page);
+				this.res.status(200).send(html);
 			}
 
-			// Skip noisy asset probes (favicon/devtools) and normalise trailing slashes.
 			const ignored = new Set([
 				'/favicon.ico',
 				'/.well-known/appspecific/com.chrome.devtools.json',
@@ -33,12 +29,14 @@ export const generateUiService = (req: Request, res: Response) => {
 
 			const pathToLog =
 				this.req.originalUrl.replace(/\/+($|\?)/, '$1') || '/';
+
 			if (!ignored.has(pathToLog)) {
 				loggerFactory.index.info(
-					`GET - ${pathToLog} - userId: ${userId}`,
+					`GET - ${pathToLog} - userId: ${this.req.body.userId}`,
 				);
 			}
 		},
 	};
+
 	return uiService;
 };

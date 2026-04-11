@@ -2,11 +2,8 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/redux/hooks.js';
 import { clientApiServices } from '@client/services/client/index.js';
 import axios from 'axios';
-import {
-	LoginCredentials,
-	UserRegistrationInput,
-} from '@shared/types/server/zod/index.js';
-
+import { LoginCredentialsDataType } from '@shared/types/server/auth/index.js';
+import { UserRegistrationDataType } from '@shared/types/server/user/index.js';
 import { setUser, resetUser } from '@shared/redux/slices/user/userSlice.js';
 import { setAuth, resetAuth } from '@shared/redux/slices/auth/authSlice.js';
 import { useUIUtility } from '@client/hooks/ui/useUIUtility.js';
@@ -18,13 +15,13 @@ export const useUserUtility = () => {
 
 	const { firstName, lastName, emailAddress, userName } = user;
 
-	const signUp = async (userRegistrationData: UserRegistrationInput) => {
+	const signUp = async (userRegistrationData: UserRegistrationDataType) => {
 		const response =
 			await clientApiServices.user.registerNewUser(userRegistrationData);
 		console.log(response);
 	};
 
-	const login = async (loginCredentials: LoginCredentials) => {
+	const login = async (loginCredentials: LoginCredentialsDataType) => {
 		try {
 			const response =
 				await clientApiServices.auth.loginUser(loginCredentials);

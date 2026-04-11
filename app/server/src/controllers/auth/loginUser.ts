@@ -2,15 +2,15 @@ import { Request, Response } from 'express';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import { createAuthService } from '@server/services/auth/authService.js';
 import dotenv from 'dotenv';
-import { LoginCredentials } from '@/shared/types/server/auth/LoginCredentialsDataType.js';
-
+import { LoginCredentialsDataType } from '@shared/types/server/auth/index.js';
 // Load environment variables
 dotenv.config();
 
 const loginUser = async (req: Request, res: Response): Promise<void> => {
 	const auth = createAuthService(req, res);
+	const sessionId = req.body.sessionId;
 
-	const userLoginCredentials: LoginCredentials = {
+	const userLoginCredentials: LoginCredentialsDataType = {
 		userName: req.body.userName,
 		emailAddress: req.body.emailAddress,
 		password: req.body.password,
@@ -40,6 +40,7 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
 		return;
 	}
 
+	await auth.deleteUserSession(sessionId);
 	const userData = await auth.createUserSession(foundUserData.userId);
 
 	res.status(200).json({

@@ -8,9 +8,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const registerUser = async (req: Request, res: Response): Promise<void> => {
-	const userId = 1234;
 	const auth = createAuthService();
 	const parsed = UserRegistrationSchema.safeParse(req.body);
+
 	if (!parsed.success) {
 		res.status(400).json({
 			success: false,
@@ -22,20 +22,38 @@ const registerUser = async (req: Request, res: Response): Promise<void> => {
 
 	try {
 		const { confirmPassword, ...newUserData } = parsed.data;
-		await auth.user.createUser(newUserData);
+		const result = await auth.user.createUser(newUserData);
+
+		if (!result.success) {
+			if (
+				result.reason === 'duplicate_email' ||
+				result.reason === 'duplicate_username'
+			) {
+				res.status(409).json(result);
+				return;
+			}
+
+			res.status(500).json(result);
+			return;
+		}
+
 		res.status(201).json({
 			success: true,
 			message: 'User has successfully registered!',
 		});
+
 		loggerFactory.user.info(
-			`POST - /api/user/register-user - userId: ${userId}`,
+			`POST - /api/user/register-user - userId: ${result.createdUser.userId}`,
 		);
+		return;
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : String(error);
+
 		loggerFactory.user.error(
-			`POST - /api/user/register-user - userId: ${userId} - ${errorMessage}`,
+			`POST - /api/user/register-user - error: - ${errorMessage}`,
 		);
+
 		res.status(500).json({
 			success: false,
 			message: 'Failed to register user',

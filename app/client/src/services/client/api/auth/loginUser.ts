@@ -1,5 +1,5 @@
 import api from '@shared/axios/index.js';
-import { LoginCredentials } from '@shared/types/server/zod/index.js';
-export const loginUser = (loginCredentials: LoginCredentials) => {
+import { LoginCredentialsDataType } from '@shared/types/server/auth/index.js';
+export const loginUser = (loginCredentials: LoginCredentialsDataType) => {
 	return api.post('/auth/login-user', loginCredentials);
 };

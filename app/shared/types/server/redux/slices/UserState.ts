@@ -1,6 +1,6 @@
-import { FoundUserType } from '@shared/types/server/auth/index.js';
+import { FoundUserResult } from '@shared/types/server/user/index.js';
 
 export type UserState = Pick<
-	FoundUserType,
+	FoundUserResult,
 	'firstName' | 'lastName' | 'emailAddress' | 'userName'
 >;

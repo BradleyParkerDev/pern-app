@@ -1,8 +1,7 @@
 import api from '@shared/axios/index.js';
-import { UserRegistrationInput } from '@shared/types/server/zod/index.js';
-
+import { UserRegistrationDataType } from '@shared/types/server/user/index.js';
 export const registerNewUser = (
-	userRegistrationInput: UserRegistrationInput,
+	userRegistrationData: UserRegistrationDataType,
 ) => {
-	return api.post('/user/register-user', userRegistrationInput);
+	return api.post('/user/register-user', userRegistrationData);
 };

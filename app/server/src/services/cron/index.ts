@@ -2,7 +2,7 @@ import { uploadLogsToS3Bucket } from './jobs/uploadLogsToS3Bucket.js';
 import { pruneExpiredUserSessions } from './jobs/pruneExpiredUserSession.js';
 
 const startAll = () => {
-	pruneExpiredUserSessions();
+	// pruneExpiredUserSessions();
 };
 
 export const cronService = {

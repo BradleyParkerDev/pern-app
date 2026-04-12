@@ -6,9 +6,8 @@ import { LoginCredentialsDataType } from '@shared/types/server/auth/index.js';
 import { UserRegistrationDataType } from '@shared/types/server/user/index.js';
 import { setUser, resetUser } from '@shared/redux/slices/user/userSlice.js';
 import { setAuth, resetAuth } from '@shared/redux/slices/auth/authSlice.js';
-import { useUIUtility } from '@client/hooks/ui/useUIUtility.js';
-export const useUserUtility = () => {
-	const ui = useUIUtility();
+import { UIUtility } from '@shared/types/client/UIUtility.js';
+export const useUserUtility = (ui: UIUtility) => {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.user);
 	const auth = useAppSelector((state) => state.auth);

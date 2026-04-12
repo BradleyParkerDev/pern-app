@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useUIUtility } from '@client/hooks/index.js';
-
+import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { useOutletContext } from 'react-router';
 const ChatPage = () => {
-	const ui = useUIUtility();
+	const ui = useOutletContext<UIUtility>();
 	useEffect(() => {
 		document.title = `Chat | ${ui.appName}`;
 	}, []);

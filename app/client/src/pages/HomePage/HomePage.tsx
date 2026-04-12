@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@client/components/shadcn/button.js';
-import { useUIUtility } from '@client/hooks/index.js';
+import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { useOutletContext } from 'react-router';
 
 const HomePage = () => {
-	const ui = useUIUtility();
+	const ui = useOutletContext<UIUtility>();
 	const [count, setCount] = useState(0);
 
 	useEffect(() => {

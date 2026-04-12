@@ -10,9 +10,7 @@ import {
 const Layout = () => {
 	const auth = useAuthUtility();
 	const ui = useUIUtility();
-	const user = useUserUtility();
-
-	const skull3 = '/assets/Skull3.jpg';
+	const user = useUserUtility(ui);
 
 	// Apply layout classes to the document body safely on the client.
 	useEffect(() => {
@@ -50,7 +48,7 @@ const Layout = () => {
 		>
 			<Navbar ui={ui} auth={auth} user={user} />
 			<div id="content" className={`min-h-[calc(100dvh-4rem)] w-full`}>
-				<Outlet />
+				<Outlet context={ui} />
 			</div>
 		</div>
 	);

@@ -1,15 +1,17 @@
-import { cn } from 'client/src/lib/utils.js';
-import { Button } from 'client/src/components/shadcn/button.js';
-import { Card, CardContent } from 'client/src/components/shadcn/card.js';
-import { Input } from 'client/src/components/shadcn/input.js';
-import { Label } from 'client/src/components/shadcn/label.js';
+import { cn } from '@client/lib/utils.js';
+import { Button } from '@client/components/shadcn/button.js';
+import { Card, CardContent } from '@client/components/shadcn/card.js';
+import { Input } from '@client/components/shadcn/input.js';
+import { Label } from '@client/components/shadcn/label.js';
 import { LoginSchema } from '@shared/zod/auth/loginSchema.js';
 import { z } from 'zod';
 import { type Resolver, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { useUserUtility } from '@/client/src/hooks/index.js';
+import { useUserUtility } from '@client/hooks/index.js';
+import { useOutletContext } from 'react-router';
+import { UIUtility } from '@shared/types/client/UIUtility.js';
 
 type LoginFormProps = React.ComponentPropsWithoutRef<'div'> & {
 	toggleUserForms?: () => void;
@@ -20,7 +22,9 @@ export function LoginForm({
 	...props
 }: LoginFormProps) {
 	type LoginFormValues = z.infer<typeof LoginSchema>;
-	const user = useUserUtility();
+	const ui = useOutletContext<UIUtility>();
+
+	const user = useUserUtility(ui);
 	const {
 		handleSubmit,
 		register,

@@ -1,16 +1,18 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useUserUtility, useUIUtility } from '@client/hooks/index.js';
+import { useUserUtility } from '@client/hooks/index.js';
 import {
 	Avatar,
 	AvatarImage,
 	AvatarFallback,
 } from '@client/components/shadcn/avatar.js';
 import { Settings } from 'lucide-react';
+import { useOutletContext } from 'react-router';
+import { UIUtility } from '@shared/types/client/UIUtility.js';
 
 const UserPage = () => {
-	const user = useUserUtility();
-	const ui = useUIUtility();
+	const ui = useOutletContext<UIUtility>();
+	const user = useUserUtility(ui);
 	useEffect(() => {
 		document.title = `User | ${ui.appName}`;
 	}, []);

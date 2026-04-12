@@ -1,10 +1,11 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useUIUtility, useUserUtility } from '@client/hooks/index.js';
-
+import { useUserUtility } from '@client/hooks/index.js';
+import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { useOutletContext } from 'react-router';
 const SettingsPage = () => {
-	const ui = useUIUtility();
-	const user = useUserUtility();
+	const ui = useOutletContext<UIUtility>();
+	const user = useUserUtility(ui);
 
 	useEffect(() => {
 		document.title = `Settings | ${ui.appName}`;

@@ -26,13 +26,7 @@ const HomePage = () => {
 	};
 
 	return (
-		<div
-			onClick={() => {
-				ui.closeAvatarPopoverWithRedux();
-			}}
-			id="home-page"
-			className="flex h-full w-full justify-center"
-		>
+		<div id="home-page" className="flex h-full w-full justify-center">
 			<style>
 				{`
 					@keyframes softBounce {

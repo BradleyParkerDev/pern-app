@@ -47,7 +47,13 @@ const Layout = () => {
 			className={`relative min-h-dvh w-screen max-w-[1400px] ${ui.navDrawerIsOpen ? 'shadow-lg dark:shadow-white/5' : ''}`}
 		>
 			<Navbar ui={ui} auth={auth} user={user} />
-			<div id="content" className={`min-h-[calc(100dvh-4rem)] w-full`}>
+			<div
+				onClick={() => {
+					ui.closeAvatarPopoverWithRedux();
+				}}
+				id="content"
+				className={`min-h-[calc(100dvh-4rem)] w-full`}
+			>
 				<Outlet context={ui} />
 			</div>
 		</div>

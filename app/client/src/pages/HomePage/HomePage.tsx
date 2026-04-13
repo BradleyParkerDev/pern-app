@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@client/components/shadcn/button.js';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 import { useOutletContext } from 'react-router';
 
 const HomePage = () => {

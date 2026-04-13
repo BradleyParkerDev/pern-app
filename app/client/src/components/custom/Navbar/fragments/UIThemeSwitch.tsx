@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as SwitchPrimitives from '@radix-ui/react-switch';
 import { cn } from '@client/lib/utils.js';
 import { useAppSelector } from '@shared/redux/hooks.js';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 import { Moon, Sun } from 'lucide-react';
 type UIThemeSwitchProps = React.ComponentPropsWithoutRef<
 	typeof SwitchPrimitives.Root

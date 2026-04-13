@@ -8,7 +8,7 @@ import {
 } from '@client/components/shadcn/avatar.js';
 import { Settings } from 'lucide-react';
 import { useOutletContext } from 'react-router';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 
 const UserPage = () => {
 	const ui = useOutletContext<UIUtility>();

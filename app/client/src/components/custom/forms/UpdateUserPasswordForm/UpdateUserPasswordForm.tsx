@@ -1,0 +1,198 @@
+import { Button } from '@client/components/shadcn/button.js';
+import { Card, CardContent } from '@client/components/shadcn/card.js';
+import {
+	Field,
+	FieldGroup,
+	FieldLabel,
+} from '@client/components/shadcn/field.js';
+import { Input } from '@client/components/shadcn/input.js';
+import { UpdateUserPasswordSchema } from '@shared/zod/user/updateUserPasswordSchema.js';
+import { z } from 'zod';
+import { type Resolver, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
+import { useUserUtility } from '@client/hooks/index.js';
+import { useOutletContext } from 'react-router';
+import { UIUtility } from '@shared/types/client/hooks/UIUtility.js';
+
+export function UpdateUserPasswordForm({ ...props }) {
+	type FormValues = z.infer<typeof UpdateUserPasswordSchema>;
+
+	const {
+		handleSubmit,
+		register,
+		reset,
+		formState: { errors, isSubmitting },
+	} = useForm<FormValues>({
+		resolver: zodResolver(UpdateUserPasswordSchema) as Resolver<FormValues>,
+		defaultValues: {
+			currentPassword: '',
+			newPassword: '',
+			confirmNewPassword: '',
+		},
+	});
+
+	const ui = useOutletContext<UIUtility>();
+	const user = useUserUtility(ui);
+
+	const [currentPasswordVisibility, setCurrentPasswordVisibility] = useState<
+		'password' | 'text'
+	>('password');
+	const [newPasswordVisibility, setNewPasswordVisibility] = useState<
+		'password' | 'text'
+	>('password');
+	const [confirmNewPasswordVisibility, setConfirmNewPasswordVisibility] =
+		useState<'password' | 'text'>('password');
+
+	const togglePasswordVisibility = (type: 'current' | 'new' | 'confirm') => {
+		if (type === 'current') {
+			setCurrentPasswordVisibility((prev) =>
+				prev === 'password' ? 'text' : 'password',
+			);
+		} else if (type === 'new') {
+			setNewPasswordVisibility((prev) =>
+				prev === 'password' ? 'text' : 'password',
+			);
+		} else {
+			setConfirmNewPasswordVisibility((prev) =>
+				prev === 'password' ? 'text' : 'password',
+			);
+		}
+	};
+
+	const onSubmit = (userUpdateData: FormValues) => {
+		user.update(userUpdateData);
+		console.log(userUpdateData);
+		reset();
+		setCurrentPasswordVisibility('password');
+		setNewPasswordVisibility('password');
+		setConfirmNewPasswordVisibility('password');
+	};
+
+	return (
+		<Card className="w-full max-w-xl" {...props}>
+			<CardContent className="space-y-2">
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<FieldGroup className="gap-3">
+						<Field>
+							<FieldLabel className="text-base font-semibold">
+								Current Password
+							</FieldLabel>
+							<div className="relative">
+								<Input
+									type={currentPasswordVisibility}
+									{...register('currentPassword')}
+								/>
+								<button
+									type="button"
+									onClick={() =>
+										togglePasswordVisibility('current')
+									}
+									className="absolute inset-y-0 right-3 flex items-center"
+									aria-label={
+										currentPasswordVisibility === 'password'
+											? 'Show current password'
+											: 'Hide current password'
+									}
+								>
+									{currentPasswordVisibility ===
+									'password' ? (
+										<Eye className="h-4 w-4" />
+									) : (
+										<EyeOff className="h-4 w-4" />
+									)}
+								</button>
+							</div>
+							{errors.currentPassword && (
+								<p className="text-destructive text-sm">
+									{errors.currentPassword.message}
+								</p>
+							)}
+						</Field>
+
+						<Field>
+							<FieldLabel className="text-base font-semibold">
+								New Password
+							</FieldLabel>
+							<div className="relative">
+								<Input
+									type={newPasswordVisibility}
+									{...register('newPassword')}
+								/>
+								<button
+									type="button"
+									onClick={() =>
+										togglePasswordVisibility('new')
+									}
+									className="absolute inset-y-0 right-3 flex items-center"
+									aria-label={
+										newPasswordVisibility === 'password'
+											? 'Show new password'
+											: 'Hide new password'
+									}
+								>
+									{newPasswordVisibility === 'password' ? (
+										<Eye className="h-4 w-4" />
+									) : (
+										<EyeOff className="h-4 w-4" />
+									)}
+								</button>
+							</div>
+							{errors.newPassword && (
+								<p className="text-destructive text-sm">
+									{errors.newPassword.message}
+								</p>
+							)}
+						</Field>
+
+						<Field>
+							<FieldLabel className="text-base font-semibold">
+								Confirm New Password
+							</FieldLabel>
+							<div className="relative">
+								<Input
+									type={confirmNewPasswordVisibility}
+									{...register('confirmNewPassword')}
+								/>
+								<button
+									type="button"
+									onClick={() =>
+										togglePasswordVisibility('confirm')
+									}
+									className="absolute inset-y-0 right-3 flex items-center"
+									aria-label={
+										confirmNewPasswordVisibility ===
+										'password'
+											? 'Show confirm new password'
+											: 'Hide confirm new password'
+									}
+								>
+									{confirmNewPasswordVisibility ===
+									'password' ? (
+										<Eye className="h-4 w-4" />
+									) : (
+										<EyeOff className="h-4 w-4" />
+									)}
+								</button>
+							</div>
+							{errors.confirmNewPassword && (
+								<p className="text-destructive text-sm">
+									{errors.confirmNewPassword.message}
+								</p>
+							)}
+						</Field>
+
+						<Button
+							type="submit"
+							className="mt-3 text-base font-semibold sm:mt-4"
+							disabled={isSubmitting}
+						>
+							Update Password
+						</Button>
+					</FieldGroup>
+				</form>
+			</CardContent>
+		</Card>
+	);
+}

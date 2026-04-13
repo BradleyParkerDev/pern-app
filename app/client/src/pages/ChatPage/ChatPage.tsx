@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 import { useOutletContext } from 'react-router';
 const ChatPage = () => {
 	const ui = useOutletContext<UIUtility>();

@@ -236,7 +236,7 @@ export const userHelper = {
 			};
 		}
 
-		if (userDeletionData.requestToDeleteUserData !== 'permanently delete') {
+		if (userDeletionData.confirmation !== 'permanently delete') {
 			return {
 				success: false,
 				reason: 'missing_confirmation',

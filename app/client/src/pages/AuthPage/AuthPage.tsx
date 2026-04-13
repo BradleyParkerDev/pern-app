@@ -1,7 +1,7 @@
 import { LoginForm, RegistrationForm } from '@client/components/index.js';
 import { useState, useEffect } from 'react';
 import { useUIUtility, useUserUtility } from '@client/hooks/index.js';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 import { useOutletContext } from 'react-router';
 const AuthPage = () => {
 	const ui = useOutletContext<UIUtility>();

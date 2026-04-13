@@ -7,7 +7,7 @@ import {
 	FieldLabel,
 } from '@client/components/shadcn/field.js';
 import { Input } from '@client/components/shadcn/input.js';
-import { UserRegistrationSchema } from '@shared/zod/user/userRegistrationSchema.js';
+import { RegistrationSchema } from '@/shared/zod/user/registrationSchema.js';
 import { z } from 'zod';
 import { type Resolver, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,7 +15,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useUserUtility } from '@/client/src/hooks/index.js';
 import { useOutletContext } from 'react-router';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 
 type RegistrationFormProps = React.ComponentProps<typeof Card> & {
 	toggleUserForms?: () => void;
@@ -25,17 +25,18 @@ export function RegistrationForm({
 	toggleUserForms,
 	...props
 }: RegistrationFormProps) {
-	type RegistrationFormValues = z.infer<typeof UserRegistrationSchema>;
+	type RegistrationFormValues = z.infer<typeof RegistrationSchema>;
 
 	const {
 		handleSubmit,
 		register,
 		setValue,
 		watch,
+		reset,
 		formState: { errors, isSubmitting },
 	} = useForm<RegistrationFormValues>({
 		resolver: zodResolver(
-			UserRegistrationSchema,
+			RegistrationSchema,
 		) as Resolver<RegistrationFormValues>,
 		defaultValues: {
 			emailAddress: '',
@@ -72,6 +73,7 @@ export function RegistrationForm({
 		// ✅ This will be type-safe and validated.
 		user.signUp(userRegistrationData);
 		console.log(userRegistrationData);
+		reset();
 	};
 	return (
 		<Card className="w-full max-w-xl" {...props}>

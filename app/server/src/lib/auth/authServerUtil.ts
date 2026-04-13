@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { jwtVerify, SignJWT, JWTPayload } from 'jose';
 import bcrypt from 'bcrypt';
-import { AccessTokenType } from '@shared/types/server/auth/index.js';
+import { AccessTokenType } from '@shared/types/server/auth/AccessTokenType.js';
 
 // Load environment variables from .env file
 dotenv.config();

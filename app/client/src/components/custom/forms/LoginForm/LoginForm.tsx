@@ -11,7 +11,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useUserUtility } from '@client/hooks/index.js';
 import { useOutletContext } from 'react-router';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 
 type LoginFormProps = React.ComponentPropsWithoutRef<'div'> & {
 	toggleUserForms?: () => void;
@@ -30,6 +30,7 @@ export function LoginForm({
 		register,
 		setValue,
 		watch,
+		reset,
 		formState: { errors, isSubmitting },
 	} = useForm<LoginFormValues>({
 		resolver: zodResolver(LoginSchema) as Resolver<LoginFormValues>,
@@ -54,6 +55,7 @@ export function LoginForm({
 
 		user.login(loginCredentials);
 		console.log(loginCredentials);
+		reset();
 	};
 
 	const identifierValue = watch('emailAddress') ?? watch('userName') ?? '';

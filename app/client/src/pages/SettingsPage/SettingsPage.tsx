@@ -1,8 +1,13 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useUserUtility } from '@client/hooks/index.js';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 import { useOutletContext } from 'react-router';
+import {
+	UserInfoCard,
+	UpdateUserForm,
+	UpdateUserPasswordForm,
+} from '@client/components/index.js';
 const SettingsPage = () => {
 	const ui = useOutletContext<UIUtility>();
 	const user = useUserUtility(ui);
@@ -14,6 +19,11 @@ const SettingsPage = () => {
 	return (
 		<div className="mx-auto w-full max-w-2xl space-y-6 px-4 py-6">
 			<h1 className="text-2xl font-semibold">Settings</h1>
+
+			<UserInfoCard />
+			<UpdateUserForm />
+			<UpdateUserPasswordForm />
+
 			<button
 				type="button"
 				onClick={() => user.deleteUserAccount()}

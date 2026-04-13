@@ -1,6 +1,6 @@
-import { UIUtility } from '@shared/types/client/UIUtility.js';
-import { AuthUtility } from '@shared/types/client/AuthUtility.js';
-import { UserUtility } from '@shared/types/client/UserUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import { AuthUtility } from '@/shared/types/client/hooks/AuthUtility.js';
+import { UserUtility } from '@/shared/types/client/hooks/UserUtility.js';
 
 type NavUserButton = {
 	ui: UIUtility;

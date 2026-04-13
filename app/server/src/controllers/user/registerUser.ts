@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import { createAuthService } from '../../services/auth/authService.js';
-import { UserRegistrationSchema } from '@shared/zod/user/userRegistrationSchema.js';
+import { RegistrationSchema } from '@/shared/zod/user/registrationSchema.js';
 import dotenv from 'dotenv';
 
 // Load environment variables
@@ -9,7 +9,7 @@ dotenv.config();
 
 const registerUser = async (req: Request, res: Response): Promise<void> => {
 	const auth = createAuthService();
-	const parsed = UserRegistrationSchema.safeParse(req.body);
+	const parsed = RegistrationSchema.safeParse(req.body);
 
 	if (!parsed.success) {
 		res.status(400).json({

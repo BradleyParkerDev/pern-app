@@ -1,6 +1,6 @@
-import { AuthUtility } from '@shared/types/client/AuthUtility.js';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
-import { UserUtility } from '@shared/types/client/UserUtility.js';
+import { AuthUtility } from '@/shared/types/client/hooks/AuthUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import { UserUtility } from '@/shared/types/client/hooks/UserUtility.js';
 
 import { MenuButton } from './MenuButton.js';
 import { NavLogo } from './NavLogo.js';

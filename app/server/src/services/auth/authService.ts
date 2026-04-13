@@ -3,7 +3,7 @@ import authServerUtil from '@server/lib/auth/authServerUtil.js';
 import { Session } from '@server/database/schemas/index.js';
 import { userHelper } from '@/server/src/services/helpers/user/userHelper.js';
 import { awsHelper } from '../helpers/aws/awsHelper.js';
-import type { AccessTokenType } from '@shared/types/server/auth/index.js';
+import type { AccessTokenType } from '@shared/types/server/auth/AccessTokenType.js';
 import { db } from '@server/database/db.js';
 import { eq } from 'drizzle-orm';
 import { loggerFactory } from '@server/lib/logger/index.js';

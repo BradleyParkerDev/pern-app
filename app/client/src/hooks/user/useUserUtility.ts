@@ -2,11 +2,20 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/redux/hooks.js';
 import { clientApiServices } from '@client/services/client/index.js';
 import axios from 'axios';
-import { LoginCredentialsDataType } from '@shared/types/server/auth/index.js';
-import { UserRegistrationDataType } from '@shared/types/server/user/index.js';
+import { LoginCredentialsDataType } from '@shared/types/common/LoginCredentialsDataType.js';
+import {
+	UserRegistrationDataType,
+	UpdateUserDataType,
+} from '@shared/types/server/user/index.js';
+
+import {
+	type DeleteUserDataFormType,
+	type UpdateUserDataFormType,
+	type UpdateUserPasswordFormType,
+} from '@shared/types/client/formInput/index.js';
 import { setUser, resetUser } from '@shared/redux/slices/user/userSlice.js';
 import { setAuth, resetAuth } from '@shared/redux/slices/auth/authSlice.js';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 export const useUserUtility = (ui: UIUtility) => {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.user);
@@ -69,7 +78,13 @@ export const useUserUtility = (ui: UIUtility) => {
 		console.log(response);
 	};
 
-	const update = async () => {};
+	const update = async (
+		userUpdateData: UpdateUserDataFormType | UpdateUserPasswordFormType,
+	) => {
+		const response =
+			await clientApiServices.user.updateUserData(userUpdateData);
+		console.log(response);
+	};
 
 	const deleteUserAccount = async () => {
 		try {

@@ -1,4 +1,4 @@
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 
 type NavLogoProps = {
 	ui: UIUtility;

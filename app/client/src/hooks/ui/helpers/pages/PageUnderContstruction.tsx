@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@client/components/shadcn/button.js';
 import { Construction } from 'lucide-react';
-import { UIUtility } from '@shared/types/client/UIUtility.js';
+import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 
 type PageUnderConstructionProps = {
 	ui: UIUtility;

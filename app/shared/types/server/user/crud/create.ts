@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { UserRegistrationSchema } from '@shared/zod/user/userRegistrationSchema.js';
+import { RegistrationSchema } from '@/shared/zod/user/registrationSchema.js';
 
 import { FoundUserResult } from './read.js';
 
@@ -18,4 +18,4 @@ export type CreateUserResult =
 			reason: CreateUserFailureReason;
 			message: string;
 	  };
-export type UserRegistrationDataType = z.infer<typeof UserRegistrationSchema>;
+export type UserRegistrationDataType = z.infer<typeof RegistrationSchema>;

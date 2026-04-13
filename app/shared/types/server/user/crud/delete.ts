@@ -1,6 +1,6 @@
 export type DeleteUserDataType = {
 	userId: string;
-	requestToDeleteUserData: string;
+	confirmation: string;
 };
 
 export type DeleteUserResult =

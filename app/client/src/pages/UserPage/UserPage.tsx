@@ -1,37 +1,45 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserUtility } from '@client/hooks/index.js';
-import {
-	Avatar,
-	AvatarImage,
-	AvatarFallback,
-} from '@client/components/shadcn/avatar.js';
-import { Settings } from 'lucide-react';
 import { useOutletContext } from 'react-router';
 import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import { UserInfoCard } from '@client/components/index.js';
 
 const UserPage = () => {
 	const ui = useOutletContext<UIUtility>();
 	const user = useUserUtility(ui);
+
 	useEffect(() => {
 		document.title = `User | ${ui.appName}`;
 	}, []);
 
 	const { userName } = useParams<{ userName?: string }>();
+
 	return (
-		<div id="user-page" className={`flex h-full w-full justify-center`}>
-			<div
-				className={`border-foreground min-h-[120px] min-w-[100px] flex-col justify-start border-[.5px]`}
-			>
-				<Avatar className="h-[100px] w-[100px] rounded-lg">
-					<AvatarImage
-						src="https://github.com/evilrabbit.png"
-						alt="@evilrabbit"
-					/>
-					<AvatarFallback>ER</AvatarFallback>
-				</Avatar>
-				<p>@{user.userName}</p>
-			</div>
+		<div
+			id="user-page"
+			className="mx-auto flex h-full w-full max-w-2xl flex-col space-y-8 px-4 py-6"
+		>
+			<section className="space-y-3">
+				<div className="max-w-xl space-y-1">
+					<h1 className="text-2xl font-semibold">Profile</h1>
+					<p className="text-muted-foreground text-sm">
+						View user account details and/or public profile
+						information.
+					</p>
+				</div>
+				<UserInfoCard />
+			</section>
+
+			<section className="space-y-3">
+				<div className="max-w-xl space-y-1">
+					<h2 className="text-lg font-semibold">Content</h2>
+					<p className="text-muted-foreground text-sm">
+						Cards for saved articles or the user's order history
+						could live here.
+					</p>
+				</div>
+			</section>
 		</div>
 	);
 };

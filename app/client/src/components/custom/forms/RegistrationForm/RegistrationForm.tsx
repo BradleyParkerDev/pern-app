@@ -91,6 +91,7 @@ export function RegistrationForm({
 								id="username"
 								type="text"
 								placeholder="myUserName123"
+								autoComplete="off"
 								{...register('userName')}
 								aria-invalid={!!errors.userName}
 							/>
@@ -111,6 +112,7 @@ export function RegistrationForm({
 								id="email-address"
 								type="email"
 								placeholder="me@example.com"
+								autoComplete="off"
 								{...register('emailAddress')}
 								aria-invalid={!!errors.emailAddress}
 							/>

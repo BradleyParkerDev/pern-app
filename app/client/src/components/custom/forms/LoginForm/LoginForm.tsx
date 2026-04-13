@@ -83,6 +83,7 @@ export function LoginForm({
 								id="identifier"
 								type="text"
 								placeholder="myUserName123 or me@example.com"
+								autoComplete="off"
 								className="h-11"
 								value={identifierValue}
 								onChange={(event) => {

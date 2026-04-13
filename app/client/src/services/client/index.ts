@@ -7,6 +7,7 @@ import { registerNewUser } from './api/user/registerNewUser.js';
 import { updateUserData } from './api/user/updateUserData.js';
 
 import { fetchCurrentpageState } from './api/ui/fetchCurrentPageState.js';
+import { toggleUserTheme } from './api/ui/toggleUserTheme.js';
 
 export const auth = {
 	loginUser,
@@ -20,7 +21,7 @@ export const user = {
 	updateUserData,
 };
 
-export const ui = { fetchCurrentpageState };
+export const ui = { fetchCurrentpageState, toggleUserTheme };
 
 export const clientApiServices = {
 	auth,

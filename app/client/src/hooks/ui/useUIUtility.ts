@@ -25,12 +25,16 @@ export const useUIUtility = () => {
 	const location = useLocation();
 
 	// Theme
-	const toggleUserTheme = () => {
+	const toggleUserTheme = async () => {
+		const nextTheme = theme === 'light' ? 'dark' : 'light';
+
 		dispatch(
 			toggleThemeAction({
-				theme: ui.theme === 'light' ? 'dark' : 'light',
+				theme: nextTheme,
 			}),
 		);
+
+		await clientApiServices.ui.toggleUserTheme(nextTheme);
 	};
 
 	// Nav

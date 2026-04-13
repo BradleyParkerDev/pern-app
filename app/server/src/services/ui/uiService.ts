@@ -2,7 +2,9 @@ import { Request, Response } from 'express';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import reactHelper from '@server/services/helpers/react/reactHelper.js';
 import { createPageContextHelper } from '../helpers/pageContext/pageContextHelper.js';
-
+import { type UserThemeType } from '@shared/types/common/UserThemeType.js';
+// import { UserTheme } from '@server/database/schemas/UserThemes.js';
+import { db } from '@server/database/db.js';
 export const createUiService = (req: Request, res: Response) => {
 	const page = createPageContextHelper(req, res);
 
@@ -35,6 +37,18 @@ export const createUiService = (req: Request, res: Response) => {
 					`GET - ${pathToLog} - userId: ${this.req.body.userId}`,
 				);
 			}
+		},
+		async updateTheme() {
+			const theme: UserThemeType = req.body.theme;
+			const sessionId = req.body.sessionId;
+			const userId = req.body.userId;
+
+			if (userId) {
+			}
+
+			// if (userId === '' && sessionId !== '') {
+			// 	const response = await db.select();
+			// }
 		},
 	};
 

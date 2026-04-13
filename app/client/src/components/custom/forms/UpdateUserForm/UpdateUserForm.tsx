@@ -72,6 +72,7 @@ export function UpdateUserForm({
 										id="first-name"
 										type="text"
 										placeholder="John"
+										autoComplete="off"
 										{...register('firstName')}
 										aria-invalid={!!errors.firstName}
 									/>
@@ -95,6 +96,7 @@ export function UpdateUserForm({
 										id="last-name"
 										type="text"
 										placeholder="Doe"
+										autoComplete="off"
 										{...register('lastName')}
 										aria-invalid={!!errors.lastName}
 									/>
@@ -118,6 +120,7 @@ export function UpdateUserForm({
 								id="username"
 								type="text"
 								placeholder="myUserName123"
+								autoComplete="off"
 								{...register('userName')}
 								aria-invalid={!!errors.userName}
 							/>
@@ -139,6 +142,7 @@ export function UpdateUserForm({
 								id="email-address"
 								type="email"
 								placeholder="me@example.com"
+								autoComplete="off"
 								{...register('emailAddress')}
 								aria-invalid={!!errors.emailAddress}
 							/>

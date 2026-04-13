@@ -8,7 +8,6 @@ import { UIThemeSwitch } from './UIThemeSwitch.js';
 import { NavUserButton } from './NavUserButton.js';
 import {
 	NavUserAvatar,
-	NavUserAvatarImage,
 	NavUserAvatarFallback,
 } from './NavUserAvatar.js';
 
@@ -40,6 +39,10 @@ export const NavDrawer = ({ ui, auth, user }: NavDrawerProps) => {
 	const isOpen = ui.navDrawerIsOpen;
 	const drawerWidth = 300;
 	const { pathname } = useLocation();
+	const userInitials =
+		`${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.trim() ||
+		user.userName?.[0]?.toUpperCase() ||
+		'U';
 
 	const createNavDrawerHeader = () => {
 		return (
@@ -65,13 +68,11 @@ export const NavDrawer = ({ ui, auth, user }: NavDrawerProps) => {
 					}}
 					className="flex w-full items-center gap-3"
 				>
-					<span className="flex h-6 w-6 items-center justify-center">
+					<span className="flex h-8 w-8 items-center justify-center">
 						<NavUserAvatar className="h-8 w-8 rounded-lg">
-							<NavUserAvatarImage
-								src="https://github.com/evilrabbit.png"
-								alt="@evilrabbit"
-							/>
-							<NavUserAvatarFallback>ER</NavUserAvatarFallback>
+							<NavUserAvatarFallback className="rounded-lg">
+								{userInitials.toUpperCase()}
+							</NavUserAvatarFallback>
 						</NavUserAvatar>
 					</span>
 					<p className="truncate">{`Hi, ${user.userName}`}</p>
@@ -80,7 +81,7 @@ export const NavDrawer = ({ ui, auth, user }: NavDrawerProps) => {
 					onClick={() => {
 						ui.navigateTo('/settings');
 					}}
-					className="flex w-full items-center gap-2 text-base font-medium"
+					className="mt-[20px] flex w-full items-center gap-2 text-base font-medium"
 				>
 					<Settings className="h-5 w-5" />
 					<p>Settings</p>

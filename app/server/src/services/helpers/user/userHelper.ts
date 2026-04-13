@@ -269,3 +269,74 @@ export const userHelper = {
 		};
 	},
 };
+
+// async createUser(
+// 		newUserData: Omit<UserRegistrationDataType, 'confirmPassword'>,
+// 	): Promise<CreateUserResult> {
+// 		const existingEmailUser = await db
+// 			.select()
+// 			.from(User)
+// 			.where(eq(User.emailAddress, newUserData.emailAddress))
+// 			.limit(1);
+
+// 		if (existingEmailUser[0]) {
+// 			return {
+// 				success: false,
+// 				reason: 'duplicate_email',
+// 				message: 'Email address is already in use.',
+// 			};
+// 		}
+
+// 		const existingUsernameUser = await db
+// 			.select()
+// 			.from(User)
+// 			.where(eq(User.userName, newUserData.userName))
+// 			.limit(1);
+
+// 		if (existingUsernameUser[0]) {
+// 			return {
+// 				success: false,
+// 				reason: 'duplicate_username',
+// 				message: 'Username is already in use.',
+// 			};
+// 		}
+
+// 		const hashedPassword = await authServerUtil.hashPassword(
+// 			newUserData.password,
+// 		);
+
+// 		const newUser = {
+// 			emailAddress: newUserData.emailAddress,
+// 			userName: newUserData.userName,
+// 			password: hashedPassword,
+// 			...(newUserData.firstName && { firstName: newUserData.firstName }),
+// 			...(newUserData.lastName && { lastName: newUserData.lastName }),
+// 		};
+
+// 		const createdUser = await db.transaction(async (tx) => {
+// 			const createdUsers = await tx
+// 				.insert(User)
+// 				.values(newUser)
+// 				.returning();
+// 			const user = createdUsers[0] ?? null;
+
+// 			if (!user) {
+// 				throw new Error('Failed to create user.');
+// 			}
+
+// 			await tx.insert(UserTheme).values({
+// 				userId: user.userId,
+// 			});
+
+// 			await tx.insert(UserProfileImage).values({
+// 				userId: user.userId,
+// 			});
+
+// 			return user;
+// 		});
+
+// 		return {
+// 			success: true,
+// 			createdUser,
+// 		};
+// 	},

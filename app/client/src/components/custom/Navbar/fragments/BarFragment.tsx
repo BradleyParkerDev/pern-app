@@ -11,7 +11,6 @@ import {
 	NavDrawer,
 	NavDrawerBackDrop,
 	NavUserAvatar,
-	NavUserAvatarImage,
 	NavUserAvatarFallback,
 } from './index.js';
 
@@ -22,6 +21,11 @@ type BarFragmentProps = {
 };
 
 export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
+	const userInitials =
+		`${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.trim() ||
+		user.userName?.[0]?.toUpperCase() ||
+		'U';
+
 	const avatarPopoverItems = [
 		{
 			label: 'User Account',
@@ -67,18 +71,16 @@ export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
 				className="relative flex h-[50px] w-full items-center gap-3 rounded-[15px] text-lg font-semibold transition"
 			>
 				{ui.showAvatarPopover ? avatarPopover : ''}
-				<span className="flex h-6 w-6 items-center justify-center">
+				<span className="flex h-8 w-8 items-center justify-center">
 					<NavUserAvatar
 						onClick={() => {
 							ui.toggleNavAvatarPopover();
 						}}
 						className="h-8 w-8 rounded-lg"
 					>
-						<NavUserAvatarImage
-							src="https://github.com/evilrabbit.png"
-							alt="@evilrabbit"
-						/>
-						<NavUserAvatarFallback>ER</NavUserAvatarFallback>
+						<NavUserAvatarFallback className="rounded-lg">
+							{userInitials.toUpperCase()}
+						</NavUserAvatarFallback>
 					</NavUserAvatar>
 				</span>
 			</div>

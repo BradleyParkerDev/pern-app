@@ -20,8 +20,10 @@ export function UserInfoCard() {
 		// profileImageUrl,
 	} = user ?? {};
 
-	const initials = (firstName?.[0] ?? '') + (lastName?.[0] ?? '');
-
+	const userInitials =
+		`${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.trim() ||
+		user.userName?.[0]?.toUpperCase() ||
+		'U';
 	return (
 		<Card className="w-full max-w-xl">
 			<CardContent className="flex flex-col items-center space-y-4 px-6 py-4">
@@ -30,7 +32,7 @@ export function UserInfoCard() {
 					<Avatar className="h-24 w-24 rounded-full">
 						{/* <AvatarImage src={profileImageUrl} /> */}
 						<AvatarFallback className="text-2xl font-semibold">
-							{initials || 'U'}
+							{userInitials.toUpperCase()}
 						</AvatarFallback>
 					</Avatar>
 

@@ -1,3 +1,5 @@
+import { type UserThemeType } from '@shared/types/common/UserThemeType.js';
+
 interface currentPage {
 	path?: string;
 	content?: object;
@@ -5,7 +7,7 @@ interface currentPage {
 }
 export type UIState = {
 	appName: string;
-	theme: 'light' | 'dark';
+	theme: UserThemeType;
 	userForm: string;
 	closeAvatarPopover: boolean;
 	currentPage: currentPage;

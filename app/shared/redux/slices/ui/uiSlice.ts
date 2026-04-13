@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { type UIState } from '@shared/types/server/redux/index.js';
+import { type UserThemeType } from '@shared/types/common/UserThemeType.js';
 
 const initialState: UIState = {
 	appName: '',

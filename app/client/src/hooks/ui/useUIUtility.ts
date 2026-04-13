@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@shared/redux/hooks.js';
 import {
-	toggleTheme as toggleThemeAction,
+	setTheme,
 	handleUserFormToggle,
 	handleAvatarPopoverClose,
 	loadCurrentPageState,
@@ -29,7 +29,7 @@ export const useUIUtility = () => {
 		const nextTheme = theme === 'light' ? 'dark' : 'light';
 
 		dispatch(
-			toggleThemeAction({
+			setTheme({
 				theme: nextTheme,
 			}),
 		);

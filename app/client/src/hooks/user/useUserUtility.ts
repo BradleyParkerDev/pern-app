@@ -15,6 +15,7 @@ import {
 } from '@shared/types/client/formInput/index.js';
 import { setUser, resetUser } from '@shared/redux/slices/user/userSlice.js';
 import { setAuth, resetAuth } from '@shared/redux/slices/auth/authSlice.js';
+import { setTheme, resetUI } from '@shared/redux/slices/ui/uiSlice';
 import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 export const useUserUtility = (ui: UIUtility) => {
 	const dispatch = useAppDispatch();
@@ -35,15 +36,16 @@ export const useUserUtility = (ui: UIUtility) => {
 				await clientApiServices.auth.loginUser(loginCredentials);
 
 			if (response.data.success === true) {
-				console.log(response);
 				const userResponse =
 					await clientApiServices.user.fetchUserData();
 				const userData = userResponse.data?.user;
-				console.log(userData);
-
+				const theme = userResponse.data?.theme ?? 'light';
+				console.log(`theme: ${theme}`);
 				if (userData) {
 					dispatch(setUser({ userData }));
 					dispatch(setAuth({ isAuth: true }));
+					dispatch(setTheme({ theme }));
+
 					ui.navigateTo(`/user/${userData.userName}`);
 				}
 			}
@@ -73,6 +75,8 @@ export const useUserUtility = (ui: UIUtility) => {
 		if (success) {
 			dispatch(resetUser());
 			dispatch(resetAuth());
+			dispatch(resetUI());
+
 			ui.navigateTo(`/`);
 		}
 		console.log(response);

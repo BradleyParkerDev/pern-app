@@ -20,12 +20,14 @@ const uiSlice = createSlice({
 		) => {
 			state.appName = action.payload.appName;
 		},
-		toggleTheme: (
+		setTheme: (
 			state,
 			action: PayloadAction<{ theme: UIState['theme'] }>,
 		) => {
 			state.theme = action.payload.theme;
 		},
+		resetUI: () => initialState,
+
 		handleUserFormToggle: (
 			state,
 			action: PayloadAction<{
@@ -64,7 +66,8 @@ const uiSlice = createSlice({
 
 export const {
 	setAppName,
-	toggleTheme,
+	setTheme,
+	resetUI,
 	handleUserFormToggle,
 	handleAvatarPopoverClose,
 	loadCurrentPageState,

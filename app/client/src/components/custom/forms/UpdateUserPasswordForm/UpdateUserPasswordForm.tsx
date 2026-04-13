@@ -29,7 +29,7 @@ export function UpdateUserPasswordForm({ ...props }) {
 		defaultValues: {
 			currentPassword: '',
 			newPassword: '',
-			confirmNewPassword: '',
+			confirmedNewPassword: '',
 		},
 	});
 
@@ -42,7 +42,7 @@ export function UpdateUserPasswordForm({ ...props }) {
 	const [newPasswordVisibility, setNewPasswordVisibility] = useState<
 		'password' | 'text'
 	>('password');
-	const [confirmNewPasswordVisibility, setConfirmNewPasswordVisibility] =
+	const [confirmedNewPasswordVisibility, setConfirmedNewPasswordVisibility] =
 		useState<'password' | 'text'>('password');
 
 	const togglePasswordVisibility = (type: 'current' | 'new' | 'confirm') => {
@@ -55,7 +55,7 @@ export function UpdateUserPasswordForm({ ...props }) {
 				prev === 'password' ? 'text' : 'password',
 			);
 		} else {
-			setConfirmNewPasswordVisibility((prev) =>
+			setConfirmedNewPasswordVisibility((prev) =>
 				prev === 'password' ? 'text' : 'password',
 			);
 		}
@@ -67,7 +67,7 @@ export function UpdateUserPasswordForm({ ...props }) {
 		reset();
 		setCurrentPasswordVisibility('password');
 		setNewPasswordVisibility('password');
-		setConfirmNewPasswordVisibility('password');
+		setConfirmedNewPasswordVisibility('password');
 	};
 
 	return (
@@ -152,8 +152,8 @@ export function UpdateUserPasswordForm({ ...props }) {
 							</FieldLabel>
 							<div className="relative">
 								<Input
-									type={confirmNewPasswordVisibility}
-									{...register('confirmNewPassword')}
+									type={confirmedNewPasswordVisibility}
+									{...register('confirmedNewPassword')}
 								/>
 								<button
 									type="button"
@@ -162,13 +162,13 @@ export function UpdateUserPasswordForm({ ...props }) {
 									}
 									className="absolute inset-y-0 right-3 flex items-center"
 									aria-label={
-										confirmNewPasswordVisibility ===
+										confirmedNewPasswordVisibility ===
 										'password'
 											? 'Show confirm new password'
 											: 'Hide confirm new password'
 									}
 								>
-									{confirmNewPasswordVisibility ===
+									{confirmedNewPasswordVisibility ===
 									'password' ? (
 										<Eye className="h-4 w-4" />
 									) : (
@@ -176,9 +176,9 @@ export function UpdateUserPasswordForm({ ...props }) {
 									)}
 								</button>
 							</div>
-							{errors.confirmNewPassword && (
+							{errors.confirmedNewPassword && (
 								<p className="text-destructive text-sm">
-									{errors.confirmNewPassword.message}
+									{errors.confirmedNewPassword.message}
 								</p>
 							)}
 						</Field>

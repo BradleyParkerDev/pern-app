@@ -17,21 +17,49 @@ const SettingsPage = () => {
 	}, []);
 
 	return (
-		<div className="mx-auto w-full max-w-2xl space-y-6 px-4 py-6">
+		<div className="mx-auto w-full max-w-2xl space-y-10 px-4 py-6">
 			<h1 className="text-2xl font-semibold">Settings</h1>
 
 			<UserInfoCard />
-			<UpdateUserForm />
-			<UpdateUserPasswordForm />
 
-			<button
-				type="button"
-				onClick={() => user.deleteUserAccount()}
-				className="border-destructive/30 text-destructive hover:bg-destructive/10 focus-visible:outline-destructive/40 flex min-h-11 w-full items-center justify-center rounded-md border px-4 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-				aria-label="Delete user account"
-			>
-				Delete User Account
-			</button>
+			<section className="space-y-3">
+				<div className="max-w-xl space-y-1">
+					<h2 className="text-lg font-semibold">Update Profile</h2>
+					<p className="text-muted-foreground text-sm">
+						Change your name, username, or email address.
+					</p>
+				</div>
+				<UpdateUserForm />
+			</section>
+
+			<section className="space-y-3">
+				<div className="max-w-xl space-y-1">
+					<h2 className="text-lg font-semibold">Update Password</h2>
+					<p className="text-muted-foreground text-sm">
+						Choose a new password and confirm it below.
+					</p>
+				</div>
+				<UpdateUserPasswordForm />
+			</section>
+
+			<section className="max-w-xl space-y-3">
+				<div className="space-y-1">
+					<h2 className="text-destructive text-lg font-semibold">
+						Danger Zone
+					</h2>
+					<p className="text-muted-foreground text-sm">
+						This action permanently deletes your account.
+					</p>
+				</div>
+				<button
+					type="button"
+					onClick={() => user.deleteUserAccount()}
+					className="border-destructive/30 text-destructive hover:bg-destructive/10 focus-visible:outline-destructive/40 flex min-h-11 w-full max-w-xl items-center justify-center rounded-md border px-4 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+					aria-label="Delete user account"
+				>
+					Delete User Account
+				</button>
+			</section>
 		</div>
 	);
 };

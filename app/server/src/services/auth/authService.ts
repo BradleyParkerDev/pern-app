@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import authServerUtil from '@server/lib/auth/authServerUtil.js';
-import { Session } from '@server/database/schemas/index.js';
+import { Session, UserTheme } from '@server/database/schemas/index.js';
 import { userHelper } from '@/server/src/services/helpers/user/userHelper.js';
 import { awsHelper } from '../helpers/aws/awsHelper.js';
 import type { AccessTokenType } from '@shared/types/server/auth/AccessTokenType.js';
@@ -88,6 +88,7 @@ export const createAuthService = (req?: Request, res?: Response) => {
 						expirationTime: new Date(expirationMs),
 					})
 					.returning();
+
 				if (!session) return;
 				// Use absolute expiration time for JWT and TTL for cookie
 				const tokenExpirationSeconds = Math.floor(expirationMs / 1000);
@@ -121,6 +122,12 @@ export const createAuthService = (req?: Request, res?: Response) => {
 					.returning();
 				if (!session) return;
 				// Use absolute expiration time for JWT and TTL for cookie
+
+				// Create user theme for guest session
+				await db.insert(UserTheme).values({
+					sessionId: session.sessionId,
+				});
+
 				const tokenExpirationSeconds = Math.floor(expirationMs / 1000);
 
 				const payload = {

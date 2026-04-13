@@ -42,7 +42,7 @@ export const createUiService = (req: Request, res: Response) => {
 			const theme: UserThemeType = req.body.theme;
 			const sessionId = req.body.sessionId;
 			const userId = req.body.userId;
-
+			console.log(theme);
 			if (userId) {
 			}
 

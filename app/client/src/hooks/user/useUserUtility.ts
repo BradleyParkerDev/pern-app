@@ -3,10 +3,7 @@ import { useAppDispatch, useAppSelector } from '@shared/redux/hooks.js';
 import { clientApiServices } from '@client/services/client/index.js';
 import axios from 'axios';
 import { LoginCredentialsDataType } from '@shared/types/common/LoginCredentialsDataType.js';
-import {
-	UserRegistrationDataType,
-	UpdateUserDataType,
-} from '@shared/types/server/user/index.js';
+import { UserRegistrationDataType } from '@shared/types/server/user/index.js';
 
 import {
 	type DeleteUserDataFormType,
@@ -86,7 +83,18 @@ export const useUserUtility = (ui: UIUtility) => {
 	) => {
 		const response =
 			await clientApiServices.user.updateUserData(userUpdateData);
-		console.log(response);
+
+		if (response.data.success === true) {
+			const userResponse = await clientApiServices.user.fetchUserData();
+			const userData = userResponse.data?.user;
+			const theme = userResponse.data?.theme ?? 'light';
+			console.log(`theme: ${theme}`);
+			if (userData) {
+				dispatch(setUser({ userData }));
+				dispatch(setAuth({ isAuth: true }));
+				dispatch(setTheme({ theme }));
+			}
+		}
 	};
 
 	const deleteUserAccount = async () => {

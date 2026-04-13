@@ -108,10 +108,6 @@ export const createAuthService = (req?: Request, res?: Response) => {
 				loggerFactory.authService.info(
 					`[New Session] - sessionType: Authenticated - userId: ${userId}`,
 				);
-
-				const userData = await this.user.getUserData({
-					userId: userId,
-				});
 			} else {
 				// Create guest session
 				const [session] = await db

@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { type UIState } from '@shared/types/server/redux/index.js';
-import { type UserThemeType } from '@shared/types/common/UserThemeType.js';
 
 const initialState: UIState = {
 	appName: '',
@@ -26,7 +25,16 @@ const uiSlice = createSlice({
 		) => {
 			state.theme = action.payload.theme;
 		},
-		resetUI: () => initialState,
+		resetUI: (state) => {
+			((state.theme = 'light'),
+				(state.userForm = ''),
+				(state.closeAvatarPopover = false),
+				(state.currentPage = {
+					path: '',
+					content: {},
+					isLoading: false,
+				}));
+		},
 
 		handleUserFormToggle: (
 			state,

@@ -82,6 +82,7 @@ export function UpdateUserPasswordForm({ ...props }) {
 							<div className="relative">
 								<Input
 									type={currentPasswordVisibility}
+									autoComplete="current-password"
 									{...register('currentPassword')}
 								/>
 								<button
@@ -118,6 +119,7 @@ export function UpdateUserPasswordForm({ ...props }) {
 							<div className="relative">
 								<Input
 									type={newPasswordVisibility}
+									autoComplete="new-password"
 									{...register('newPassword')}
 								/>
 								<button
@@ -153,6 +155,7 @@ export function UpdateUserPasswordForm({ ...props }) {
 							<div className="relative">
 								<Input
 									type={confirmedNewPasswordVisibility}
+									autoComplete="new-password"
 									{...register('confirmedNewPassword')}
 								/>
 								<button

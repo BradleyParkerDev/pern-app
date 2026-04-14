@@ -136,6 +136,7 @@ export function LoginForm({
 							<div className="relative">
 								<Input
 									id="password"
+									autoComplete="current-password"
 									type={passwordVisiblity}
 									className="h-11 pr-12"
 									{...register('password')}

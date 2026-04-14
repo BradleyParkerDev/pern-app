@@ -1,16 +1,22 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useUserUtility } from '@client/hooks/index.js';
-import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import {
+	AuthUtility,
+	UIUtility,
+	UserUtility,
+} from '@shared/types/client/hooks/index.js';
 import { useOutletContext } from 'react-router';
 import {
 	UserInfoCard,
 	UpdateUserForm,
 	UpdateUserPasswordForm,
 } from '@client/components/index.js';
+
 const SettingsPage = () => {
+	const auth = useOutletContext<AuthUtility>();
 	const ui = useOutletContext<UIUtility>();
-	const user = useUserUtility(ui);
+	const user = useOutletContext<UserUtility>();
 
 	useEffect(() => {
 		document.title = `Settings | ${ui.appName}`;

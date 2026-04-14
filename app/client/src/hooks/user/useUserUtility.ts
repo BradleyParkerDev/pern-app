@@ -23,9 +23,30 @@ export const useUserUtility = (ui: UIUtility) => {
 	const { firstName, lastName, emailAddress, userName } = user;
 
 	const signUp = async (userRegistrationData: UserRegistrationDataType) => {
-		const response =
-			await clientApiServices.user.registerNewUser(userRegistrationData);
-		console.log(response);
+		try {
+			const response =
+				await clientApiServices.user.registerNewUser(
+					userRegistrationData,
+				);
+
+			return {
+				success: true as const,
+				data: response.data,
+			};
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				return {
+					success: false as const,
+					message:
+						error.response?.data?.message || 'Registration failed.',
+				};
+			}
+
+			return {
+				success: false as const,
+				message: 'Registration failed.',
+			};
+		}
 	};
 
 	const login = async (loginCredentials: LoginCredentialsDataType) => {

@@ -1,13 +1,19 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserUtility } from '@client/hooks/index.js';
+import {
+	AuthUtility,
+	UIUtility,
+	UserUtility,
+} from '@shared/types/client/hooks/index.js';
 import { useOutletContext } from 'react-router';
-import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+
 import { UserInfoCard } from '@client/components/index.js';
 
 const UserPage = () => {
+	const auth = useOutletContext<AuthUtility>();
 	const ui = useOutletContext<UIUtility>();
-	const user = useUserUtility(ui);
+	const user = useOutletContext<UserUtility>();
 
 	useEffect(() => {
 		document.title = `User | ${ui.appName}`;

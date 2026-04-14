@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@client/components/shadcn/button.js';
-import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import {
+	AuthUtility,
+	UIUtility,
+	UserUtility,
+} from '@shared/types/client/hooks/index.js';
 import { useOutletContext } from 'react-router';
 
 const HomePage = () => {
+	const auth = useOutletContext<AuthUtility>();
 	const ui = useOutletContext<UIUtility>();
+	const user = useOutletContext<UserUtility>();
+
 	const [count, setCount] = useState(0);
 
 	useEffect(() => {

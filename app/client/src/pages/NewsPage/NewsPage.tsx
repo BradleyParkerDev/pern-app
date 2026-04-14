@@ -1,8 +1,15 @@
 import { useEffect } from 'react';
-import { useUIUtility } from '@client/hooks/index.js';
+import {
+	AuthUtility,
+	UIUtility,
+	UserUtility,
+} from '@shared/types/client/hooks/index.js';
+import { useOutletContext } from 'react-router';
 
 const NewsPage = () => {
-	const ui = useUIUtility();
+	const auth = useOutletContext<AuthUtility>();
+	const ui = useOutletContext<UIUtility>();
+	const user = useOutletContext<UserUtility>();
 	useEffect(() => {
 		document.title = `News | ${ui.appName}`;
 	}, []);

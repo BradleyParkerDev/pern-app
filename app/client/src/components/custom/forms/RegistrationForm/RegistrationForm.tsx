@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { useUserUtility } from '@/client/src/hooks/index.js';
 import { useOutletContext } from 'react-router';
 import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import { toast } from 'sonner';
 
 type RegistrationFormProps = React.ComponentProps<typeof Card> & {
 	toggleUserForms?: () => void;
@@ -68,12 +69,16 @@ export function RegistrationForm({
 			}
 		}
 	};
-	const onSubmit = (userRegistrationData: RegistrationFormValues) => {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		user.signUp(userRegistrationData);
-		console.log(userRegistrationData);
-		reset();
+	const onSubmit = async (userRegistrationData: RegistrationFormValues) => {
+		const result = await user.signUp(userRegistrationData);
+
+		if (result.success) {
+			toast.success('User successfully registered!');
+			toggleUserForms?.();
+			reset();
+		} else {
+			toast.error(result.message);
+		}
 	};
 	return (
 		<Card className="w-full max-w-xl" {...props}>
@@ -141,6 +146,7 @@ export function RegistrationForm({
 									<div className="relative">
 										<Input
 											id="password"
+											autoComplete="new-password"
 											type={passwordVisiblity}
 											{...register('password')}
 											aria-invalid={!!errors.password}
@@ -186,6 +192,7 @@ export function RegistrationForm({
 									<div className="relative">
 										<Input
 											id="confirm-password"
+											autoComplete="new-password"
 											type={confirmPasswordVisiblity}
 											{...register('confirmPassword')}
 											aria-invalid={

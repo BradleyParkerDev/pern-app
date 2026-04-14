@@ -1,14 +1,14 @@
-import { cn } from 'client/src/lib/utils.js';
-import { Button } from 'client/src/components/shadcn/button.js';
+import { cn } from '@client/lib/utils.js';
+import { Button } from '@client/components/shadcn/button.js';
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from 'client/src/components/shadcn/card.js';
-import { Input } from 'client/src/components/shadcn/input.js';
-import { Label } from 'client/src/components/shadcn/label.js';
+} from '@client/components/shadcn/card.js';
+import { Input } from '@client/components/shadcn/input.js';
+import { Label } from '@client/components/shadcn/label.js';
 
 export function LoginForm({
 	className,

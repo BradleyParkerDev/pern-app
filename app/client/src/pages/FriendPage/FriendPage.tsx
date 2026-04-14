@@ -1,8 +1,14 @@
 import { useEffect } from 'react';
-import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import {
+	AuthUtility,
+	UIUtility,
+	UserUtility,
+} from '@shared/types/client/hooks/index.js';
 import { useOutletContext } from 'react-router';
 const FriendPage = () => {
+	const auth = useOutletContext<AuthUtility>();
 	const ui = useOutletContext<UIUtility>();
+	const user = useOutletContext<UserUtility>();
 	useEffect(() => {
 		document.title = `Friends | ${ui.appName}`;
 	}, []);

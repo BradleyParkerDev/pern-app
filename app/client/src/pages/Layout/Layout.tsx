@@ -6,6 +6,7 @@ import {
 	useAuthUtility,
 	useUserUtility,
 } from '@client/hooks/index.js';
+import { Toaster } from '@client/components/custom/toast/sonner.js';
 
 const Layout = () => {
 	const auth = useAuthUtility();
@@ -54,8 +55,9 @@ const Layout = () => {
 				id="content"
 				className={`min-h-[calc(100dvh-4rem)] w-full`}
 			>
-				<Outlet context={ui} />
+				<Outlet context={{ ui, auth, user }} />
 			</div>
+			<Toaster />
 		</div>
 	);
 };

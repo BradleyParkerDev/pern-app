@@ -1,10 +1,6 @@
 import { Card, CardContent } from '@client/components/shadcn/card.js';
 import { Button } from '@client/components/shadcn/button.js';
-import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-} from '@client/components/shadcn/avatar.js';
+import { Avatar, AvatarFallback, AvatarImage } from './fragments/avatar.js';
 import { useUserUtility } from '@client/hooks/index.js';
 import { useOutletContext } from 'react-router';
 import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';

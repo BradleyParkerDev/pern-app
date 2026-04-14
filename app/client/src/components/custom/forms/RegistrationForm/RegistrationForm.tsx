@@ -13,9 +13,8 @@ import { type Resolver, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { useUserUtility } from '@/client/src/hooks/index.js';
 import { useOutletContext } from 'react-router';
-import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
 import { toast } from 'sonner';
 
 type RegistrationFormProps = React.ComponentProps<typeof Card> & {
@@ -26,6 +25,7 @@ export function RegistrationForm({
 	toggleUserForms,
 	...props
 }: RegistrationFormProps) {
+	const { user } = useOutletContext<AppOutletContext>();
 	type RegistrationFormValues = z.infer<typeof RegistrationSchema>;
 
 	const {
@@ -47,9 +47,6 @@ export function RegistrationForm({
 		},
 	});
 
-	const ui = useOutletContext<UIUtility>();
-
-	const user = useUserUtility(ui);
 	const [passwordVisiblity, setPasswordVisiblity] = useState('password');
 	const [confirmPasswordVisiblity, setConfirmPasswordVisiblity] =
 		useState('password');

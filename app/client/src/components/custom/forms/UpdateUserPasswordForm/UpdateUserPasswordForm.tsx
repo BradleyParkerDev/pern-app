@@ -12,11 +12,12 @@ import { type Resolver, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { useUserUtility } from '@client/hooks/index.js';
+
 import { useOutletContext } from 'react-router';
-import { UIUtility } from '@shared/types/client/hooks/UIUtility.js';
+import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
 
 export function UpdateUserPasswordForm({ ...props }) {
+	const { user } = useOutletContext<AppOutletContext>();
 	type FormValues = z.infer<typeof UpdateUserPasswordSchema>;
 
 	const {
@@ -32,9 +33,6 @@ export function UpdateUserPasswordForm({ ...props }) {
 			confirmedNewPassword: '',
 		},
 	});
-
-	const ui = useOutletContext<UIUtility>();
-	const user = useUserUtility(ui);
 
 	const [currentPasswordVisibility, setCurrentPasswordVisibility] = useState<
 		'password' | 'text'

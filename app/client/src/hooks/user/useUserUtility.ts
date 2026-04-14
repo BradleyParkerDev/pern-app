@@ -118,9 +118,13 @@ export const useUserUtility = (ui: UIUtility) => {
 		}
 	};
 
-	const deleteUserAccount = async () => {
+	const deleteUserAccount = async (
+		userAccountDeletionData: DeleteUserDataFormType,
+	) => {
 		try {
-			const response = await clientApiServices.user.deleteUserData();
+			const response = await clientApiServices.user.deleteUserData(
+				userAccountDeletionData,
+			);
 
 			if (response.data?.success === true) {
 				dispatch(resetUser());

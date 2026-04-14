@@ -9,9 +9,9 @@ import { type Resolver, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { useUserUtility } from '@client/hooks/index.js';
 import { useOutletContext } from 'react-router';
-import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
+import { toast } from 'sonner';
 
 type LoginFormProps = React.ComponentPropsWithoutRef<'div'> & {
 	toggleUserForms?: () => void;
@@ -21,10 +21,9 @@ export function LoginForm({
 	className,
 	...props
 }: LoginFormProps) {
-	type LoginFormValues = z.infer<typeof LoginSchema>;
-	const ui = useOutletContext<UIUtility>();
+	const { user } = useOutletContext<AppOutletContext>();
 
-	const user = useUserUtility(ui);
+	type LoginFormValues = z.infer<typeof LoginSchema>;
 	const {
 		handleSubmit,
 		register,

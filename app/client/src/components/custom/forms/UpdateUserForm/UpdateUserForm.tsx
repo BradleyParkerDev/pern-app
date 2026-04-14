@@ -11,9 +11,8 @@ import { UpdateUserDataSchema } from '@shared/zod/user/updateUserDataSchema.js';
 import { z } from 'zod';
 import { type Resolver, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useUserUtility } from '@/client/src/hooks/index.js';
 import { useOutletContext } from 'react-router';
-import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
 
 type UpdateUserFormProps = React.ComponentProps<typeof Card> & {
 	toggleUserForms?: () => void;
@@ -23,6 +22,7 @@ export function UpdateUserForm({
 	toggleUserForms,
 	...props
 }: UpdateUserFormProps) {
+	const { user } = useOutletContext<AppOutletContext>();
 	type UpdateUserFormValues = z.infer<typeof UpdateUserDataSchema>;
 
 	const {
@@ -41,9 +41,6 @@ export function UpdateUserForm({
 			userName: '',
 		},
 	});
-
-	const ui = useOutletContext<UIUtility>();
-	const user = useUserUtility(ui);
 
 	const onSubmit = (userUpdateData: UpdateUserFormValues) => {
 		user.update(userUpdateData);

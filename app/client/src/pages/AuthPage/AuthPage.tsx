@@ -1,17 +1,10 @@
 import { LoginForm, RegistrationForm } from '@client/components/index.js';
 import { useState, useEffect } from 'react';
-import { useUIUtility, useUserUtility } from '@client/hooks/index.js';
-import {
-	AuthUtility,
-	UIUtility,
-	UserUtility,
-} from '@shared/types/client/hooks/index.js';
-
 import { useOutletContext } from 'react-router';
+import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
+
 const AuthPage = () => {
-	const auth = useOutletContext<AuthUtility>();
-	const ui = useOutletContext<UIUtility>();
-	const user = useOutletContext<UserUtility>();
+	const { ui, auth, user } = useOutletContext<AppOutletContext>();
 	useEffect(() => {
 		document.title = `Auth | ${ui.appName}`;
 	}, []);

@@ -1,14 +1,9 @@
 import { useEffect } from 'react';
-import {
-	AuthUtility,
-	UIUtility,
-	UserUtility,
-} from '@shared/types/client/hooks/index.js';
 import { useOutletContext } from 'react-router';
+import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
+
 const FriendPage = () => {
-	const auth = useOutletContext<AuthUtility>();
-	const ui = useOutletContext<UIUtility>();
-	const user = useOutletContext<UserUtility>();
+	const { ui, auth, user } = useOutletContext<AppOutletContext>();
 	useEffect(() => {
 		document.title = `Friends | ${ui.appName}`;
 	}, []);

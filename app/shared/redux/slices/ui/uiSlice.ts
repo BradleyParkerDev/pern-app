@@ -5,7 +5,6 @@ const initialState: UIState = {
 	appName: '',
 	theme: 'light',
 	userForm: '',
-	closeAvatarPopover: false,
 	currentPage: { path: '', content: {}, isLoading: false },
 };
 
@@ -28,7 +27,6 @@ const uiSlice = createSlice({
 		resetUI: (state) => {
 			((state.theme = 'light'),
 				(state.userForm = ''),
-				(state.closeAvatarPopover = false),
 				(state.currentPage = {
 					path: '',
 					content: {},
@@ -45,14 +43,6 @@ const uiSlice = createSlice({
 			state.userForm = action.payload.userForm;
 		},
 
-		handleAvatarPopoverClose: (
-			state,
-			action: PayloadAction<{
-				closeAvatarPopover: UIState['closeAvatarPopover'];
-			}>,
-		) => {
-			state.closeAvatarPopover = action.payload.closeAvatarPopover;
-		},
 		loadCurrentPageState: (
 			state,
 			action: PayloadAction<{
@@ -77,7 +67,6 @@ export const {
 	setTheme,
 	resetUI,
 	handleUserFormToggle,
-	handleAvatarPopoverClose,
 	loadCurrentPageState,
 	toggleCurrentIsLoading,
 } = uiSlice.actions;

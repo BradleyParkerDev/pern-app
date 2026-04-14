@@ -37,7 +37,12 @@ export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
 	];
 	const generateUserAvatarPopover = () => {
 		return (
-			<div className="bg-background border-foreground/40 absolute top-[60px] right-[-8px] z-5 w-[190px] rounded-[10px] border-[.5px] border-solid p-2">
+			<div
+				onClick={(event) => {
+					event.stopPropagation();
+				}}
+				className="bg-background border-foreground/40 absolute top-[60px] right-[-8px] z-5 w-[190px] rounded-[10px] border-[.5px] border-solid p-2"
+			>
 				<ul className="flex flex-col gap-1">
 					{avatarPopoverItems.map(({ label, icon, path }) => (
 						<li
@@ -67,6 +72,9 @@ export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
 
 		return (
 			<div
+				onClick={(event) => {
+					event.stopPropagation();
+				}}
 				id="bar-avatar-and-username"
 				className="relative flex h-[50px] w-full items-center gap-3 rounded-[15px] text-lg font-semibold transition"
 			>
@@ -74,7 +82,7 @@ export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
 				<span className="flex h-8 w-8 items-center justify-center">
 					<NavUserAvatar
 						onClick={() => {
-							ui.toggleNavAvatarPopover();
+							ui.toggleAvatarPopover();
 						}}
 						className="h-8 w-8 rounded-lg"
 					>
@@ -119,6 +127,9 @@ export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
 		<div
 			id="bar-root"
 			className="bg-background relative top-0 z-10 h-16 w-full"
+			onClick={() => {
+				ui.closeAvatarPopover();
+			}}
 		>
 			{/* Drawer */}
 			<NavDrawer ui={ui} auth={auth} user={user} />

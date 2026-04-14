@@ -50,7 +50,8 @@ const Layout = () => {
 			<Navbar ui={ui} auth={auth} user={user} />
 			<div
 				onClick={() => {
-					ui.closeAvatarPopoverWithRedux();
+					ui.closeAvatarPopover();
+					// ui.closeAvatarPopoverWithRedux();
 				}}
 				id="content"
 				className={`min-h-[calc(100dvh-4rem)] w-full`}

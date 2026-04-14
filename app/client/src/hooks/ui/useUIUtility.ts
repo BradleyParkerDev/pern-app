@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '@shared/redux/hooks.js';
 import {
 	setTheme,
 	handleUserFormToggle,
-	handleAvatarPopoverClose,
 	loadCurrentPageState,
 	toggleCurrentIsLoading,
 } from '@shared/redux/slices/ui/uiSlice.js';
@@ -15,7 +14,7 @@ import confetti from 'canvas-confetti';
 
 export const useUIUtility = () => {
 	const ui = useAppSelector((state) => state.ui);
-	const { theme, appName, closeAvatarPopover, currentPage } = ui;
+	const { theme, appName, currentPage } = ui;
 
 	const [navDrawerIsOpen, setNavDrawerIsOpen] = useState(false);
 	const [showAvatarPopover, setShowAvatarPopover] = useState(false);
@@ -40,31 +39,40 @@ export const useUIUtility = () => {
 	// Nav
 	const toggleNavbarDrawer = () => {
 		setNavDrawerIsOpen((prev) => !prev);
-		closeAvatarPopoverWithRedux();
+		closeAvatarPopover();
 	};
-	const toggleNavAvatarPopover = () => {
-		if (showAvatarPopover || closeAvatarPopover) {
-			setShowAvatarPopover(false);
-		} else {
-			setShowAvatarPopover(true);
-		}
+	const toggleAvatarPopover = () => {
+		setShowAvatarPopover((prev) => !prev);
 	};
-	const closeAvatarPopoverWithRedux = () => {
-		dispatch(
-			handleAvatarPopoverClose({
-				closeAvatarPopover: true,
-			}),
-		);
+	const closeAvatarPopover = () => {
+		setShowAvatarPopover(false);
 	};
+
 	const navigateTo = (url: string, refresh?: boolean) => {
 		if (refresh) {
 			window.location.assign(url);
 		} else {
 			setNavDrawerIsOpen(false);
-			closeAvatarPopoverWithRedux();
+			closeAvatarPopover();
 			navigate(url);
 		}
 	};
+
+	useEffect(() => {
+		const handleResize = () => {
+			if (window.innerWidth <= 640) {
+				closeAvatarPopover();
+			}
+		};
+
+		handleResize();
+
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
 
 	//Modals
 	const toggleDeleteUserAccountModal = () => {};
@@ -98,18 +106,6 @@ export const useUIUtility = () => {
 
 		myConfettiEffect;
 	};
-
-	// Close Avatar Popover
-	useEffect(() => {
-		if (closeAvatarPopover) {
-			setShowAvatarPopover(false);
-			dispatch(
-				handleAvatarPopoverClose({
-					closeAvatarPopover: false,
-				}),
-			);
-		}
-	}, [closeAvatarPopover]);
 
 	// Fetch current page state
 	useEffect(() => {
@@ -178,8 +174,8 @@ export const useUIUtility = () => {
 		navDrawerIsOpen,
 		showAvatarPopover,
 		toggleNavbarDrawer,
-		toggleNavAvatarPopover,
-		closeAvatarPopoverWithRedux,
+		toggleAvatarPopover,
+		closeAvatarPopover,
 		navigateTo,
 
 		//Modals

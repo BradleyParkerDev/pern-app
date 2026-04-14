@@ -9,6 +9,5 @@ export type UIState = {
 	appName: string;
 	theme: UserThemeType;
 	userForm: string;
-	closeAvatarPopover: boolean;
 	currentPage: currentPage;
 };

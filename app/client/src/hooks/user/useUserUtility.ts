@@ -157,7 +157,34 @@ export const useUserUtility = (ui: UIUtility) => {
 			};
 		}
 	};
+	const uploadProfileImage = async (file: File) => {
+		try {
+			const response = await clientApiServices.image.uploadImage(file);
 
+			return {
+				success: true as const,
+				message: String(
+					response.data?.message ?? 'Image uploaded successfully.',
+				),
+				data: response.data,
+			};
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				return {
+					success: false as const,
+					message:
+						(typeof error.response?.data?.message === 'string' &&
+							error.response.data.message) ||
+						'Failed to upload image.',
+				};
+			}
+
+			return {
+				success: false as const,
+				message: 'Failed to upload image.',
+			};
+		}
+	};
 	return {
 		auth,
 		firstName,
@@ -169,5 +196,6 @@ export const useUserUtility = (ui: UIUtility) => {
 		logout,
 		update,
 		deleteUserAccount,
+		uploadProfileImage,
 	};
 };

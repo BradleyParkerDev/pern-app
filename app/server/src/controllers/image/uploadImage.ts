@@ -15,7 +15,7 @@ const uploadImage = async (req: Request, res: Response): Promise<void> => {
 	const response = await auth.aws.uploadObjectToS3Bucket(file);
 
 	res.status(200).json({
-		message: 'File successfully uploaded!',
+		message: 'success',
 		response: { ...response },
 	});
 

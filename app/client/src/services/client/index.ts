@@ -9,6 +9,8 @@ import { updateUserData } from './api/user/updateUserData.js';
 import { fetchCurrentpageState } from './api/ui/fetchCurrentPageState.js';
 import { toggleUserTheme } from './api/ui/toggleUserTheme.js';
 
+import { uploadImage } from './api/image/uploadImage.js';
+
 export const auth = {
 	loginUser,
 	logoutUser,
@@ -21,10 +23,15 @@ export const user = {
 	updateUserData,
 };
 
+export const image = {
+	uploadImage,
+};
+
 export const ui = { fetchCurrentpageState, toggleUserTheme };
 
 export const clientApiServices = {
 	auth,
 	user,
 	ui,
+	image,
 };

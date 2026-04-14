@@ -46,7 +46,7 @@ const SettingsPage = () => {
 				</div>
 				<UpdateUserPasswordForm />
 			</section>
-			<DeleteUserDataForm />
+
 			<section className="max-w-xl space-y-3">
 				<div className="space-y-1">
 					<h2 className="text-destructive text-lg font-semibold">

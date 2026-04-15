@@ -18,11 +18,11 @@ import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
 import { toast } from 'sonner';
 
 type RegistrationFormProps = React.ComponentProps<typeof Card> & {
-	toggleUserForms?: () => void;
+	toggleAuthPageForms?: () => void;
 };
 
 export function RegistrationForm({
-	toggleUserForms,
+	toggleAuthPageForms,
 	...props
 }: RegistrationFormProps) {
 	const { user } = useOutletContext<AppOutletContext>();
@@ -71,7 +71,7 @@ export function RegistrationForm({
 
 		if (result.success) {
 			toast.success('User successfully registered!');
-			toggleUserForms?.();
+			toggleAuthPageForms?.();
 			reset();
 		} else {
 			toast.error(result.message);
@@ -236,7 +236,7 @@ export function RegistrationForm({
 									Sign Up
 								</Button>
 								<FieldDescription
-									onClick={toggleUserForms}
+									onClick={toggleAuthPageForms}
 									className="text-foreground mt-[5px] text-center text-sm"
 								>
 									Already have an account?{' '}

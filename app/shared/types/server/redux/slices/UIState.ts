@@ -8,6 +8,6 @@ interface currentPage {
 export type UIState = {
 	appName: string;
 	theme: UserThemeType;
-	userForm: string;
+	authPageForm: string;
 	currentPage: currentPage;
 };

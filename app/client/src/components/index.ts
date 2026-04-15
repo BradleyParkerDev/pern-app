@@ -1,5 +1,3 @@
-import { StatusCard } from './custom/cards/StatusCard/StatusCard';
-
 // app/client/src/components/index.ts
 export { default as UserInfoCard } from '@client/components/custom/cards/UserInfoCard/UserInfoCard.js';
 export { StatusCard } from '@client/components/custom/cards/StatusCard/StatusCard.js';

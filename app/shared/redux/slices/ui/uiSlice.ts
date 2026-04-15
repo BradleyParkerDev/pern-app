@@ -4,7 +4,7 @@ import { type UIState } from '@shared/types/server/redux/index.js';
 const initialState: UIState = {
 	appName: '',
 	theme: 'light',
-	userForm: '',
+	authPageForm: '',
 	currentPage: { path: '', content: {}, isLoading: false },
 };
 
@@ -26,7 +26,7 @@ const uiSlice = createSlice({
 		},
 		resetUI: (state) => {
 			((state.theme = 'light'),
-				(state.userForm = ''),
+				(state.authPageForm = ''),
 				(state.currentPage = {
 					path: '',
 					content: {},
@@ -34,13 +34,13 @@ const uiSlice = createSlice({
 				}));
 		},
 
-		handleUserFormToggle: (
+		handleAuthPageFormToggle: (
 			state,
 			action: PayloadAction<{
-				userForm: UIState['userForm'];
+				authPageForm: UIState['authPageForm'];
 			}>,
 		) => {
-			state.userForm = action.payload.userForm;
+			state.authPageForm = action.payload.authPageForm;
 		},
 
 		loadCurrentPageState: (
@@ -66,7 +66,7 @@ export const {
 	setAppName,
 	setTheme,
 	resetUI,
-	handleUserFormToggle,
+	handleAuthPageFormToggle,
 	loadCurrentPageState,
 	toggleCurrentIsLoading,
 } = uiSlice.actions;

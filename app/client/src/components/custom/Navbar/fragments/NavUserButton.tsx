@@ -13,7 +13,7 @@ export const NavUserButton = ({ ui, auth, user }: NavUserButton) => {
 		<div
 			onClick={() => {
 				if (!auth.isAuth) {
-					ui.toggleUserFormsWithNavUserButton();
+					ui.toggleAuthPageFormsWithNavUserButton();
 					ui.navigateTo('/auth');
 				} else {
 					user.logout();

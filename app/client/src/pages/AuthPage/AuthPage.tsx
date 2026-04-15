@@ -12,7 +12,7 @@ const AuthPage = () => {
 	const [formDisplayed, setFormDisplayed] = useState('Welcome back!');
 
 	// Toggle login and registration forms
-	const toggleUserForms = () => {
+	const toggleAuthPageForms = () => {
 		if (formDisplayed === 'Welcome back!') {
 			setFormDisplayed('Create an account.');
 		} else {
@@ -22,11 +22,11 @@ const AuthPage = () => {
 
 	// Show login form with navbar sign in button
 	useEffect(() => {
-		if (ui.userForm === 'login') {
+		if (ui.authPageForm === 'login') {
 			setFormDisplayed('Welcome back!');
-			ui.toggleUserFormsWithNavUserButton();
+			ui.toggleAuthPageFormsWithNavUserButton();
 		}
-	}, [ui.userForm]);
+	}, [ui.authPageForm]);
 
 	return (
 		<div
@@ -37,10 +37,10 @@ const AuthPage = () => {
 				{formDisplayed}
 			</p>
 			{formDisplayed === 'Welcome back!' && (
-				<LoginForm toggleUserForms={toggleUserForms} />
+				<LoginForm toggleAuthPageForms={toggleAuthPageForms} />
 			)}
 			{formDisplayed === 'Create an account.' && (
-				<RegistrationForm toggleUserForms={toggleUserForms} />
+				<RegistrationForm toggleAuthPageForms={toggleAuthPageForms} />
 			)}
 		</div>
 	);

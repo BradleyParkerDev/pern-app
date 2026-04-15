@@ -14,10 +14,10 @@ import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
 import { toast } from 'sonner';
 
 type LoginFormProps = React.ComponentPropsWithoutRef<'div'> & {
-	toggleUserForms?: () => void;
+	toggleAuthPageForms?: () => void;
 };
 export function LoginForm({
-	toggleUserForms,
+	toggleAuthPageForms,
 	className,
 	...props
 }: LoginFormProps) {
@@ -172,7 +172,7 @@ export function LoginForm({
 							Sign In
 						</Button>
 						<div
-							onClick={toggleUserForms}
+							onClick={toggleAuthPageForms}
 							className="mt-[-15px] text-center text-sm"
 						>
 							Don&apos;t have an account?{' '}

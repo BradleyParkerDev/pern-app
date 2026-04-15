@@ -39,9 +39,11 @@ server.on('listening', () => {
 	logger.info(`[EXPRESS] Server started on port ${port}.`);
 
 	if (STREAM_HTML === 'true') {
-		loggerFactory.ui.info(`[EXPRESS] Streaming html.`);
+		loggerFactory.uiService.info(`[EXPRESS] Streaming html.`);
 	} else {
-		loggerFactory.ui.info(`[EXPRESS] Sending pre-rendered html pages.`);
+		loggerFactory.uiService.info(
+			`[EXPRESS] Sending pre-rendered html pages.`,
+		);
 	}
 	serverUtil.registerShutdownHandlers(server); // 🔥 Register graceful shutdown hooks
 });

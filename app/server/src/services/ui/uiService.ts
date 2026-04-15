@@ -35,8 +35,11 @@ export const createUiService = (req: Request, res: Response) => {
 				this.req.originalUrl.replace(/\/+($|\?)/, '$1') || '/';
 
 			if (!ignored.has(pathToLog)) {
+				const sessionId = this.req.body.sessionId ?? 'unknown';
+				const userId = this.req.body.userId ?? 'guest';
+
 				loggerFactory.index.info(
-					`GET - ${pathToLog} - userId: ${this.req.body.userId}`,
+					`GET - ${pathToLog} - sessionId: ${sessionId} - userId: ${userId}`,
 				);
 			}
 		},

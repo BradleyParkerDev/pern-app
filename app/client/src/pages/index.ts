@@ -8,7 +8,7 @@ import NewsPage from './NewsPage/NewsPage.js';
 import FriendPage from './FriendPage/FriendPage.js';
 import StorePage from './StorePage/StorePage.js';
 import SettingsPage from './SettingsPage/SettingsPage.js';
-
+import NotFoundPage from './NotFoundPage/NotFoundPage.js';
 export const pages = {
 	Layout,
 	HomePage,
@@ -20,4 +20,5 @@ export const pages = {
 	FriendPage,
 	StorePage,
 	SettingsPage,
+	NotFoundPage,
 };

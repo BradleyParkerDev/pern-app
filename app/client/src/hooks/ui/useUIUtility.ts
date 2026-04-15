@@ -9,7 +9,6 @@ import {
 	toggleCurrentIsLoading,
 } from '@shared/redux/slices/ui/uiSlice.js';
 import { clientApiServices } from '@client/services/client/index.js';
-import { PageUnderContstruction } from './helpers/pages/PageUnderContstruction.js';
 import confetti from 'canvas-confetti';
 
 export const useUIUtility = () => {
@@ -84,11 +83,6 @@ export const useUIUtility = () => {
 				userForm: ui.userForm === '' ? 'login' : '',
 			}),
 		);
-	};
-
-	// Page Under Construction
-	const ShowPageUnderConstruction = () => {
-		return PageUnderContstruction;
 	};
 
 	// Confetti Effect
@@ -183,9 +177,6 @@ export const useUIUtility = () => {
 		// User Forms - '/user'
 		userForm: ui.userForm,
 		toggleUserFormsWithNavUserButton,
-
-		// Page Under Construction
-		ShowPageUnderConstruction,
 
 		// Effects
 		showConfettiEffect,

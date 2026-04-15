@@ -12,6 +12,7 @@ const {
 	ChatPage,
 	StorePage,
 	SettingsPage,
+	NotFoundPage, // 👈 add this
 } = pages;
 
 export const routes: RouteObject[] = [
@@ -19,10 +20,7 @@ export const routes: RouteObject[] = [
 		path: '/',
 		element: <Layout />,
 		children: [
-			{
-				index: true,
-				element: <HomePage />,
-			},
+			{ index: true, element: <HomePage /> },
 			{ path: '/auth', element: <AuthPage /> },
 			{ path: '/settings', element: <SettingsPage /> },
 			{ path: '/user/:userName', element: <UserPage /> },
@@ -31,6 +29,9 @@ export const routes: RouteObject[] = [
 			{ path: '/friends', element: <FriendPage /> },
 			{ path: '/news', element: <NewsPage /> },
 			{ path: '/store', element: <StorePage /> },
+
+			// 👇 THIS fixes your 404 UI
+			{ path: '*', element: <NotFoundPage /> },
 		],
 	},
 ];

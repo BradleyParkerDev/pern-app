@@ -8,10 +8,9 @@ import { generateHtml } from './html/generateHtml.js';
 import { generateHtmlStream } from './html/generateHtmlStream.js';
 import type { AppStore } from '@shared/types/server/redux/index.js';
 
-// Load environment variables
 dotenv.config();
 
-const STREAM_HTML = process.env.STREAM_HTML === 'true';
+const STREAM_HTML = process.env.STREAM_HTML?.toLowerCase() === 'true';
 
 export type ReactPageContextType = {
 	url: string;
@@ -30,6 +29,8 @@ const reactHelper = {
 			);
 		}
 
+		const start = Date.now();
+
 		const { app, routerContext, appState } = await render(
 			page.url,
 			page.store,
@@ -42,12 +43,16 @@ const reactHelper = {
 			appState,
 		});
 
+		const duration = Date.now() - start;
+
 		loggerFactory.uiService.info(
-			`[REACT] - renderAppToPipeableStream - page: ${page.path}`,
+			`[SSR][STREAM] ${page.path} - ${duration}ms`,
 		);
 	},
 
 	async renderAppToString(page: ReactPageContextType): Promise<string> {
+		const start = Date.now();
+
 		const { app, routerContext, appState } = await render(
 			page.url,
 			page.store,
@@ -61,8 +66,10 @@ const reactHelper = {
 			appState,
 		);
 
+		const duration = Date.now() - start;
+
 		loggerFactory.uiService.info(
-			`[REACT] - renderAppToString - page: ${page.path}`,
+			`[SSR][STRING] ${page.path} - ${duration}ms`,
 		);
 
 		return html;

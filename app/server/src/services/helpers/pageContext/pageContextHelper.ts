@@ -10,12 +10,16 @@ import { setAuth } from '@shared/redux/slices/auth/authSlice.js';
 import { userHelper } from '../user/userHelper.js';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import { createStore } from '@shared/redux/store.js';
-import { UserThemeType } from '@shared/types/common/UserThemeType.js';
+import type { UserThemeType } from '@shared/types/common/UserThemeType.js';
+
 export const createPageContextHelper = (req?: Request, res?: Response) => {
-	const url = `${req?.protocol}://${req?.get('host')}${req?.originalUrl}`;
+	const url = req
+		? `${req.protocol}://${req.get('host')}${req.originalUrl}`
+		: '';
 
 	const getPathOnly = (inputUrl: string) => {
 		if (!inputUrl) return '';
+
 		try {
 			const parsed = new URL(inputUrl, 'http://localhost');
 			return parsed.pathname || '/';
@@ -36,10 +40,11 @@ export const createPageContextHelper = (req?: Request, res?: Response) => {
 		store,
 
 		async loadAppDataIntoRedux(userTheme: UserThemeType) {
-			const appName = process.env.UI_APP_NAME;
-			const theme = userTheme;
+			const appName = process.env.UI_APP_NAME ?? '';
 			const userId = this.req?.body?.userId;
-			this.store.dispatch(setTheme({ theme }));
+
+			this.store.dispatch(setTheme({ theme: userTheme }));
+
 			if (userId) {
 				const user = await userHelper.getUserData({ userId });
 
@@ -49,12 +54,11 @@ export const createPageContextHelper = (req?: Request, res?: Response) => {
 				} else {
 					this.store.dispatch(setAuth({ isAuth: false }));
 				}
+			} else {
+				this.store.dispatch(setAuth({ isAuth: false }));
 			}
 
 			this.store.dispatch(setAppName({ appName }));
-
-			// Replace with setTheme if possible.
-			// this.store.dispatch(setTheme({ theme }));
 
 			const pageContent = await this.getPageContent();
 
@@ -69,7 +73,7 @@ export const createPageContextHelper = (req?: Request, res?: Response) => {
 			);
 
 			loggerFactory.uiService.info(
-				`[REDUX] - loadAppDataIntoRedux - page: ${this.path}`,
+				`[REDUX] loadAppDataIntoRedux - page: ${this.path}`,
 			);
 		},
 

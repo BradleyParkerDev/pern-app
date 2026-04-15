@@ -9,7 +9,6 @@ import {
 export const useUserUtility = (ui: UIUtility) => {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.user);
-	const auth = useAppSelector((state) => state.auth);
 
 	const { firstName, lastName, emailAddress, userName } = user;
 

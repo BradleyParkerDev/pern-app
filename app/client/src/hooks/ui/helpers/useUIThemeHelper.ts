@@ -7,11 +7,30 @@ export const useUIThemeHelper = () => {
 	const theme = useAppSelector((state) => state.ui.theme);
 
 	const toggleUserTheme = async () => {
-		const nextTheme = theme === 'light' ? 'dark' : 'light';
+		const currentTheme = theme;
+		const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
 
+		// optimistic update
 		dispatch(setTheme({ theme: nextTheme }));
 
-		await clientApiServices.ui.toggleUserTheme(nextTheme);
+		try {
+			const result =
+				await clientApiServices.ui.toggleUserTheme(nextTheme);
+
+			if (!result.success) {
+				// silent rollback
+				dispatch(setTheme({ theme: currentTheme }));
+			}
+
+			return result;
+		} catch (error) {
+			console.error('[THEME TOGGLE ERROR]', error);
+
+			// silent rollback
+			dispatch(setTheme({ theme: currentTheme }));
+
+			throw error;
+		}
 	};
 
 	return {

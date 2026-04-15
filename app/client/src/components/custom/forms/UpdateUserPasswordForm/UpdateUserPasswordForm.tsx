@@ -15,6 +15,7 @@ import { useState } from 'react';
 
 import { useOutletContext } from 'react-router';
 import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
+import { toast } from 'sonner';
 
 export function UpdateUserPasswordForm({ ...props }) {
 	const { user } = useOutletContext<AppOutletContext>();
@@ -59,13 +60,24 @@ export function UpdateUserPasswordForm({ ...props }) {
 		}
 	};
 
-	const onSubmit = (userUpdateData: FormValues) => {
-		user.update(userUpdateData);
-		console.log(userUpdateData);
-		reset();
-		setCurrentPasswordVisibility('password');
-		setNewPasswordVisibility('password');
-		setConfirmedNewPasswordVisibility('password');
+	const onSubmit = async (userUpdateData: FormValues) => {
+		try {
+			const result = await user.update(userUpdateData);
+
+			if (result.success) {
+				toast.message(result.message);
+				reset();
+				setCurrentPasswordVisibility('password');
+				setNewPasswordVisibility('password');
+				setConfirmedNewPasswordVisibility('password');
+			} else {
+				toast.error(result.message);
+			}
+		} catch (error) {
+			console.error(error);
+
+			toast.error('Something went wrong. Please try again.');
+		}
 	};
 
 	return (

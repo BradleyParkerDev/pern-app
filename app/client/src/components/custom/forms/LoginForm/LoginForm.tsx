@@ -48,13 +48,20 @@ export function LoginForm({
 			setPasswordVisiblity('text');
 		}
 	};
-	const onSubmit = (loginCredentials: LoginFormValues) => {
+	const onSubmit = async (loginCredentials: LoginFormValues) => {
 		// Do something with the form values.
 		// ✅ This will be type-safe and validated.
 
-		user.login(loginCredentials);
+		const result = await user.login(loginCredentials);
 		console.log(loginCredentials);
-		reset();
+
+		if (result.success) {
+			toast.success('User successfully logged in!');
+			toggleAuthPageForms?.();
+			reset();
+		} else {
+			toast.error(result.message);
+		}
 	};
 
 	const identifierValue = watch('emailAddress') ?? watch('userName') ?? '';

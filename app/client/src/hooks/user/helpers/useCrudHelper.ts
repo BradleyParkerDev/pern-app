@@ -27,20 +27,15 @@ export const useUserCrudHelper = ({ dispatch, ui }: UseUserCrudHelperProps) => {
 					userRegistrationData,
 				);
 
-			return response.data;
+			const result = response.data;
+
+			return result;
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response?.data) {
 				return error.response.data;
 			}
 
-			const fallback: APIResponseType<null> = {
-				success: false,
-				message: 'Registration failed.',
-				statusCode: HTTPStatus.INTERNAL_SERVER_ERROR,
-				data: null,
-			};
-
-			return fallback;
+			throw error;
 		}
 	};
 
@@ -76,14 +71,7 @@ export const useUserCrudHelper = ({ dispatch, ui }: UseUserCrudHelperProps) => {
 				return error.response.data;
 			}
 
-			const fallback: APIResponseType<null> = {
-				success: false,
-				message: 'Failed to update user.',
-				statusCode: HTTPStatus.INTERNAL_SERVER_ERROR,
-				data: null,
-			};
-
-			return fallback;
+			throw error;
 		}
 	};
 

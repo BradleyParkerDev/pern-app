@@ -1,8 +1,8 @@
 import { AuthUtility } from '@/shared/types/client/hooks/AuthUtility.js';
 import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 import { UserUtility } from '@/shared/types/client/hooks/UserUtility.js';
-import { useState } from 'react';
 import { User as UserAccountIcon, Settings, LogOut } from 'lucide-react';
+import { toast } from 'sonner';
 import {
 	NavUserButton,
 	NavLogo,
@@ -47,11 +47,29 @@ export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
 					{avatarPopoverItems.map(({ label, icon, path }) => (
 						<li
 							key={label}
-							onClick={() => {
-								if (label == 'logout') {
-									user.logout();
-								} else {
-									ui.navigateTo(path);
+							onClick={async () => {
+								try {
+									if (label == 'logout') {
+										const result = await user.logout();
+
+										if (!result?.success) {
+											toast.error(
+												result?.message ??
+													'Something went wrong. Please try again.',
+											);
+											return;
+										}
+
+										toast.success(result.message);
+										ui.navigateTo('/');
+									} else {
+										ui.navigateTo(path);
+									}
+								} catch (error) {
+									console.error('[LOGOUT ERROR]', error);
+									toast.error(
+										'Something went wrong. Please try again.',
+									);
 								}
 							}}
 							className={`text-foreground hover:bg-foreground/5 flex w-full items-center justify-start gap-3 rounded-[12px] px-4 py-2 text-left text-[14px] dark:hover:bg-[#171717]`}

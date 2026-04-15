@@ -67,7 +67,6 @@ export const useUserAuthHelper = ({ dispatch, ui }: UseUserAuthHelperProps) => {
 				dispatch(resetUser());
 				dispatch(resetAuth());
 				dispatch(resetUI());
-				ui.navigateTo(`/`);
 			}
 
 			return result;
@@ -78,7 +77,7 @@ export const useUserAuthHelper = ({ dispatch, ui }: UseUserAuthHelperProps) => {
 
 			const fallback: APIResponseType<null> = {
 				success: false,
-				message: 'Failed to end session.',
+				message: 'Something went wrong. Please try again.',
 				statusCode: HTTPStatus.INTERNAL_SERVER_ERROR,
 				data: null,
 			};

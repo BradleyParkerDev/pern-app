@@ -13,6 +13,7 @@ import { type Resolver, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useOutletContext } from 'react-router';
 import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
+import { toast } from 'sonner';
 
 type UpdateUserFormProps = React.ComponentProps<typeof Card> & {
 	toggleUserForms?: () => void;
@@ -42,10 +43,23 @@ export function UpdateUserForm({
 		},
 	});
 
-	const onSubmit = (userUpdateData: UpdateUserFormValues) => {
-		user.update(userUpdateData);
-		console.log(userUpdateData);
-		reset();
+	const onSubmit = async (userUpdateData: UpdateUserFormValues) => {
+		try {
+			const response = await user.update(userUpdateData);
+
+			if (response.success) {
+				toast.message(response.message);
+				reset();
+			} else {
+				toast.error(response.message);
+			}
+
+			console.log(userUpdateData);
+		} catch (error) {
+			console.error('[UPDATE USER ERROR]', error);
+
+			toast.error('Something went wrong. Please try again.');
+		}
 	};
 
 	return (

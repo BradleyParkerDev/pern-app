@@ -67,14 +67,20 @@ export function RegistrationForm({
 		}
 	};
 	const onSubmit = async (userRegistrationData: RegistrationFormValues) => {
-		const result = await user.signUp(userRegistrationData);
+		try {
+			const result = await user.signUp(userRegistrationData);
 
-		if (result.success) {
-			toast.success('User successfully registered!');
+			if (!result.success) {
+				toast.error(result.message);
+				return;
+			}
+
+			toast.success(result.message);
 			toggleAuthPageForms?.();
 			reset();
-		} else {
-			toast.error(result.message);
+		} catch (error) {
+			console.error('[SIGN UP ERROR]', error);
+			toast.error('Something went wrong. Please try again.');
 		}
 	};
 	return (
@@ -145,6 +151,7 @@ export function RegistrationForm({
 											id="password"
 											autoComplete="new-password"
 											type={passwordVisiblity}
+											className="pr-12"
 											{...register('password')}
 											aria-invalid={!!errors.password}
 										/>
@@ -167,12 +174,12 @@ export function RegistrationForm({
 												<EyeOff className="h-4 w-4" />
 											)}
 										</button>
-										{errors.password?.message && (
-											<p className="text-destructive text-sm">
-												{errors.password.message}
-											</p>
-										)}
 									</div>
+									{errors.password?.message && (
+										<p className="text-destructive text-sm">
+											{errors.password.message}
+										</p>
+									)}
 								</Field>
 							</div>
 							<div
@@ -191,6 +198,7 @@ export function RegistrationForm({
 											id="confirm-password"
 											autoComplete="new-password"
 											type={confirmPasswordVisiblity}
+											className="pr-12"
 											{...register('confirmPassword')}
 											aria-invalid={
 												!!errors.confirmPassword
@@ -218,12 +226,12 @@ export function RegistrationForm({
 												<EyeOff className="h-4 w-4" />
 											)}
 										</button>
-										{errors.confirmPassword?.message && (
-											<p className="text-destructive text-sm">
-												{errors.confirmPassword.message}
-											</p>
-										)}
 									</div>
+									{errors.confirmPassword?.message && (
+										<p className="text-destructive text-sm">
+											{errors.confirmPassword.message}
+										</p>
+									)}
 								</Field>
 							</div>
 						</div>

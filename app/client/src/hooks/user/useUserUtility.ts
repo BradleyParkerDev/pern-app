@@ -3,7 +3,7 @@ import type { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 import {
 	useUserAuthHelper,
 	useUserCrudHelper,
-	// useUserImageHelper,
+	useImageHelper,
 } from './helpers/index.js';
 
 export const useUserUtility = (ui: UIUtility) => {
@@ -15,7 +15,7 @@ export const useUserUtility = (ui: UIUtility) => {
 
 	const authHelper = useUserAuthHelper({ dispatch, ui });
 	const crudHelper = useUserCrudHelper({ dispatch, ui });
-	// const imageHelper = useUserImageHelper();
+	const imageHelper = useImageHelper();
 
 	return {
 		auth,
@@ -25,6 +25,6 @@ export const useUserUtility = (ui: UIUtility) => {
 		userName,
 		...authHelper,
 		...crudHelper,
-		// ...imageHelper,
+		...imageHelper,
 	};
 };

@@ -27,7 +27,7 @@ export const createUiService = (req: Request, res: Response) => {
 			}
 
 			const ignored = new Set([
-				'/favicon.ico',
+				// '/favicon.ico',
 				'/.well-known/appspecific/com.chrome.devtools.json',
 			]);
 

@@ -68,7 +68,7 @@ export const createPageContextHelper = (req?: Request, res?: Response) => {
 				}),
 			);
 
-			loggerFactory.ui.info(
+			loggerFactory.uiService.info(
 				`[REDUX] - loadAppDataIntoRedux - page: ${this.path}`,
 			);
 		},

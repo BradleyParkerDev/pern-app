@@ -3,6 +3,11 @@ import { loggerFactory } from '@server/lib/logger/index.js';
 import { createAuthService } from '../../services/auth/authService.js';
 import dotenv from 'dotenv';
 
+import {
+	type APIResponseType,
+	HTTPStatus,
+} from '@shared/types/common/index.js';
+
 dotenv.config();
 
 const logoutUser = async (req: Request, res: Response): Promise<void> => {
@@ -12,10 +17,14 @@ const logoutUser = async (req: Request, res: Response): Promise<void> => {
 		const { sessionId, userId } = req.body;
 
 		if (!sessionId) {
-			res.status(400).json({
+			const response: APIResponseType<null> = {
 				success: false,
 				message: 'Session ID is required to log out.',
-			});
+				statusCode: HTTPStatus.BAD_REQUEST,
+				data: null,
+			};
+
+			res.status(HTTPStatus.BAD_REQUEST).json(response);
 			return;
 		}
 
@@ -23,18 +32,23 @@ const logoutUser = async (req: Request, res: Response): Promise<void> => {
 		auth.removeSessionCookie();
 		auth.clearReqBody();
 
-		// Create a fresh anonymous/guest session after logout, if desired.
+		// Create a fresh guest session after logout/session reset
 		await auth.createUserSession();
 
-		res.status(200).json({
+		const response: APIResponseType<null> = {
 			success: true,
-			message: 'User has successfully logged out!',
-		});
+			message: 'Session ended successfully.',
+			statusCode: HTTPStatus.OK,
+			data: null,
+		};
+
+		res.status(HTTPStatus.OK).json(response);
 
 		loggerFactory.auth.info(
-			`DELETE - /api/auth/logout-user - userId: ${userId ?? 'unknown'}`,
+			`DELETE - /api/auth/logout-user - sessionType: ${
+				userId ? 'Authenticated' : 'Guest'
+			} - userId: ${userId ?? 'unknown'} - sessionId: ${sessionId}`,
 		);
-		return;
 	} catch (error) {
 		loggerFactory.auth.error(
 			`DELETE - /api/auth/logout-user - error: ${
@@ -42,10 +56,14 @@ const logoutUser = async (req: Request, res: Response): Promise<void> => {
 			}`,
 		);
 
-		res.status(500).json({
+		const response: APIResponseType<null> = {
 			success: false,
-			message: 'Failed to log out user.',
-		});
+			message: 'Failed to end session.',
+			statusCode: HTTPStatus.INTERNAL_SERVER_ERROR,
+			data: null,
+		};
+
+		res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json(response);
 	}
 };
 

@@ -51,39 +51,42 @@ export const useUserUtility = (ui: UIUtility) => {
 
 	const login = async (loginCredentials: LoginCredentialsDataType) => {
 		try {
-			const response =
+			const loginResponse =
 				await clientApiServices.auth.loginUser(loginCredentials);
 
-			if (response.data.success === true) {
-				const userResponse =
-					await clientApiServices.user.fetchUserData();
-				const userData = userResponse.data?.user;
-				const theme = userResponse.data?.theme ?? 'light';
-				console.log(`theme: ${theme}`);
-				if (userData) {
-					dispatch(setUser({ userData }));
-					dispatch(setAuth({ isAuth: true }));
-					dispatch(setTheme({ theme }));
-					ui.navigateTo(`/user/${userData.userName}`);
-				}
+			const loginResult = loginResponse.data;
+
+			if (!loginResult.success) {
+				return loginResult;
+			}
+
+			const userResponse = await clientApiServices.user.fetchUserData();
+			const userResult = userResponse.data;
+
+			if (!userResult.success || !userResult.data) {
+				return userResult;
+			}
+
+			const { user: userData, theme } = userResult.data;
+
+			dispatch(setUser({ userData }));
+			dispatch(setAuth({ isAuth: true }));
+			dispatch(setTheme({ theme }));
+
+			ui.navigateTo(`/user/${userData.userName}`);
+
+			return loginResult;
+		} catch (error) {
+			if (axios.isAxiosError(error) && error.response?.data) {
+				return error.response.data;
 			}
 
 			return {
-				success: true as const,
-				message: String(response.data.message ?? 'Login successful.'),
+				success: false,
+				message: 'Login failed.',
+				statusCode: 500,
+				data: null,
 			};
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				return {
-					success: false as const,
-					message:
-						(typeof error.response?.data?.message === 'string' &&
-							error.response.data.message) ||
-						'Login failed.',
-				};
-			}
-
-			return { success: false as const, message: 'Login failed.' };
 		}
 	};
 

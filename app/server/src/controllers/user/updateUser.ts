@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
 import { createAuthService } from '@server/services/auth/authService.js';
 import { loggerFactory } from '@server/lib/logger/index.js';
-
 import dotenv from 'dotenv';
 
-// Load environment variables
+import {
+	type APIResponseType,
+	HTTPStatus,
+} from '@shared/types/common/index.js';
+
 dotenv.config();
 
 const updateUser = async (req: Request, res: Response): Promise<void> => {
@@ -15,11 +18,14 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
 		const result = await auth.user.updateUserData(userUpdates);
 
 		if (result.success) {
-			res.status(200).json({
+			const response: APIResponseType<null> = {
 				success: true,
 				message: 'User has been successfully updated!',
-				updatedUser: result.updatedUser,
-			});
+				statusCode: HTTPStatus.OK,
+				data: null,
+			};
+
+			res.status(HTTPStatus.OK).json(response);
 
 			loggerFactory.user.info(
 				`PUT - /api/user/update-user - userId: ${userUpdates.userId}`,
@@ -27,31 +33,30 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
 			return;
 		}
 
-		if (result.reason === 'missing_user_id') {
-			res.status(401).json(result);
-			return;
-		}
+		let statusCode: number = HTTPStatus.INTERNAL_SERVER_ERROR;
 
-		if (
+		if (result.reason === 'missing_user_id') {
+			statusCode = HTTPStatus.UNAUTHORIZED;
+		} else if (
 			result.reason === 'missing_current_password' ||
 			result.reason === 'missing_password_confirmation' ||
 			result.reason === 'password_mismatch' ||
 			result.reason === 'invalid_current_password' ||
 			result.reason === 'no_updates_provided'
 		) {
-			res.status(400).json(result);
-			return;
+			statusCode = HTTPStatus.BAD_REQUEST;
+		} else if (result.reason === 'not_found') {
+			statusCode = HTTPStatus.NOT_FOUND;
 		}
 
-		if (result.reason === 'not_found') {
-			res.status(404).json(result);
-			return;
-		}
-
-		res.status(500).json({
+		const response: APIResponseType<null> = {
 			success: false,
-			message: 'Unhandled update result.',
-		});
+			message: result.message,
+			statusCode,
+			data: null,
+		};
+
+		res.status(statusCode).json(response);
 		return;
 	} catch (error) {
 		loggerFactory.user.error(
@@ -60,10 +65,14 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
 			}`,
 		);
 
-		res.status(500).json({
+		const response: APIResponseType<null> = {
 			success: false,
 			message: 'Failed to update user.',
-		});
+			statusCode: HTTPStatus.INTERNAL_SERVER_ERROR,
+			data: null,
+		};
+
+		res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json(response);
 	}
 };
 

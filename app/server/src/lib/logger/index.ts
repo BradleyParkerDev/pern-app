@@ -99,13 +99,17 @@ const createNewLogger = (
  * - `cron`: For background cron job logs
  */
 export const loggerFactory = {
+	// API
 	auth: createNewLogger('auth', 'routes/api'),
 	user: createNewLogger('user', 'routes/api'),
+	ui: createNewLogger('ui', 'routes/api'),
 	image: createNewLogger('image', 'routes/api'),
 	index: createNewLogger('web', 'routes'),
+
+	// Services
 	authService: createNewLogger('auth', 'services'),
 	cron: createNewLogger('cron', 'services'),
-	ui: createNewLogger('ui', 'services'),
+	uiService: createNewLogger('ui', 'services'),
 };
 
 // Export the main logger as default

@@ -1,0 +1,8 @@
+export type APIStatusType =
+	| 'SUCCESS'
+	| 'ERROR'
+	| 'UNAUTHORIZED'
+	| 'FORBIDDEN'
+	| 'NOT_FOUND'
+	| 'UNDER_CONSTRUCTION'
+	| 'LOADING';

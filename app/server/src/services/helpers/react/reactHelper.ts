@@ -42,7 +42,7 @@ const reactHelper = {
 			appState,
 		});
 
-		loggerFactory.ui.info(
+		loggerFactory.uiService.info(
 			`[REACT] - renderAppToPipeableStream - page: ${page.path}`,
 		);
 	},
@@ -61,7 +61,7 @@ const reactHelper = {
 			appState,
 		);
 
-		loggerFactory.ui.info(
+		loggerFactory.uiService.info(
 			`[REACT] - renderAppToString - page: ${page.path}`,
 		);
 

@@ -18,7 +18,6 @@ export const useUserUtility = (ui: UIUtility) => {
 	const imageHelper = useImageHelper();
 
 	return {
-		auth,
 		firstName,
 		lastName,
 		emailAddress,

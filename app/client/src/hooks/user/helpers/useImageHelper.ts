@@ -6,7 +6,7 @@ import { HTTPStatus } from '@shared/types/common/index.js';
 import {
 	setUserProfileImage,
 	removeUserProfileImage,
-} from '@/shared/redux/slices/image/imageSlice';
+} from '@/shared/redux/slices/image/imageSlice.js';
 export const useImageHelper = () => {
 	const dispatch = useAppDispatch();
 	const image = useAppSelector((state) => state.image);

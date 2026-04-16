@@ -5,7 +5,7 @@ import { createStore } from '@shared/redux/store.js';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { routes } from '@shared/reactRouter/index.js';
 import './index.css';
-import type { AppRootState } from '@shared/types/server/redux/index.js';
+import type { AppRootState } from '@/shared/types/common/redux/index.js';
 import type { RouterContext } from '@shared/types/server/react/index.js';
 
 // Vite Dev Server ping Express

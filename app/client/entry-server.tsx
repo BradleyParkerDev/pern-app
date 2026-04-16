@@ -1,4 +1,4 @@
-import type { AppStore } from '@shared/types/server/redux/index.js';
+import type { AppStore } from '@/shared/types/common/redux/index.js';
 import { routes } from '@shared/reactRouter/index.js';
 import { Provider } from 'react-redux';
 import {

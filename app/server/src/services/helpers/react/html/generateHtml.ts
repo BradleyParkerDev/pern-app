@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { generateScripts } from './scripts/generateScripts.js';
-import type { AppRootState } from '@shared/types/server/redux/index.js';
+import type { AppRootState } from '@/shared/types/common/redux/index.js';
 import type { RouterContext } from '@shared/types/server/react/index.js';
 
 export const generateHtml = (

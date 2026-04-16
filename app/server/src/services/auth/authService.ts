@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import authServerUtil from '@server/lib/auth/authServerUtil.js';
 import { Session, UserTheme } from '@server/database/schemas/index.js';
-import { userHelper } from '@/server/src/services/helpers/user/userHelper.js';
-import { awsHelper } from '../helpers/aws/awsHelper.js';
+import { awsHelper, imageHelper, userHelper } from '../helpers/index.js';
 import type { AccessTokenType } from '@shared/types/server/auth/AccessTokenType.js';
 import { db } from '@server/database/db.js';
 import { eq } from 'drizzle-orm';
@@ -29,8 +28,9 @@ export const createAuthService = (req?: Request, res?: Response) => {
 		req,
 		res,
 		util: authServerUtil,
-		user: userHelper,
 		aws: awsHelper,
+		image: imageHelper,
+		user: userHelper,
 
 		/**
 		 * Validate token, hydrate request with session info, or create a new session.
@@ -52,9 +52,18 @@ export const createAuthService = (req?: Request, res?: Response) => {
 
 					if (this.req && sessionData) {
 						this.req.body ??= {};
+
 						// Attach IDs for downstream middleware/controllers
 						this.req.body.userId = sessionData.userId ?? undefined;
 						this.req.body.sessionId = sessionId;
+
+						// Stable auth context for the request.
+						// req.body can be overwritten during multipart parsing (Multer),
+						// so userId/sessionId are also stored here for reliable access.
+						(req as any).authContext = {
+							userId: sessionData.userId ?? undefined,
+							sessionId,
+						};
 
 						loggerFactory.authService.info(
 							`[Auth Check] - sessionType: ${this.req.body.userId ? 'Authenticated' : 'Guest'} - sessionId: ${this.req.body.sessionId}`,

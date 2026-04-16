@@ -3,13 +3,16 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from '@shared/redux/slices/auth/authSlice.js';
 import uiReducer from '@shared/redux/slices/ui/uiSlice.js';
 import userReducer from '@shared/redux/slices/user/userSlice.js';
-import { type ReduxReducer } from '@shared/types/server/redux/index.js';
+import imageReducer from '@shared/redux/slices/image/imageSlice.js';
+
+import { type ReduxReducer } from '@/shared/types/common/redux/index.js';
 
 // Combine Reducers
 const reducer = combineReducers<ReduxReducer>({
 	auth: authReducer,
 	ui: uiReducer,
 	user: userReducer,
+	image: imageReducer,
 });
 export type ReducerState = ReturnType<typeof reducer>;
 

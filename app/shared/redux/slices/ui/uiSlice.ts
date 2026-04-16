@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { type UIState } from '@shared/types/server/redux/index.js';
+import { type UIState } from '@/shared/types/common/redux/index.js';
 
 const initialState: UIState = {
 	appName: '',

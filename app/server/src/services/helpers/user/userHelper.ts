@@ -10,7 +10,12 @@ import {
 } from '@shared/types/server/user/index.js';
 import authServerUtil from '@server/lib/auth/authServerUtil.js';
 import { db } from '@server/database/db.js';
-import { User, Session, UserTheme } from '@server/database/schemas/index.js';
+import {
+	User,
+	Session,
+	UserTheme,
+	UserProfileImage,
+} from '@server/database/schemas/index.js';
 import { eq } from 'drizzle-orm';
 
 export const userHelper = {
@@ -57,16 +62,6 @@ export const userHelper = {
 			...(newUserData.lastName && { lastName: newUserData.lastName }),
 		};
 
-		// const createdUsers = await db.insert(User).values(newUser).returning();
-		// const createdUser = createdUsers[0] ?? null;
-
-		// if (!createdUser) {
-		// 	return {
-		// 		success: false,
-		// 		reason: 'creation_failed',
-		// 		message: 'Failed to create user.',
-		// 	};
-		// }
 		const createdUser = await db.transaction(async (tx) => {
 			const createdUsers = await tx
 				.insert(User)
@@ -80,6 +75,11 @@ export const userHelper = {
 
 			await tx.insert(UserTheme).values({
 				userId: user.userId,
+			});
+
+			await tx.insert(UserProfileImage).values({
+				userId: user.userId,
+				imageUrl: null,
 			});
 
 			return user;

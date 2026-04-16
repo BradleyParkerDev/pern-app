@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import type { AppStore } from '@shared/types/server/redux/index.js';
+import type { AppStore } from '@/shared/types/common/redux/index.js';
 import { setUser } from '@shared/redux/slices/user/userSlice.js';
 import {
 	setAppName,

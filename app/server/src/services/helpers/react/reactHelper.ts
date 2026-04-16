@@ -6,7 +6,7 @@ import { renderToString } from 'react-dom/server';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import { generateHtml } from './html/generateHtml.js';
 import { generateHtmlStream } from './html/generateHtmlStream.js';
-import type { AppStore } from '@shared/types/server/redux/index.js';
+import type { AppStore } from '@/shared/types/common/redux/index.js';
 
 dotenv.config();
 
@@ -19,7 +19,7 @@ export type ReactPageContextType = {
 	res?: Response;
 };
 
-const reactHelper = {
+export const reactHelper = {
 	streamHtml: STREAM_HTML,
 
 	async renderAppToPipeableStream(page: ReactPageContextType): Promise<void> {
@@ -75,5 +75,3 @@ const reactHelper = {
 		return html;
 	},
 };
-
-export default reactHelper;

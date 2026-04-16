@@ -6,7 +6,7 @@ import { HTTPStatus } from '@shared/types/common/index.js';
 import { setUser, resetUser } from '@shared/redux/slices/user/userSlice.js';
 import { setAuth, resetAuth } from '@shared/redux/slices/auth/authSlice.js';
 import { setTheme, resetUI } from '@shared/redux/slices/ui/uiSlice.js';
-import type { AppDispatch } from '@shared/types/server/redux/index.js';
+import type { AppDispatch } from '@/shared/types/common/redux/index.js';
 import type { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 
 type UseUserAuthHelperProps = {

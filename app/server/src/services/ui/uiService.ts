@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { loggerFactory } from '@server/lib/logger/index.js';
-import reactHelper from '@server/services/helpers/react/reactHelper.js';
+import { reactHelper } from '@server/services/helpers/index.js';
 import { createPageContextHelper } from '../helpers/pageContext/pageContextHelper.js';
 import { type UserThemeType } from '@shared/types/common/UserThemeType.js';
 import { UserTheme } from '@server/database/schemas/UserThemes.js';

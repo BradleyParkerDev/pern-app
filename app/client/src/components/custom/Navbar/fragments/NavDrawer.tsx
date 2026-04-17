@@ -9,6 +9,7 @@ import { NavUserButton } from './NavUserButton.js';
 import {
 	NavUserAvatar,
 	NavUserAvatarFallback,
+	NavUserAvatarImage,
 } from './NavUserAvatar.js';
 
 import {
@@ -69,7 +70,16 @@ export const NavDrawer = ({ ui, auth, user }: NavDrawerProps) => {
 					className="flex w-full items-center gap-3"
 				>
 					<span className="flex h-8 w-8 items-center justify-center">
-						<NavUserAvatar className="h-8 w-8 rounded-lg">
+						<NavUserAvatar
+							onClick={() => {
+								ui.toggleAvatarPopover();
+							}}
+							className="h-8 w-8 overflow-hidden rounded-lg"
+						>
+							<NavUserAvatarImage
+								src={user.profileImageUrl || undefined}
+								className="h-full w-full object-cover object-top"
+							/>
 							<NavUserAvatarFallback className="rounded-lg">
 								{userInitials.toUpperCase()}
 							</NavUserAvatarFallback>

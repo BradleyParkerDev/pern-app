@@ -2,9 +2,8 @@
 import { Card, CardContent } from '@client/components/shadcn/card.js';
 import { Button } from '@client/components/shadcn/button.js';
 import { Avatar, AvatarFallback, AvatarImage } from './fragments/avatar.js';
-import { useUserUtility } from '@client/hooks/index.js';
 import { useOutletContext } from 'react-router';
-import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
+import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
 import { toast } from 'sonner';
 import {
 	Dialog,
@@ -17,8 +16,7 @@ type UserInfoCardProps = React.ComponentProps<typeof Card> & {
 };
 
 const UserInfoCard = ({ update = false, ...props }: UserInfoCardProps) => {
-	const ui = useOutletContext<UIUtility>();
-	const user = useUserUtility(ui);
+	const { user } = useOutletContext<AppOutletContext>();
 
 	const { firstName, lastName, userName, emailAddress } = user ?? {};
 
@@ -31,20 +29,35 @@ const UserInfoCard = ({ update = false, ...props }: UserInfoCardProps) => {
 		event: React.ChangeEvent<HTMLInputElement>,
 	) => {
 		const file = event.target.files?.[0];
-
 		if (!file) return;
 
-		const result = await user.uploadProfileImage(file);
-		console.log(result);
+		try {
+			const result = await user.uploadProfileImage(file);
 
-		event.target.value = '';
+			if (result.success) {
+				toast.success(result.message || 'Profile image updated');
+			} else {
+				toast.error(result.message || 'Failed to upload image');
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error('Something went wrong while uploading');
+		} finally {
+			// Reset input so same file can be selected again
+			event.target.value = '';
+		}
 	};
 
 	return (
 		<Card className="w-full max-w-xl" {...props}>
 			<CardContent className="flex flex-col items-center space-y-4 px-6 py-4">
 				<div className="flex flex-col items-center space-y-2">
-					<Avatar className="h-36 w-36 rounded-full">
+					<Avatar className="h-36 w-36 overflow-hidden rounded-full">
+						<AvatarImage
+							src={user.profileImageUrl || undefined}
+							alt="Profile image"
+							className="h-full w-full object-cover object-top"
+						/>
 						<AvatarFallback className="text-2xl font-semibold">
 							{userInitials.toUpperCase()}
 						</AvatarFallback>

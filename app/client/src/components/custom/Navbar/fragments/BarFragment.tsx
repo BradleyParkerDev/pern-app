@@ -12,6 +12,7 @@ import {
 	NavDrawerBackDrop,
 	NavUserAvatar,
 	NavUserAvatarFallback,
+	NavUserAvatarImage,
 } from './index.js';
 
 type BarFragmentProps = {
@@ -102,8 +103,12 @@ export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
 						onClick={() => {
 							ui.toggleAvatarPopover();
 						}}
-						className="h-8 w-8 rounded-lg"
+						className="h-8 w-8 overflow-hidden rounded-lg"
 					>
+						<NavUserAvatarImage
+							src={user.profileImageUrl || undefined}
+							className="h-full w-full object-cover object-top"
+						/>
 						<NavUserAvatarFallback className="rounded-lg">
 							{userInitials.toUpperCase()}
 						</NavUserAvatarFallback>

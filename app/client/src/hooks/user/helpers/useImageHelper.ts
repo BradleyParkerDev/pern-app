@@ -7,6 +7,7 @@ import {
 	setUserProfileImage,
 	removeUserProfileImage,
 } from '@/shared/redux/slices/image/imageSlice.js';
+
 export const useImageHelper = () => {
 	const dispatch = useAppDispatch();
 	const image = useAppSelector((state) => state.image);
@@ -16,8 +17,19 @@ export const useImageHelper = () => {
 	const uploadProfileImage = async (file: File) => {
 		try {
 			const response = await clientApiServices.image.uploadImage(file);
-			console.log(response.data);
-			return response.data;
+			const result = response.data;
+
+			console.log(result);
+
+			if (result.success) {
+				dispatch(
+					setUserProfileImage({
+						profileImageUrl: result.data?.url ?? null,
+					}),
+				);
+			}
+
+			return result;
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response?.data) {
 				return error.response.data;
@@ -34,10 +46,11 @@ export const useImageHelper = () => {
 		}
 	};
 
-	const getUserProfileImage = async () => {};
+	const deleteUserProfileImage = async () => {};
 
 	return {
 		profileImageUrl,
 		uploadProfileImage,
+		deleteUserProfileImage,
 	};
 };

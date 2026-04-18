@@ -16,7 +16,6 @@
 		"// ───── FULLSTACK ─────": "",
 		"clean": "npm run  clean:client && npm run  clean:server",
 		"build": "npm run  build:client && npm run  build:server",
-		"prestart": "npm run  build",
 		"start": "cross-env APP_ENV=production npm run  start:server",
 		"dev": "npm run  clean:client && concurrently --raw \"npm run  dev:server\" \"npm run  dev:client\"",
 		"// ───── DATABASE ─────": "",

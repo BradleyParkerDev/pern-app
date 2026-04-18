@@ -3,6 +3,7 @@ import { type ImageState } from '@/shared/types/common/redux/index.js';
 
 const initialState: ImageState = {
 	profileImageUrl: null,
+	profileImageKey: null,
 };
 
 export const imageSlice = createSlice({
@@ -11,10 +12,14 @@ export const imageSlice = createSlice({
 	reducers: {
 		setUserProfileImage: (
 			state,
-			action: PayloadAction<{ profileImageUrl: string | null }>,
+			action: PayloadAction<{
+				profileImageUrl: string | null;
+				profileImageKey: string | null;
+			}>,
 		) => {
 			console.log(action.payload.profileImageUrl);
 			state.profileImageUrl = action.payload.profileImageUrl;
+			state.profileImageKey = action.payload.profileImageKey;
 		},
 		removeUserProfileImage: () => initialState,
 	},

@@ -22,7 +22,11 @@ export const createAuthService = (req?: Request, res?: Response) => {
 			typeof candidate.exp === 'number'
 		);
 	};
-
+	type AuthContext = {
+		sessionId: string;
+		userId?: string;
+		storageId?: string;
+	};
 	const authService = {
 		// Per-request context for downstream auth helpers
 		req,
@@ -50,23 +54,36 @@ export const createAuthService = (req?: Request, res?: Response) => {
 					const [sessionData] =
 						await this.getUserSessionData(sessionId);
 
+					// Get storageId
+					let storageId: string | undefined;
+
+					if (sessionData.userId) {
+						const foundUser = await this.user.getUserData({
+							userId: sessionData.userId,
+						});
+
+						storageId = foundUser?.storageId ?? undefined;
+					}
+
 					if (this.req && sessionData) {
 						this.req.body ??= {};
 
-						// Attach IDs for downstream middleware/controllers
 						this.req.body.userId = sessionData.userId ?? undefined;
 						this.req.body.sessionId = sessionId;
 
-						// Stable auth context for the request.
-						// req.body can be overwritten during multipart parsing (Multer),
-						// so userId/sessionId are also stored here for reliable access.
-						(req as any).authContext = {
+						//Used with controllers that make calls to AWS
+						const authContext: AuthContext = {
 							userId: sessionData.userId ?? undefined,
 							sessionId,
+							storageId,
 						};
 
+						(this.req as any).authContext = authContext;
+
 						loggerFactory.authService.info(
-							`[Auth Check] - sessionType: ${this.req.body.userId ? 'Authenticated' : 'Guest'} - sessionId: ${this.req.body.sessionId}`,
+							`[Auth Check] - sessionType: ${
+								sessionData.userId ? 'Authenticated' : 'Guest'
+							} - sessionId: ${sessionId}`,
 						);
 
 						return;

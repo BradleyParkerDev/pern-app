@@ -1,5 +1,5 @@
 import { pgTable, uuid, text, timestamp } from 'drizzle-orm/pg-core';
-import { User } from './Users.js'; // adjust path
+import { User } from './Users.js';
 
 export const UserProfileImage = pgTable('user_profile_images', {
 	userProfileImageId: uuid('user_profile_image_id')
@@ -14,6 +14,7 @@ export const UserProfileImage = pgTable('user_profile_images', {
 		.unique(),
 
 	imageUrl: text('image_url'),
+	imageKey: text('image_key'),
 
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 

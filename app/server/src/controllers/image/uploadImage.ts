@@ -10,14 +10,22 @@ const uploadImage = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const auth = createAuthService();
 		const file = req.file;
+		const { userId, storageId } = ((req as any).authContext ?? {}) as {
+			userId?: string;
+			storageId?: string;
+		};
 
-		const userId = (req as any).authContext?.userId;
+		if (!userId || !storageId) {
+			const response: APIResponseType<null> = {
+				success: false,
+				message: 'User is not authenticated.',
+				statusCode: HTTPStatus.UNAUTHORIZED,
+				data: null,
+			};
 
-		loggerFactory.image.info(
-			`POST - /api/image/upload-image - incoming userId: ${userId ?? 'missing'} - file: ${
-				file?.originalname ?? 'missing'
-			}`,
-		);
+			res.status(HTTPStatus.UNAUTHORIZED).json(response);
+			return;
+		}
 
 		if (!file) {
 			const response: APIResponseType<null> = {
@@ -31,24 +39,16 @@ const uploadImage = async (req: Request, res: Response): Promise<void> => {
 			return;
 		}
 
-		if (!userId) {
-			const response: APIResponseType<null> = {
-				success: false,
-				message: 'User ID is required to upload an image.',
-				statusCode: HTTPStatus.BAD_REQUEST,
-				data: null,
-			};
-
-			res.status(HTTPStatus.BAD_REQUEST).json(response);
-			return;
-		}
+		loggerFactory.image.info(
+			`POST - /api/image/upload-image - storageId: ${storageId} - file: ${file.originalname}`,
+		);
 
 		const result = await auth.aws.uploadObjectToS3Bucket({
 			buffer: file.buffer,
 			mimetype: file.mimetype,
 			originalname: file.originalname,
 			prefix: 'profile-images',
-			userId: String(userId),
+			storageId,
 		});
 
 		if (!result.success || !result.data) {
@@ -63,26 +63,29 @@ const uploadImage = async (req: Request, res: Response): Promise<void> => {
 			return;
 		}
 
-		// Save uploaded image URL to DB AFTER successful upload
-		await auth.image.saveUserProfileImage(String(userId), result.data.url);
+		await auth.image.saveUserProfileImage(
+			userId,
+			result.data.url,
+			result.data.key,
+		);
 
 		const response: APIResponseType<{
-			key: string;
-			url: string;
+			imageKey: string;
+			imageUrl: string;
 		}> = {
 			success: true,
 			message: 'Image uploaded successfully.',
 			statusCode: HTTPStatus.OK,
 			data: {
-				key: result.data.key,
-				url: result.data.url,
+				imageKey: result.data.key,
+				imageUrl: result.data.url,
 			},
 		};
 
 		res.status(HTTPStatus.OK).json(response);
 
 		loggerFactory.image.info(
-			`POST - /api/image/upload-image - userId: ${userId} - key: ${result.data.key} - url: ${result.data.url}`,
+			`POST - /api/image/upload-image - storageId: ${storageId} - imageKey: ${result.data.key} - url: ${result.data.url}`,
 		);
 	} catch (error) {
 		loggerFactory.image.error(

@@ -12,7 +12,7 @@ export const useImageHelper = () => {
 	const dispatch = useAppDispatch();
 	const image = useAppSelector((state) => state.image);
 
-	const { profileImageUrl } = image;
+	const { profileImageUrl, profileImageKey } = image;
 
 	const uploadProfileImage = async (file: File) => {
 		try {
@@ -25,6 +25,7 @@ export const useImageHelper = () => {
 				dispatch(
 					setUserProfileImage({
 						profileImageUrl: result.data?.url ?? null,
+						profileImageKey: result.data?.imageKey ?? null,
 					}),
 				);
 			}
@@ -46,7 +47,19 @@ export const useImageHelper = () => {
 		}
 	};
 
-	const deleteUserProfileImage = async () => {};
+	const deleteUserProfileImage = async () => {
+		if (!profileImageKey) {
+			return {
+				success: false as const,
+				message: 'No profile image to delete.',
+			};
+		}
+
+		const response =
+			await clientApiServices.image.deleteImage(profileImageKey);
+
+		return response.data;
+	};
 
 	return {
 		profileImageUrl,

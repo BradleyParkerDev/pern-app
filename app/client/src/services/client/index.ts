@@ -10,6 +10,7 @@ import { fetchCurrentpageState } from './api/ui/fetchCurrentPageState.js';
 import { toggleUserTheme } from './api/ui/toggleUserTheme.js';
 
 import { uploadImage } from './api/image/uploadImage.js';
+import { deleteImage } from './api/image/deleteImage.js';
 
 export const auth = {
 	loginUser,
@@ -25,6 +26,7 @@ export const user = {
 
 export const image = {
 	uploadImage,
+	deleteImage,
 };
 
 export const ui = { fetchCurrentpageState, toggleUserTheme };

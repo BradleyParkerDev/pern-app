@@ -4,6 +4,7 @@ import logoutUser from './auth/logoutUser.js';
 
 // images controller
 import uploadImage from './image/uploadImage.js';
+import deleteImage from './image/deleteImage.js';
 
 // user controller
 import registerUser from './user/registerUser.js';
@@ -26,6 +27,7 @@ export const authController = {
 
 export const imageController = {
 	uploadImage,
+	deleteImage,
 };
 
 // export userController

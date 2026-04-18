@@ -3,15 +3,33 @@ import { db } from '@server/database/db.js';
 import { eq } from 'drizzle-orm';
 
 export const imageHelper = {
-	async saveUserProfileImage(userId: string, imageUrl: string | null) {
+	async saveUserProfileImage(
+		userId: string,
+		imageUrl: string | null,
+		imageKey: string | null,
+	) {
 		const result = await db
 			.update(UserProfileImage)
-			.set({ imageUrl })
+			.set({
+				imageUrl,
+				imageKey,
+			})
 			.where(eq(UserProfileImage.userId, userId))
 			.returning();
 
 		return result;
 	},
 
-	async deleteUserProfileImage(userId: string) {},
+	async deleteUserProfileImage(userId: string) {
+		const result = await db
+			.update(UserProfileImage)
+			.set({
+				imageUrl: null,
+				imageKey: null,
+			})
+			.where(eq(UserProfileImage.userId, userId))
+			.returning();
+
+		return result;
+	},
 };

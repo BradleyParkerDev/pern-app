@@ -15,6 +15,11 @@ import middleware from '@server/middleware/index.js';
 dotenv.config();
 
 const NODE_ENV = process.env.NODE_ENV || 'production';
+const CLIENT_ORIGIN =
+	NODE_ENV === 'production'
+		? 'https://pernapp.bradleyparker.dev'
+		: 'http://localhost:4001';
+
 const openapi = JSON.parse(
 	fs.readFileSync(path.resolve(process.cwd(), 'openapi.json'), 'utf-8'),
 );
@@ -31,10 +36,12 @@ const app = express();
 /**
  * Enable CORS to allow cross-origin requests from the React frontend.
  */
+app.set('trust proxy', 1);
+
 app.use(
 	cors({
-		origin: 'http://localhost:4001', // React app's URL
-		credentials: true, // Allow cookies and other credentials
+		origin: CLIENT_ORIGIN,
+		credentials: true,
 	}),
 );
 

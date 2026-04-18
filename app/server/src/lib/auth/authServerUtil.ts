@@ -9,16 +9,30 @@ dotenv.config();
 const SALT_ROUNDS = Number(process.env.SALT_ROUNDS ?? 5);
 const JWT_SECRET_KEY = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
+const SESSION_MODE = process.env.SESSION_MODE ?? 'long';
+
+const SESSION_SHORT_MINUTES = Number(process.env.SESSION_SHORT_MINUTES ?? 2);
+const SESSION_MEDIUM_MINUTES = Number(process.env.SESSION_MEDIUM_MINUTES ?? 30);
+const SESSION_LONG_DAYS = Number(process.env.SESSION_LONG_DAYS ?? 7);
+
 const authServerUtil = {
 	saltRounds: SALT_ROUNDS,
 	jwtSecretKey: JWT_SECRET_KEY,
-	get expiration() {
-		const nowMs = Date.now();
-		return {
-			sevenDays: nowMs + 7 * 24 * 60 * 60 * 1000,
-			thirtyMinutes: nowMs + 30 * 60 * 1000,
-			twoMinutes: nowMs + 2 * 60 * 1000,
-		};
+
+	getSessionExpirationMs() {
+		const now = Date.now();
+
+		switch (SESSION_MODE) {
+			case 'short':
+				return now + SESSION_SHORT_MINUTES * 60 * 1000;
+
+			case 'medium':
+				return now + SESSION_MEDIUM_MINUTES * 60 * 1000;
+
+			case 'long':
+			default:
+				return now + SESSION_LONG_DAYS * 24 * 60 * 60 * 1000;
+		}
 	},
 
 	async hashPassword(password: string) {

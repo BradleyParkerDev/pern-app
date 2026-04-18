@@ -3,6 +3,16 @@ import { db } from '@server/database/db.js';
 import { eq } from 'drizzle-orm';
 
 export const imageHelper = {
+	async getUserProfileImage(userId: string) {
+		const [result] = await db
+			.select()
+			.from(UserProfileImage)
+			.where(eq(UserProfileImage.userId, userId))
+			.limit(1);
+
+		return result ?? null;
+	},
+
 	async saveUserProfileImage(
 		userId: string,
 		imageUrl: string | null,

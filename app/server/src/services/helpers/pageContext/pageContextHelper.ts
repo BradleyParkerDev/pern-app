@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import type { AppStore } from '@/shared/types/common/redux/index.js';
 import { setUser } from '@shared/redux/slices/user/userSlice.js';
+import { setUserProfileImage } from '@shared/redux/slices/image/imageSlice.js';
 import {
 	setAppName,
 	setTheme,
@@ -8,6 +9,7 @@ import {
 } from '@shared/redux/slices/ui/uiSlice.js';
 import { setAuth } from '@shared/redux/slices/auth/authSlice.js';
 import { userHelper } from '../user/userHelper.js';
+import { imageHelper } from '../image/imageHelper.js';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import { createStore } from '@shared/redux/store.js';
 import type { UserThemeType } from '@shared/types/common/UserThemeType.js';
@@ -49,8 +51,17 @@ export const createPageContextHelper = (req?: Request, res?: Response) => {
 				const user = await userHelper.getUserData({ userId });
 
 				if (user) {
+					const userProfileImage =
+						await imageHelper.getUserProfileImage(userId);
+
 					this.store.dispatch(setAuth({ isAuth: true }));
 					this.store.dispatch(setUser({ userData: user }));
+					this.store.dispatch(
+						setUserProfileImage({
+							profileImageUrl: userProfileImage?.imageUrl ?? null,
+							profileImageKey: userProfileImage?.imageKey ?? null,
+						}),
+					);
 				} else {
 					this.store.dispatch(setAuth({ isAuth: false }));
 				}

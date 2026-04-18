@@ -24,7 +24,7 @@ export const useImageHelper = () => {
 			if (result.success) {
 				dispatch(
 					setUserProfileImage({
-						profileImageUrl: result.data?.url ?? null,
+						profileImageUrl: result.data?.imageUrl ?? null,
 						profileImageKey: result.data?.imageKey ?? null,
 					}),
 				);
@@ -48,21 +48,47 @@ export const useImageHelper = () => {
 	};
 
 	const deleteUserProfileImage = async () => {
-		if (!profileImageKey) {
-			return {
-				success: false as const,
-				message: 'No profile image to delete.',
+		try {
+			if (!profileImageKey) {
+				const fallback: APIResponseType<null> = {
+					success: false,
+					message: 'No profile image to delete.',
+					statusCode: HTTPStatus.BAD_REQUEST,
+					data: null,
+				};
+
+				return fallback;
+			}
+
+			const response =
+				await clientApiServices.image.deleteImage(profileImageKey);
+
+			const result = response.data;
+
+			if (result.success) {
+				dispatch(removeUserProfileImage());
+			}
+
+			return result;
+		} catch (error) {
+			if (axios.isAxiosError(error) && error.response?.data) {
+				return error.response.data;
+			}
+
+			const fallback: APIResponseType<null> = {
+				success: false,
+				message: 'Failed to delete image.',
+				statusCode: HTTPStatus.INTERNAL_SERVER_ERROR,
+				data: null,
 			};
+
+			return fallback;
 		}
-
-		const response =
-			await clientApiServices.image.deleteImage(profileImageKey);
-
-		return response.data;
 	};
 
 	return {
 		profileImageUrl,
+		profileImageKey,
 		uploadProfileImage,
 		deleteUserProfileImage,
 	};

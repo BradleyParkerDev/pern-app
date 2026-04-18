@@ -18,6 +18,10 @@ type GetUserResponseDataType = {
 		emailAddress: string | null;
 		userName: string | null;
 	};
+	image: {
+		profileImageUrl: string | null;
+		profileImageKey: string | null;
+	};
 	theme: string; // or UserThemeType
 };
 
@@ -44,6 +48,7 @@ const getUser = async (req: Request, res: Response): Promise<void> => {
 	}
 
 	const theme = await ui.getUserTheme();
+	const userProfileImage = await auth.image.getUserProfileImage(userId);
 
 	const user = {
 		firstName: userData.firstName,
@@ -58,6 +63,10 @@ const getUser = async (req: Request, res: Response): Promise<void> => {
 		statusCode: HTTPStatus.OK,
 		data: {
 			user,
+			image: {
+				profileImageUrl: userProfileImage?.imageUrl ?? null,
+				profileImageKey: userProfileImage?.imageKey ?? null,
+			},
 			theme,
 		},
 	};

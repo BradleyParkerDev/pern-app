@@ -11,6 +11,10 @@ import {
 import { setUser, resetUser } from '@shared/redux/slices/user/userSlice.js';
 import { setAuth, resetAuth } from '@shared/redux/slices/auth/authSlice.js';
 import { setTheme, resetUI } from '@shared/redux/slices/ui/uiSlice.js';
+import {
+	setUserProfileImage,
+	removeUserProfileImage,
+} from '@shared/redux/slices/image/imageSlice.js';
 import type { AppDispatch } from '@/shared/types/common/redux/index.js';
 import type { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 
@@ -59,10 +63,16 @@ export const useUserCrudHelper = ({ dispatch, ui }: UseUserCrudHelperProps) => {
 				return userResult;
 			}
 
-			const { user: userData, theme } = userResult.data;
+			const { user: userData, image, theme } = userResult.data;
 
 			dispatch(setUser({ userData }));
 			dispatch(setAuth({ isAuth: true }));
+			dispatch(
+				setUserProfileImage({
+					profileImageUrl: image?.profileImageUrl ?? null,
+					profileImageKey: image?.profileImageKey ?? null,
+				}),
+			);
 			dispatch(setTheme({ theme }));
 
 			return result;
@@ -88,6 +98,7 @@ export const useUserCrudHelper = ({ dispatch, ui }: UseUserCrudHelperProps) => {
 			if (result.success) {
 				dispatch(resetUser());
 				dispatch(resetAuth());
+				dispatch(removeUserProfileImage());
 				dispatch(resetUI());
 				ui.navigateTo('/');
 			}

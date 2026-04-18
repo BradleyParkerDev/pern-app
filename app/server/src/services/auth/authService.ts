@@ -102,16 +102,27 @@ export const createAuthService = (req?: Request, res?: Response) => {
 		async createUserSession(userId?: string) {
 			// Replace any existing session cookie before issuing a new one
 			this.removeSessionCookie();
-			const expirationMs = this.util.expiration.sevenDays;
+			const expirationMs = this.util.getSessionExpirationMs();
 			const tokenTtlMs = Math.max(0, expirationMs - Date.now());
-			if (userId) {
-				// Create authenticated session
 
+			const ipAddress =
+				this.req?.headers['x-forwarded-for']
+					?.toString()
+					.split(',')[0]
+					?.trim() ||
+				this.req?.socket.remoteAddress ||
+				null;
+
+			const userAgent = this.req?.headers['user-agent'] ?? null;
+
+			if (userId) {
 				const [session] = await db
 					.insert(Session)
 					.values({
-						userId: userId,
+						userId,
 						expirationTime: new Date(expirationMs),
+						ipAddress,
+						userAgent,
 					})
 					.returning();
 
@@ -120,7 +131,7 @@ export const createAuthService = (req?: Request, res?: Response) => {
 				const tokenExpirationSeconds = Math.floor(expirationMs / 1000);
 
 				const payload = {
-					sessionType: 'Authneticated',
+					sessionType: 'Authenticated',
 					sessionId: session.sessionId,
 					exp: tokenExpirationSeconds,
 				};
@@ -140,8 +151,11 @@ export const createAuthService = (req?: Request, res?: Response) => {
 					.insert(Session)
 					.values({
 						expirationTime: new Date(expirationMs),
+						ipAddress,
+						userAgent,
 					})
 					.returning();
+
 				if (!session) return;
 				// Use absolute expiration time for JWT and TTL for cookie
 

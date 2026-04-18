@@ -3,20 +3,16 @@ import { Card, CardContent } from '@client/components/shadcn/card.js';
 import { Button } from '@client/components/shadcn/button.js';
 import { Avatar, AvatarFallback, AvatarImage } from './fragments/avatar.js';
 import { useOutletContext } from 'react-router';
-import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
+import {} from '@shared/types/client/hooks/index.js';
 import { toast } from 'sonner';
-import {
-	Dialog,
-	DialogContent,
-	DialogTrigger,
-} from '@client/components/custom/dialog/dialog.js';
+import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
 
 type UserInfoCardProps = React.ComponentProps<typeof Card> & {
 	update?: boolean;
 };
 
 const UserInfoCard = ({ update = false, ...props }: UserInfoCardProps) => {
-	const { user } = useOutletContext<AppOutletContext>();
+	const { ui, auth, user } = useOutletContext<AppOutletContext>();
 
 	const { firstName, lastName, userName, emailAddress } = user ?? {};
 
@@ -29,22 +25,32 @@ const UserInfoCard = ({ update = false, ...props }: UserInfoCardProps) => {
 		event: React.ChangeEvent<HTMLInputElement>,
 	) => {
 		const file = event.target.files?.[0];
+
 		if (!file) return;
 
+		const result = await user.uploadProfileImage(file);
+		if (result.success) {
+			toast.success(result.message || 'Profile image uploaded');
+		} else {
+			toast.error(result.message || 'Failed to upload image');
+		}
+		console.log(result);
+
+		event.target.value = '';
+	};
+
+	const handleProfileImageDelete = async () => {
 		try {
-			const result = await user.uploadProfileImage(file);
+			const result = await user.deleteUserProfileImage();
 
 			if (result.success) {
-				toast.success(result.message || 'Profile image updated');
+				toast.success(result.message || 'Profile image deleted');
 			} else {
-				toast.error(result.message || 'Failed to upload image');
+				toast.error(result.message || 'Failed to delete image');
 			}
 		} catch (error) {
 			console.error(error);
-			toast.error('Something went wrong while uploading');
-		} finally {
-			// Reset input so same file can be selected again
-			event.target.value = '';
+			toast.error('Something went wrong while deleting');
 		}
 	};
 
@@ -52,10 +58,9 @@ const UserInfoCard = ({ update = false, ...props }: UserInfoCardProps) => {
 		<Card className="w-full max-w-xl" {...props}>
 			<CardContent className="flex flex-col items-center space-y-4 px-6 py-4">
 				<div className="flex flex-col items-center space-y-2">
-					<Avatar className="h-36 w-36 overflow-hidden rounded-full">
+					<Avatar className="h-36 w-36 rounded-full">
 						<AvatarImage
 							src={user.profileImageUrl || undefined}
-							alt="Profile image"
 							className="h-full w-full object-cover object-top"
 						/>
 						<AvatarFallback className="text-2xl font-semibold">
@@ -95,6 +100,7 @@ const UserInfoCard = ({ update = false, ...props }: UserInfoCardProps) => {
 									type="button"
 									variant="outline"
 									className="border-destructive/35 bg-destructive/[0.04] text-destructive hover:border-destructive/45 hover:bg-destructive/10 hover:text-destructive focus-visible:ring-destructive/30 mt-[10px] text-sm font-semibold"
+									onClick={handleProfileImageDelete}
 								>
 									Delete Profile Image
 								</Button>

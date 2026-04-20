@@ -151,6 +151,7 @@ export const createPageContextHelper = (req?: Request, res?: Response) => {
 			const resolvedPath = normalizeRoutePath(requestedPath);
 
 			switch (resolvedPath) {
+				case '/':
 				case '/homepage-content':
 					return await this.content.fetchHomePageContent();
 
@@ -166,15 +167,18 @@ export const createPageContextHelper = (req?: Request, res?: Response) => {
 				case '/news':
 					return await this.content.fetchNewsPageContent();
 
-				case '/userpage-content':
-					return await this.content.fetchUserPageContent();
-
 				case '/store':
 					return await this.content.fetchStorePageContent();
 
-				// Fallback for routes with no defined page content yet.
+				case '/userpage-content':
+					return await this.content.fetchUserPageContent();
+
 				default:
-					return {};
+					if (resolvedPath.startsWith('/user/')) {
+						return await this.content.fetchUserPageContent();
+					}
+
+					return { fallback: 'no defined page content' };
 			}
 		},
 	};

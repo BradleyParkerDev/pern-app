@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createAuthService } from '../../services/auth/authService.js';
+import { createAuthService } from '@server/services/index.js';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import {
 	type APIResponseType,

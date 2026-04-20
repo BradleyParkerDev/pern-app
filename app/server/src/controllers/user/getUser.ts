@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-import { createAuthService } from '@server/services/auth/authService.js';
-import { createUiService } from '@server/services/ui/uiService.js';
+import { createAuthService, createUiService } from '@server/services/index.js';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import dotenv from 'dotenv';
 

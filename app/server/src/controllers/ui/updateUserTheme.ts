@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createUiService } from '@server/services/ui/uiService.js';
+import { createUiService } from '@server/services/index.js';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import { HTTPStatus } from '@shared/types/common/http/HTTPStatus.js';
 import type { APIResponseType } from '@shared/types/common/api/ApiResponseType.js';

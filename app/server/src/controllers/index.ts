@@ -13,8 +13,17 @@ import updateUser from './user/updateUser.js';
 import deleteUser from './user/deleteUser.js';
 
 // ui controller
-import getCurrentPageState from './ui/getCurrentPageState.js';
+// import getCurrentPageState from './ui/getCurrentPageState.js';
 import updateUserTheme from './ui/updateUserTheme.js';
+
+// page content controller
+import getHomePageContent from './pageContent/homePage/homePage.js';
+import getChatPageContent from './pageContent/chat/chat.js';
+import getFriendsPageContent from './pageContent/friends/friends.js';
+import getImagesPageContent from './pageContent/images/images.js';
+import getNewsPageContent from './pageContent/news/news.js';
+import getUserPageContent from './pageContent/userPage/userPage.js';
+import getStorePageContent from './pageContent/store/store.js';
 
 // web controller import
 import web from './web/index.js';
@@ -39,8 +48,18 @@ export const userController = {
 };
 
 export const uiController = {
-	getCurrentPageState,
+	// getCurrentPageState,
 	updateUserTheme,
+};
+
+export const pageContentController = {
+	getHomePageContent,
+	getChatPageContent,
+	getFriendsPageContent,
+	getImagesPageContent,
+	getNewsPageContent,
+	getUserPageContent,
+	getStorePageContent,
 };
 
 // export webController

@@ -24,15 +24,7 @@ const uiSlice = createSlice({
 		) => {
 			state.theme = action.payload.theme;
 		},
-		resetUI: (state) => {
-			((state.theme = 'light'),
-				(state.authPageForm = ''),
-				(state.currentPage = {
-					path: '',
-					content: {},
-					isLoading: false,
-				}));
-		},
+		resetUI: (state) => initialState,
 
 		handleAuthPageFormToggle: (
 			state,

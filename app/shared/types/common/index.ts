@@ -9,3 +9,4 @@ export { HTTPStatus } from './http/HTTPStatus.js';
 // Existing shared types
 export type { UserThemeType } from './UserThemeType.js';
 export type { LoginCredentialsDataType } from './LoginCredentialsDataType.js';
+export type { PageContent } from './page/PageContent.js';

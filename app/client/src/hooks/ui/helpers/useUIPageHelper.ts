@@ -11,33 +11,48 @@ export const useUIPageHelper = () => {
 	const dispatch = useAppDispatch();
 	const location = useLocation();
 	const currentPage = useAppSelector((state) => state.ui.currentPage);
+	const userName = useAppSelector((state) => state.user.userName);
 
 	useEffect(() => {
-		if (
-			currentPage.path === location.pathname &&
-			currentPage.isLoading === false
-		) {
+		const routePath = location.pathname;
+
+		if (currentPage.path === routePath && currentPage.isLoading === false) {
 			return;
 		}
 
 		let isMounted = true;
-		const path = location.pathname;
 
-		dispatch(toggleCurrentIsLoading({ currentPage: { isLoading: true } }));
+		const getApiPath = () => {
+			if (routePath === '/') {
+				return '/homepage-content';
+			}
+
+			if (routePath === `/user/${userName}`) {
+				return '/userpage-content';
+			}
+
+			return routePath;
+		};
 
 		const getPageData = async () => {
+			dispatch(
+				toggleCurrentIsLoading({ currentPage: { isLoading: true } }),
+			);
+
 			try {
-				const response =
-					await clientApiServices.ui.fetchCurrentpageState(path);
+				const apiPath = getApiPath();
+				const pageContent =
+					await clientApiServices.ui.fetchCurrentpageState(apiPath);
 
 				if (!isMounted) return;
 
+				console.log(pageContent);
 				dispatch(
 					loadCurrentPageState({
 						currentPage: {
-							path,
-							content: response.content ?? {},
-							isLoading: response.isLoading ?? false,
+							path: routePath,
+							content: pageContent,
+							isLoading: false,
 						},
 					}),
 				);
@@ -47,7 +62,7 @@ export const useUIPageHelper = () => {
 				dispatch(
 					loadCurrentPageState({
 						currentPage: {
-							path,
+							path: routePath,
 							content: {},
 							isLoading: false,
 						},
@@ -60,17 +75,6 @@ export const useUIPageHelper = () => {
 
 		return () => {
 			isMounted = false;
-			dispatch(
-				toggleCurrentIsLoading({
-					currentPage: { isLoading: false },
-				}),
-			);
 		};
-	}, [
-		location.key,
-		location.pathname,
-		dispatch,
-		currentPage.path,
-		currentPage.isLoading,
-	]);
+	}, [location.pathname, userName, dispatch]);
 };

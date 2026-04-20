@@ -104,6 +104,7 @@ export const loggerFactory = {
 	user: createNewLogger('user', 'routes/api'),
 	ui: createNewLogger('ui', 'routes/api'),
 	image: createNewLogger('image', 'routes/api'),
+	content: createNewLogger('page-content', 'routes/api'),
 	index: createNewLogger('web', 'routes'),
 
 	// Services

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { createAuthService } from '@server/services/auth/authService.js';
+import { createAuthService } from '@server/services/index.js';
 
 const middleware = {
 	async session(req: Request, res: Response, next: NextFunction) {

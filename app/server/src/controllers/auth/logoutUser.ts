@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { loggerFactory } from '@server/lib/logger/index.js';
-import { createAuthService } from '../../services/auth/authService.js';
+import { createAuthService } from '@server/services/index.js';
 import dotenv from 'dotenv';
 
 import {

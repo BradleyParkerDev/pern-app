@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import authServerUtil from '@server/lib/auth/authServerUtil.js';
 import { Session, UserTheme } from '@server/database/schemas/index.js';
-import { awsHelper, imageHelper, userHelper } from '../helpers/index.js';
+import { awsHelper, imageHelper, userHelper } from '../../helpers/index.js';
 import type { AccessTokenType } from '@shared/types/server/auth/AccessTokenType.js';
 import { db } from '@server/database/db.js';
 import { eq } from 'drizzle-orm';

@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { loggerFactory } from '@server/lib/logger/index.js';
 import { reactHelper } from '@server/services/helpers/index.js';
-import { createPageContextHelper } from '../helpers/pageContext/pageContextHelper.js';
+import { contentHelper } from '../../helpers/content/contentHelper.js';
+import { createPageContextHelper } from '../../helpers/pageContext/pageContextHelper.js';
 import { type UserThemeType } from '@shared/types/common/UserThemeType.js';
 import { UserTheme } from '@server/database/schemas/UserThemes.js';
 import { db } from '@server/database/db.js';
@@ -14,6 +15,7 @@ export const createUiService = (req: Request, res: Response) => {
 		res,
 		page,
 		react: reactHelper,
+		content: contentHelper,
 
 		async handlePageRendering() {
 			const userTheme = await this.getUserTheme();

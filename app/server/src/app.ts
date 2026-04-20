@@ -9,7 +9,7 @@ import fs from 'fs';
 import path from 'path';
 import apiRouter from './routes/api.js';
 import webRouter from './routes/web.js';
-import { cronService } from '@server/services/cron/index.js';
+import { cronService } from '@server/services/index.js';
 import middleware from '@server/middleware/index.js';
 // Load environment variables from .env file
 dotenv.config();

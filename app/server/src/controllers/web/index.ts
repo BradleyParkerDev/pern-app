@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createUiService } from '@/server/src/services/ui/uiService.js';
+import { createUiService } from '@server/services/index.js';
 
 const web = async (req: Request, res: Response) => {
 	const ui = createUiService(req, res);

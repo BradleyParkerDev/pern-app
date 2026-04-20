@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { loggerFactory } from '@server/lib/logger/index.js';
-import { createAuthService } from '../../services/auth/authService.js';
+import { createAuthService } from '@server/services/index.js';
 import { RegistrationSchema } from '@/shared/zod/user/registrationSchema.js';
 import dotenv from 'dotenv';
 

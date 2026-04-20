@@ -68,6 +68,9 @@ const uploadImage = async (req: Request, res: Response): Promise<void> => {
 			result.data.url,
 			result.data.key,
 		);
+		loggerFactory.image.info(
+			`upload-image dbResult: ${JSON.stringify(dbResult)}`,
+		);
 
 		if (!dbResult) {
 			const response: APIResponseType<null> = {

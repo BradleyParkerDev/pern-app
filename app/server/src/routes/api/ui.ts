@@ -4,6 +4,5 @@ import { uiController } from '@server/controllers/index.js';
 const router = express.Router();
 
 // UI API
-// router.get('/get-page-state', uiController.getCurrentPageState);
 router.put('/update-user-theme', uiController.updateUserTheme);
 export default router;

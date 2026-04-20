@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useOutletContext } from 'react-router';
 import { SearchX } from 'lucide-react';
 
@@ -6,7 +7,9 @@ import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
 
 const NotFoundPage = () => {
 	const { ui } = useOutletContext<AppOutletContext>();
-
+	useEffect(() => {
+		document.title = `Not Found | ${ui.appName}`;
+	}, []);
 	return (
 		<StatusCard
 			ui={ui}

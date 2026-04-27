@@ -1,0 +1,34 @@
+services:
+    app:
+        image: pern-app-dev
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: builder
+        container_name: pern-app
+        ports:
+            - '3001:3001'
+            - '4001:4001'
+        env_file:
+            - .env
+        depends_on:
+            - postgres
+        command: npm run dev
+        volumes:
+            - .:/app
+            - /app/node_modules
+
+    postgres:
+        image: postgres:17
+        container_name: pern-postgres
+        environment:
+            POSTGRES_DB: pern_app
+            POSTGRES_USER: bparker
+            POSTGRES_PASSWORD: bp094048
+        ports:
+            - '5433:5432'
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+volumes:
+    postgres_data:

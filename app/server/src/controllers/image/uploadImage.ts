@@ -63,29 +63,45 @@ const uploadImage = async (req: Request, res: Response): Promise<void> => {
 			return;
 		}
 
-		await auth.image.saveUserProfileImage(
+		const [dbResult] = await auth.image.saveUserProfileImage(
 			userId,
 			result.data.url,
 			result.data.key,
 		);
+		loggerFactory.image.info(
+			`upload-image dbResult: ${JSON.stringify(dbResult)}`,
+		);
+
+		if (!dbResult) {
+			const response: APIResponseType<null> = {
+				success: false,
+				message:
+					'Image uploaded to storage, but failed to save image metadata.',
+				statusCode: HTTPStatus.INTERNAL_SERVER_ERROR,
+				data: null,
+			};
+
+			res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json(response);
+			return;
+		}
 
 		const response: APIResponseType<{
-			imageKey: string;
-			imageUrl: string;
+			imageKey: string | null;
+			imageUrl: string | null;
 		}> = {
 			success: true,
 			message: 'Image uploaded successfully.',
 			statusCode: HTTPStatus.OK,
 			data: {
-				imageKey: result.data.key,
-				imageUrl: result.data.url,
+				imageKey: dbResult?.imageKey,
+				imageUrl: dbResult?.imageUrl,
 			},
 		};
 
 		res.status(HTTPStatus.OK).json(response);
 
 		loggerFactory.image.info(
-			`POST - /api/image/upload-image - storageId: ${storageId} - imageKey: ${result.data.key} - url: ${result.data.url}`,
+			`POST - /api/image/upload-image - storageId: ${storageId} - imageKey: ${dbResult.imageKey} - url: ${dbResult.imageUrl}`,
 		);
 	} catch (error) {
 		loggerFactory.image.error(

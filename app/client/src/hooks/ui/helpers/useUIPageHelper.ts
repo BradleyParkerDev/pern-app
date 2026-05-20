@@ -53,7 +53,7 @@ export const useUIPageHelper = () => {
 					loadCurrentPageState({
 						currentPage: {
 							path: routePath,
-							content: pageContent,
+							content: pageContent ?? {},
 							isLoading: false,
 						},
 					}),

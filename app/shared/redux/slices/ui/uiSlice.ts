@@ -43,7 +43,7 @@ const uiSlice = createSlice({
 		) => {
 			state.currentPage = action.payload.currentPage;
 		},
-		toggleCurrentIsLoading: (
+		toggleCurrentPageIsLoading: (
 			state,
 			action: PayloadAction<{
 				currentPage: UIState['currentPage'];
@@ -60,6 +60,6 @@ export const {
 	resetUI,
 	handleAuthPageFormToggle,
 	loadCurrentPageState,
-	toggleCurrentIsLoading,
+	toggleCurrentPageIsLoading,
 } = uiSlice.actions;
 export default uiSlice.reducer;

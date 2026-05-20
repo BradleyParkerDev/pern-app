@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@shared/redux/hooks.js';
 import {
 	loadCurrentPageState,
-	toggleCurrentIsLoading,
+	toggleCurrentPageIsLoading,
 } from '@shared/redux/slices/ui/uiSlice.js';
 import { clientApiServices } from '@client/services/client/index.js';
 
@@ -36,7 +36,9 @@ export const useUIPageHelper = () => {
 
 		const getPageData = async () => {
 			dispatch(
-				toggleCurrentIsLoading({ currentPage: { isLoading: true } }),
+				toggleCurrentPageIsLoading({
+					currentPage: { isLoading: true },
+				}),
 			);
 
 			try {

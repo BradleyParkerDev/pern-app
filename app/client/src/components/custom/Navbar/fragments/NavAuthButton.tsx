@@ -2,18 +2,18 @@ import { UIUtility } from '@/shared/types/client/hooks/UIUtility.js';
 import { AuthUtility } from '@/shared/types/client/hooks/AuthUtility.js';
 import { UserUtility } from '@/shared/types/client/hooks/UserUtility.js';
 import { toast } from 'sonner';
-type NavUserButton = {
+type NavAuthButton = {
 	ui: UIUtility;
 	auth: AuthUtility;
 	user: UserUtility;
 };
 
-export const NavUserButton = ({ ui, auth, user }: NavUserButton) => {
+export const NavAuthButton = ({ ui, auth, user }: NavAuthButton) => {
 	return (
 		<div
 			onClick={async () => {
 				if (!auth.isAuth) {
-					ui.toggleAuthPageFormsWithNavUserButton();
+					ui.toggleAuthPageFormsWithNavAuthButton();
 					ui.navigateTo('/auth');
 					return;
 				}

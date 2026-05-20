@@ -4,7 +4,7 @@ import { UserUtility } from '@/shared/types/client/hooks/UserUtility.js';
 import { User as UserAccountIcon, Settings, LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 import {
-	NavUserButton,
+	NavAuthButton,
 	NavLogo,
 	MenuButton,
 	UIThemeSwitch,
@@ -138,7 +138,7 @@ export const BarFragment = ({ ui, auth, user }: BarFragmentProps) => {
 					{auth.isAuth ? (
 						userAvatarAndUserName
 					) : (
-						<NavUserButton ui={ui} auth={auth} user={user} />
+						<NavAuthButton ui={ui} auth={auth} user={user} />
 					)}
 				</div>
 			</div>

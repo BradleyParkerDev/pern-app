@@ -5,7 +5,7 @@ export const useUIFormHelper = () => {
 	const dispatch = useAppDispatch();
 	const authPageForm = useAppSelector((state) => state.ui.authPageForm);
 
-	const toggleAuthPageFormsWithNavUserButton = () => {
+	const toggleAuthPageFormsWithNavAuthButton = () => {
 		dispatch(
 			handleAuthPageFormToggle({
 				authPageForm: authPageForm === '' ? 'login' : '',
@@ -15,6 +15,6 @@ export const useUIFormHelper = () => {
 
 	return {
 		authPageForm,
-		toggleAuthPageFormsWithNavUserButton,
+		toggleAuthPageFormsWithNavAuthButton,
 	};
 };

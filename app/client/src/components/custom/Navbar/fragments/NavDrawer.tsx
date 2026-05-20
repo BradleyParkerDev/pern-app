@@ -5,7 +5,7 @@ import { UserUtility } from '@/shared/types/client/hooks/UserUtility.js';
 import { MenuButton } from './MenuButton.js';
 import { NavLogo } from './NavLogo.js';
 import { UIThemeSwitch } from './UIThemeSwitch.js';
-import { NavUserButton } from './NavUserButton.js';
+import { NavAuthButton } from './NavAuthButton.js';
 import {
 	NavUserAvatar,
 	NavUserAvatarFallback,
@@ -137,7 +137,7 @@ export const NavDrawer = ({ ui, auth, user }: NavDrawerProps) => {
 					<UIThemeSwitch onClick={ui.toggleUserTheme} />
 				</div>
 				<div className="flex w-full justify-center sm:hidden">
-					<NavUserButton ui={ui} auth={auth} user={user} />
+					<NavAuthButton ui={ui} auth={auth} user={user} />
 				</div>
 			</div>
 		);

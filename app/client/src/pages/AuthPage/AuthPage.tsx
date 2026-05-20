@@ -24,7 +24,7 @@ const AuthPage = () => {
 	useEffect(() => {
 		if (ui.authPageForm === 'login') {
 			setFormDisplayed('Welcome back!');
-			ui.toggleAuthPageFormsWithNavUserButton();
+			ui.toggleAuthPageFormsWithNavAuthButton();
 		}
 	}, [ui.authPageForm]);
 

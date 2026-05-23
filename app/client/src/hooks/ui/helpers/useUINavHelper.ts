@@ -29,6 +29,7 @@ export const useUINavHelper = () => {
 		setNavDrawerIsOpen(false);
 		closeAvatarPopover();
 		navigate(url);
+		window.scrollTo(0, 0);
 	};
 
 	// ✅ Move resize effect HERE

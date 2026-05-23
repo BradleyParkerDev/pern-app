@@ -32,7 +32,7 @@ export const useUINavHelper = () => {
 		window.scrollTo(0, 0);
 	};
 
-	// ✅ Move resize effect HERE
+	// Close popover when window is <= 640px
 	useEffect(() => {
 		const handleResize = () => {
 			if (window.innerWidth <= 640) {

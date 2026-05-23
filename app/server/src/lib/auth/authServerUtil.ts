@@ -52,7 +52,6 @@ const authServerUtil = {
 	},
 	async verifyToken(accessToken: string) {
 		if (!accessToken) {
-			console.error('No token provided');
 			return null;
 		}
 		try {

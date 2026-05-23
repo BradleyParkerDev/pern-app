@@ -27,7 +27,9 @@ export const pruneExpiredUserSessionsCron = async () => {
 					`[CRON][Sessions] Deleted ${sessionsDeleted} expired session(s).`,
 				);
 			} else {
-				loggerFactory.cron?.info?.('[CRON] No expired sessions found.');
+				loggerFactory.cron?.info?.(
+					'[CRON][Sessions] No expired sessions found.',
+				);
 			}
 		} catch (error) {
 			loggerFactory.cron?.error?.(

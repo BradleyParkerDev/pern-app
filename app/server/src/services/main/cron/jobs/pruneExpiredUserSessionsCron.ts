@@ -9,7 +9,7 @@ export const pruneExpiredUserSessionsCron = async () => {
 		const now = new Date();
 
 		loggerFactory.cron?.info?.(
-			`[CRON][Sessions] Checking for expired sessions at ${now.toISOString()}`,
+			`[CRON][Session] Checking for expired sessions at ${now.toISOString()}`,
 		);
 
 		try {
@@ -24,16 +24,16 @@ export const pruneExpiredUserSessionsCron = async () => {
 				await db.delete(Session).where(lt(Session.expirationTime, now));
 
 				loggerFactory.cron?.info?.(
-					`[CRON][Sessions] Deleted ${sessionsDeleted} expired session(s).`,
+					`[CRON][Session] Deleted ${sessionsDeleted} expired session(s).`,
 				);
 			} else {
 				loggerFactory.cron?.info?.(
-					'[CRON][Sessions] No expired sessions found.',
+					'[CRON][Session] No expired sessions found.',
 				);
 			}
 		} catch (error) {
 			loggerFactory.cron?.error?.(
-				`[CRON][Sessions] Error while deleting expired sessions: ${
+				`[CRON][Session] Error while deleting expired sessions: ${
 					error instanceof Error ? error.message : String(error)
 				}`,
 			);

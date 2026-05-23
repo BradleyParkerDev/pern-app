@@ -14,7 +14,12 @@ declare namespace NodeJS {
 		NEON_DATABASE_URL: string;
 		LOCAL_DATABASE_URL: string;
 		JWT_SECRET_KEY: string;
-		NEWS_API_KEY: string;
+
+		// Sessions
+		SESSION_MODE: string;
+		SESSION_SHORT_MINUTES: number;
+		SESSION_MEDIUM_MINUTES: number;
+		SESSION_LONG_DAYS: number;
 
 		// Add other environment variables here
 	}

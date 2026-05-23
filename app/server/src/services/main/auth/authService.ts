@@ -41,9 +41,9 @@ export const createAuthService = (req?: Request, res?: Response) => {
 		 */
 		async authCheck(accessToken: string) {
 			// Validate token, hydrate request with session info, or create a new session
-
 			try {
 				const decodedToken = await this.util.verifyToken(accessToken);
+
 				if (!decodedToken) {
 					await this.createUserSession();
 					return;
@@ -53,6 +53,14 @@ export const createAuthService = (req?: Request, res?: Response) => {
 
 					const [sessionData] =
 						await this.getUserSessionData(sessionId);
+
+					if (!sessionData) {
+						loggerFactory.authService.info(
+							`[Auth Check] - No session found in database for sessionId: ${sessionId}. Creating new guest session.`,
+						);
+						await this.createUserSession();
+						return;
+					}
 
 					// Get storageId
 					let storageId: string | undefined;
@@ -94,7 +102,18 @@ export const createAuthService = (req?: Request, res?: Response) => {
 				} else {
 					await this.createUserSession();
 				}
-			} catch {}
+			} catch (error) {
+				if (error instanceof Error) {
+					loggerFactory.authService.error(
+						`[Auth Check Error] - ${error.message}`,
+					);
+					loggerFactory.authService.error(error.stack ?? '');
+				} else {
+					loggerFactory.authService.error(
+						`[Auth Check Error] - Unknown error: ${String(error)}`,
+					);
+				}
+			}
 		},
 		/**
 		 * Create a user or guest session and set the session cookie.

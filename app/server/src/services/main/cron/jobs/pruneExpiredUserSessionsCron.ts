@@ -4,12 +4,12 @@ import { db } from '@server/database/db.js';
 import { Session } from '@server/database/schemas/index.js';
 import { loggerFactory } from '@server/lib/logger/index.js';
 
-export const pruneExpiredUserSessions = async () => {
+export const pruneExpiredUserSessionsCron = async () => {
 	cron.schedule('*/5 * * * *', async () => {
 		const now = new Date();
 
 		loggerFactory.cron?.info?.(
-			`[CRON] Checking for expired sessions at ${now.toISOString()}`,
+			`[CRON][Sessions] Checking for expired sessions at ${now.toISOString()}`,
 		);
 
 		try {
@@ -24,14 +24,14 @@ export const pruneExpiredUserSessions = async () => {
 				await db.delete(Session).where(lt(Session.expirationTime, now));
 
 				loggerFactory.cron?.info?.(
-					`[CRON] Deleted ${sessionsDeleted} expired session(s).`,
+					`[CRON][Sessions] Deleted ${sessionsDeleted} expired session(s).`,
 				);
 			} else {
 				loggerFactory.cron?.info?.('[CRON] No expired sessions found.');
 			}
 		} catch (error) {
 			loggerFactory.cron?.error?.(
-				`[CRON] Error while deleting expired sessions: ${
+				`[CRON][Sessions] Error while deleting expired sessions: ${
 					error instanceof Error ? error.message : String(error)
 				}`,
 			);

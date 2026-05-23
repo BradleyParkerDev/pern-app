@@ -25,10 +25,8 @@ const authServerUtil = {
 		switch (SESSION_MODE) {
 			case 'short':
 				return now + SESSION_SHORT_MINUTES * 60 * 1000;
-
 			case 'medium':
 				return now + SESSION_MEDIUM_MINUTES * 60 * 1000;
-
 			case 'long':
 			default:
 				return now + SESSION_LONG_DAYS * 24 * 60 * 60 * 1000;

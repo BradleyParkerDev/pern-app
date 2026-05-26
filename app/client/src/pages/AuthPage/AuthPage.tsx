@@ -1,8 +1,12 @@
-import { LoginForm, RegistrationForm } from '@client/components/index.js';
+import {
+	LoginForm,
+	RegistrationForm,
+	StatusCard,
+} from '@client/components/index.js';
 import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router';
 import type { AppOutletContext } from '@shared/types/client/hooks/index.js';
-
+import { BadgeCheck } from 'lucide-react';
 const AuthPage = () => {
 	const { ui, auth, user } = useOutletContext<AppOutletContext>();
 	useEffect(() => {
@@ -28,20 +32,50 @@ const AuthPage = () => {
 		}
 	}, [ui.authPageForm]);
 
+	const showForms = () => {
+		if (formDisplayed === 'Create an account.') {
+			return (
+				<RegistrationForm toggleAuthPageForms={toggleAuthPageForms} />
+			);
+		}
+
+		if (formDisplayed === 'Welcome back!') {
+			return <LoginForm toggleAuthPageForms={toggleAuthPageForms} />;
+		}
+	};
+	const handleAuthView = () => {
+		const forms = showForms();
+
+		if (auth.isAuth) {
+			return (
+				<StatusCard
+					ui={ui}
+					icon={<BadgeCheck />}
+					title="User Authenticated"
+					description="User is already authenticated."
+					buttonText="Go to user page."
+					redirectTo={`/user/${user.userName}`}
+				/>
+			);
+		} else {
+			return forms;
+		}
+	};
+
+	const authView = handleAuthView();
+
 	return (
 		<div
 			id="auth-page"
 			className={`flex h-full w-full flex-col items-center gap-6 p-6 text-center`}
 		>
-			<p className="dark:text-foreground text-xl font-semibold">
-				{formDisplayed}
-			</p>
-			{formDisplayed === 'Welcome back!' && (
-				<LoginForm toggleAuthPageForms={toggleAuthPageForms} />
+			{' '}
+			{!auth.isAuth && (
+				<p className="dark:text-foreground text-xl font-semibold">
+					{formDisplayed}
+				</p>
 			)}
-			{formDisplayed === 'Create an account.' && (
-				<RegistrationForm toggleAuthPageForms={toggleAuthPageForms} />
-			)}
+			{authView}
 		</div>
 	);
 };

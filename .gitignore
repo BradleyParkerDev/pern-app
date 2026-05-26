@@ -5,4 +5,4 @@ app/client/dist/
 app/server/dist/
 app/server/src/database/migrations
 node_modules/
-.DS_Store.DS_Store
+.DS_Store

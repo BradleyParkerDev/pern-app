@@ -27,8 +27,9 @@ type GetUserResponseDataType = {
 const getUser = async (req: Request, res: Response): Promise<void> => {
 	const auth = createAuthService(req, res);
 	const ui = createUiService(req, res);
-
-	const userId = req.body.userId;
+	const { userId } = ((req as any).authContext ?? {}) as {
+		userId: string;
+	};
 
 	const userData = await auth.user.getUserData({ userId });
 

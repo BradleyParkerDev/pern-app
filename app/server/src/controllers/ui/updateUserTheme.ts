@@ -7,8 +7,13 @@ import type { APIResponseType } from '@shared/types/common/api/ApiResponseType.j
 const updateUserTheme = async (req: Request, res: Response) => {
 	const auth = createAuthService(req, res);
 	const ui = createUiService(req, res);
+	const { theme } = req.body;
+	const { userId, sessionId } = ((req as any).authContext ?? {}) as {
+		userId?: string;
+		sessionId?: string;
+	};
 
-	const { sessionId, userId, theme } = req.body;
+	console.log(`sessionId: ${sessionId}`);
 
 	try {
 		if (!userId && !sessionId) {

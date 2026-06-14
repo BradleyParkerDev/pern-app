@@ -37,17 +37,22 @@ export const createUiService = (req: Request, res: Response) => {
 				this.req.originalUrl.replace(/\/+($|\?)/, '$1') || '/';
 
 			if (!ignored.has(pathToLog)) {
-				const sessionId = this.req.body.sessionId ?? 'unknown';
-				const userId = this.req.body.userId ?? 'guest';
-
+				const { userId = 'guest', sessionId = 'unknown' } = ((
+					req as any
+				).authContext ?? {}) as {
+					userId?: string;
+					sessionId?: string;
+				};
 				loggerFactory.index.info(
 					`GET - ${pathToLog} - sessionId: ${sessionId} - userId: ${userId}`,
 				);
 			}
 		},
 		async getUserTheme(): Promise<UserThemeType> {
-			const { userId, sessionId } = this.req.body;
-
+			const { userId, sessionId } = ((req as any).authContext ?? {}) as {
+				userId?: string;
+				sessionId?: string;
+			};
 			if (userId) {
 				const [userTheme] = await db
 					.select()
@@ -70,8 +75,11 @@ export const createUiService = (req: Request, res: Response) => {
 		},
 
 		async updateTheme(): Promise<UserThemeType | null> {
-			const { userId, sessionId, theme } = this.req.body;
-
+			const { theme } = this.req.body;
+			const { userId, sessionId } = ((req as any).authContext ?? {}) as {
+				userId?: string;
+				sessionId?: string;
+			};
 			if (!theme) {
 				return null;
 			}

@@ -76,8 +76,8 @@ export const createAuthService = (req?: Request, res?: Response) => {
 					if (this.req && sessionData) {
 						this.req.body ??= {};
 
-						this.req.body.userId = sessionData.userId ?? undefined;
-						this.req.body.sessionId = sessionId;
+						// this.req.body.userId = sessionData.userId ?? undefined;
+						// this.req.body.sessionId = sessionId;
 
 						//Used with controllers that make calls to AWS
 						const authContext: AuthContext = {
@@ -135,6 +135,7 @@ export const createAuthService = (req?: Request, res?: Response) => {
 			const userAgent = this.req?.headers['user-agent'] ?? null;
 
 			if (userId) {
+				const userData = await this.user.getUserData({ userId });
 				const [session] = await db
 					.insert(Session)
 					.values({
@@ -160,7 +161,13 @@ export const createAuthService = (req?: Request, res?: Response) => {
 				const accessToken = await this.util.generateToken(payload);
 
 				this.setSessionCookie(accessToken, tokenTtlMs);
+				const authContext: AuthContext = {
+					userId,
+					sessionId: session.sessionId,
+					storageId: userData?.storageId,
+				};
 
+				(this.req as any).authContext = authContext;
 				loggerFactory.authService.info(
 					`[New Session] - sessionType: Authenticated - userId: ${userId}`,
 				);
@@ -196,6 +203,11 @@ export const createAuthService = (req?: Request, res?: Response) => {
 				const accessToken = await this.util.generateToken(payload);
 
 				this.setSessionCookie(accessToken, tokenTtlMs);
+				const authContext: AuthContext = {
+					sessionId: session.sessionId,
+				};
+
+				(this.req as any).authContext = authContext;
 				loggerFactory.authService.info(
 					`[New Session] - sessionType: Guest - sessionId: ${payload.sessionId}`,
 				);
@@ -225,12 +237,12 @@ export const createAuthService = (req?: Request, res?: Response) => {
 		 * Persist the access token on the client as an HTTP-only cookie.
 		 */
 		setSessionCookie(accessToken: string, tokenExpiration: number) {
-			// Persist access token on the client
 			this.res?.cookie('sessionCookie', accessToken, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === 'production',
 				sameSite: 'lax',
 				maxAge: tokenExpiration,
+				path: '/',
 			});
 		},
 		/**

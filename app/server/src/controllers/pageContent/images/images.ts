@@ -16,7 +16,9 @@ const getImagesPageContent = async (
 	createAuthService(req, res);
 	const ui = createUiService(req, res);
 	const path = req.query.path;
-	const sessionId = req.body?.sessionId ?? 'unknown';
+	const { sessionId } = ((req as any).authContext ?? {}) as {
+		sessionId?: string;
+	};
 
 	const currentPage = await ui.page.getPageContent();
 

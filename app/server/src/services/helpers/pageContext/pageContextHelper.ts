@@ -85,7 +85,9 @@ export const createPageContextHelper = (req?: Request, res?: Response) => {
 		// Load app-wide and page-specific data into Redux for the current request.
 		async loadAppDataIntoRedux(userTheme: UserThemeType) {
 			const appName = process.env.UI_APP_NAME ?? 'PERN App';
-			const userId = this.req?.body?.userId;
+			const { userId } = ((req as any).authContext ?? {}) as {
+				userId?: string;
+			};
 
 			// Always load the selected theme into Redux first.
 			this.store.dispatch(setTheme({ theme: userTheme }));

@@ -14,6 +14,12 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
 	try {
 		const auth = createAuthService(req, res);
 		const userUpdates = req.body;
+		const { userId, sessionId } = ((req as any).authContext ?? {}) as {
+			userId: string;
+			sessionId: string;
+		};
+		userUpdates.userId = userId;
+		userUpdates.sessionId = sessionId;
 
 		const result = await auth.user.updateUserData(userUpdates);
 
